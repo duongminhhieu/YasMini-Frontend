@@ -1,18 +1,17 @@
 
 import { Menu } from "antd";
+import { Link } from "react-router-dom";
 
 
-function AppHeader() {
+export default function AppHeader() {
     return (
-        
         <div className="container-fluid">
             <div className="header">
                 <Menu mode="horizontal" defaultSelectedKeys={['2']}>
-                        <Menu.Item key="1">Home</Menu.Item>
-                        <Menu.Item key="2">About Us</Menu.Item>
+                    <Menu.Item key="1" ><Link to="/">Home</Link></Menu.Item>
+                    <Menu.Item key="2"><Link to="/about-me">About-me</Link></Menu.Item>
                 </Menu>
             </div>
         </div>
     )
 }
-export default AppHeader;
