@@ -1,7 +1,7 @@
 
-import App from './layouts/App';
+import App from './App';
 import C404 from './components/404';
-import AboutMe from './pages/AboutMe';
+import { AboutMePage } from './pages/_index.page';
 import { createBrowserRouter } from 'react-router-dom';
 
 export default createBrowserRouter([
@@ -11,11 +11,10 @@ export default createBrowserRouter([
         children: [
             {
                 path: '/about-me',
-                element: AboutMe(),
+                element: AboutMePage(),
             },
         ],
     },
-
     {
         path: "*",
         element: C404(),

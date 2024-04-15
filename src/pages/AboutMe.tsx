@@ -1,12 +1,12 @@
 
 import { Layout } from 'antd';
-
-function AboutMe() {
+import AboutMe from '../features/AboutMe/pages/index';
+function AboutMePage() {
   return (
    <Layout className='layout'>
-        <h2>About Me</h2>
+        <AboutMe />
     </Layout>
   )
 }
 
-export default AboutMe;
+export default AboutMePage;
