@@ -1,8 +1,11 @@
 
 import App from './App';
 import C404 from './components/404';
-import { AboutMePage } from './pages/_index.page';
 import { createBrowserRouter } from 'react-router-dom';
+import {
+    LoginPage,
+    AboutMePage
+} from './pages/_index.page';
 
 export default createBrowserRouter([
     {
@@ -13,6 +16,11 @@ export default createBrowserRouter([
                 path: '/about-me',
                 element: AboutMePage(),
             },
+            {
+                path: '/login',
+                element: LoginPage(),
+            },
+
         ],
     },
     {

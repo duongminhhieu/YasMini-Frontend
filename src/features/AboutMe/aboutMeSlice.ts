@@ -13,7 +13,7 @@ const initialState: AboutMeState = {
 }
 
 export const aboutMeSlice = createSlice({
-    name: 'counter',
+    name: 'aboutMe',
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
