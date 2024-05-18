@@ -6,6 +6,8 @@ import {
     LoginPage,
     AboutMePage
 } from './pages/_index.page';
+import AdminRoute from './components/routes/admin';
+import SignIn from './pages/admin/SignIn';
 
 export default createBrowserRouter([
     {
@@ -24,7 +26,19 @@ export default createBrowserRouter([
         ],
     },
     {
+      path: "/admin",
+      element: <AdminRoute>
+                    <AboutMePage />
+                </AdminRoute>
+    },
+    {
+        path: "/admin/login",
+        element: <AdminRoute>
+                    <SignIn />
+                </AdminRoute>
+    },
+    {
         path: "*",
-        element: C404(),
+        element: <C404 />,
     }
 ]);
