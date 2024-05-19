@@ -1,13 +1,11 @@
-
 import App from './App';
 import C404 from './components/404';
 import { createBrowserRouter } from 'react-router-dom';
-import {
-    LoginPage,
-    AboutMePage
-} from './pages/_index.page';
+import { AboutMePage } from './pages/_index.page';
 import AdminRoute from './components/routes/admin';
-import SignIn from './pages/admin/SignIn';
+import ForbiddenPage from './components/Forbidden';
+import HomePageAdmin from './pages/admin/HomePageAdmin';
+import SignInPageAdmin from './pages/admin/SignInPageAdmin';
 
 export default createBrowserRouter([
     {
@@ -18,27 +16,26 @@ export default createBrowserRouter([
                 path: '/about-me',
                 element: AboutMePage(),
             },
-            {
-                path: '/login',
-                element: LoginPage(),
-            },
-
         ],
     },
     {
-      path: "/admin",
-      element: <AdminRoute>
-                    <AboutMePage />
-                </AdminRoute>
+        path: '/admin',
+        element: (
+            <AdminRoute>
+                <HomePageAdmin />
+            </AdminRoute>
+        ),
     },
     {
-        path: "/admin/login",
-        element: <AdminRoute>
-                    <SignIn />
-                </AdminRoute>
+        path: '/admin/login',
+        element: <SignInPageAdmin />,
     },
     {
-        path: "*",
+        path: '/forbidden',
+        element: <ForbiddenPage />,
+    },
+    {
+        path: '*',
         element: <C404 />,
-    }
+    },
 ]);
