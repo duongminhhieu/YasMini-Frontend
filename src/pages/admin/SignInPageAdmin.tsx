@@ -1,11 +1,12 @@
 import { Navigate } from 'react-router-dom';
 import SignIn from '../../features/admin/Authentication/SignIn';
-import { User } from '../../types/User';
+import { useAppSelector } from '../../hooks/useRedux';
+import { selectCurrentUser } from '../../lib/redux/auth/authSlice';
 
 export default function SignInPageAdmin() {
     // check if user is already logged in
-    const user = JSON.parse(localStorage.getItem('USER') || '{}') as User;
-    if (user?.id) {
+    const userAuth = useAppSelector(selectCurrentUser);
+    if (userAuth?.id) {
         // redirect to admin home page
         return <Navigate to="/admin" />;
     }

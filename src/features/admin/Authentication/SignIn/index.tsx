@@ -2,6 +2,7 @@ import type { FormProps } from 'antd';
 import { Button, Card, Checkbox, Flex, Form, Input, Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import {
+    AccountInfo,
     Credentials,
     useLoginMutation,
 } from '../../../../lib/redux/auth/authApiSlice';
@@ -12,7 +13,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 type FieldType = {
     username: string;
     password: string;
-    remember: string;
+    remember: boolean;
 };
 
 export default function SignIn() {
@@ -26,8 +27,13 @@ export default function SignIn() {
             email: values.username,
             password: values.password,
         };
+
+        const accountInfo: AccountInfo = {
+            credentials,
+            rememberMe: values.remember,
+        };
         setIsLoading(true);
-        await doLogin(credentials);
+        await doLogin(accountInfo);
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (

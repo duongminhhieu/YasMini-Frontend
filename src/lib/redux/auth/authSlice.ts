@@ -10,8 +10,8 @@ type Tokens = {
 };
 
 
-const tokensFromLocalStorage = localStorage.getItem("TOKENS")
-const userFromLocalStorage = localStorage.getItem("USER");
+const storedTokens = localStorage.getItem("TOKENS") || sessionStorage.getItem("TOKENS");
+const storedUser = localStorage.getItem("USER") || sessionStorage.getItem("USER");
 
 type AuthSliceState = {
     user: User;
@@ -20,8 +20,8 @@ type AuthSliceState = {
 
 
 const initialState: AuthSliceState = {
-    user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : {},
-    tokens: tokensFromLocalStorage ? JSON.parse(tokensFromLocalStorage) : {},
+    user: storedUser ? JSON.parse(storedUser) : {} as User,
+    tokens: storedTokens ? JSON.parse(storedTokens) : {} as Tokens,
 };
 
 export const authSlice = createSlice({
@@ -32,14 +32,14 @@ export const authSlice = createSlice({
             const { user, tokens } = action.payload
             state.user = user
             state.tokens = tokens
-            localStorage.setItem("TOKENS", JSON.stringify(tokens));
-            localStorage.setItem("USER", JSON.stringify(user));
         },
         logOut: (state) => {
             state.user = {} as User;
             state.tokens = {} as Tokens;
             localStorage.removeItem("TOKES");
             localStorage.removeItem("USER");
+            sessionStorage.removeItem("TOKES");
+            sessionStorage.removeItem("USER");
         }
     }
 });

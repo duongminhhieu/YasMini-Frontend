@@ -11,22 +11,39 @@ export type Credentials = {
     password: string;
 };
 
+export type AccountInfo = {
+    credentials: Credentials;
+    rememberMe: boolean;
+}
+
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         login: builder.mutation({
-            query: (credentials: Credentials) => ({
+            query: (accountInfo: AccountInfo) => ({
                 url: APIConstants.AUTH.AUTHENTICATE,
                 method: 'POST',
-                body: { ...credentials },
+                body: { ...accountInfo.credentials },
             }),
 
-            async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+            async onQueryStarted(accountInfo, { dispatch, queryFulfilled }) {
                 try {
                     const response = await queryFulfilled;
 
                     const apiResponse = response.data as APIResponse;
 
                     dispatch(setCredentials(apiResponse.result));
+
+                    const { tokens, user } = apiResponse.result;
+
+                    if (accountInfo.rememberMe) {
+                        // if remember me is checked, store the tokens in local storage
+                        localStorage.setItem("TOKENS", JSON.stringify(tokens));
+                        localStorage.setItem("USER", JSON.stringify(user));
+                    } else {
+                        sessionStorage.setItem("TOKENS", JSON.stringify(tokens));
+                        sessionStorage.setItem("USER", JSON.stringify(user));
+                    }
+
                 } catch (error: any) {
                     const apiResponse = error?.error?.data as APIResponse;
                     if (apiResponse.internalCode === InternalErrorCode.EMAIL_OR_PASSWORD_INCORRECT) {
@@ -57,5 +74,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useLoginMutation, useSendLogOutMutation } =
-    authApiSlice;
+export const { useLoginMutation, useSendLogOutMutation } = authApiSlice;
