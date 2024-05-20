@@ -1,5 +1,4 @@
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Dropdown, Flex, MenuProps, message } from 'antd';
+import { Flex } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import { useAppSelector } from '../../hooks/useRedux';
 import { selectCurrentUser } from '../../lib/redux/auth/authSlice';
@@ -16,7 +15,6 @@ function HeaderAdmin() {
                     YasMini - Car Shop
                 </h1>
             </Flex>
-
             {userAuth ? <MenuItemAdmin /> : null}
         </Header>
     );

@@ -4,8 +4,12 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AboutMePage } from './pages/_index.page';
 import AdminRoute from './components/routes/admin';
 import ForbiddenPage from './components/Forbidden';
-import HomePageAdmin from './pages/admin/HomePageAdmin';
 import SignInPageAdmin from './pages/admin/SignInPageAdmin';
+import DashboardPage from './pages/admin/DashboardPage';
+import ProductListPage from './pages/admin/ProductListPage';
+import CategoryListPage from './pages/admin/CategoryListPage';
+import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
+import AddNewProducrtPage from './pages/admin/AddNewProducrtPage';
 
 export default createBrowserRouter([
     {
@@ -22,7 +26,39 @@ export default createBrowserRouter([
         path: '/admin',
         element: (
             <AdminRoute>
-                <HomePageAdmin />
+                <DashboardPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/products',
+        element: (
+            <AdminRoute>
+                <ProductListPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/products/new',
+        element: (
+            <AdminRoute>
+                <AddNewProducrtPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/categories',
+        element: (
+            <AdminRoute>
+                <CategoryListPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/categories/new',
+        element: (
+            <AdminRoute>
+                <AddNewCategoryPage />
             </AdminRoute>
         ),
     },

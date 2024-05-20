@@ -32,8 +32,6 @@ function MenuItemAdmin() {
 
     const handleMenuClick: MenuProps['onClick'] = (e) => {
         if (e.key === '3') {
-            message.info('Logout');
-
             // handle logout
             logout({});
             dispatch(logOut());
@@ -47,7 +45,7 @@ function MenuItemAdmin() {
 
     useEffect(() => {
         if (statusLogout.isSuccess) {
-            message.success('Logout Administrador success!');
+            message.info('Logout Administrador success!');
             navigate('/admin/login');
         }
         if (statusLogout.error) {
