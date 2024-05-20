@@ -7,7 +7,11 @@ import HeaderAdmin from '../../../layouts/admin/HeaderAdmin';
 import FooterAdmin from '../../../layouts/admin/FooterAdmin';
 import { Layout, Menu, MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import { AppstoreOutlined, ProductOutlined } from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    FilterOutlined,
+    ProductOutlined,
+} from '@ant-design/icons';
 
 type AdminRouteProps = PropsWithChildren;
 
@@ -18,6 +22,11 @@ function hasAdminRole(user: User) {
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
+    {
+        key: 'dashboard',
+        label: 'Dashboard',
+        icon: <AppstoreOutlined />,
+    },
     {
         key: '1',
         icon: <ProductOutlined />,
@@ -30,7 +39,7 @@ const items: MenuItem[] = [
     {
         key: 'category',
         label: 'Categories',
-        icon: <AppstoreOutlined />,
+        icon: <FilterOutlined />,
         children: [
             { key: '3', label: 'Create ' },
             { key: '4', label: 'List Category' },
