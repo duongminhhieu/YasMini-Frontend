@@ -30,7 +30,7 @@ const items: MenuItem[] = [
         icon: <FilterOutlined />,
         children: [
             { key: 'categoriesList', label: 'My Categories' },
-            { key: 'addNewCategory', label: 'Add New Catogory ' },
+            { key: 'addNewCategory', label: 'Add New Category ' },
         ],
     },
 ];
@@ -39,8 +39,6 @@ function SliderItemAdmin() {
     const navigate = useNavigate();
 
     const onClick: MenuProps['onClick'] = (e) => {
-        console.log(e);
-
         switch (e.key) {
             case 'dashboard':
                 navigate('/admin');
