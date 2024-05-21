@@ -62,7 +62,7 @@ function SliderItemAdmin() {
     };
     return (
         <Sider
-            width="20%"
+            width="16%"
             className="ml-4 mt-4 drop-shadow-lg"
             style={{ backgroundColor: 'transparent' }}
         >

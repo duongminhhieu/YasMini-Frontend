@@ -22,7 +22,17 @@ export const categoryApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Category"],
         }),
+        toggleAvailabilityCategory: builder.mutation<APIResponse, string[]>({
+            query: (ids: string[]) => ({
+                url: APIConstants.CATEGORY.TOGGLE_AVAILABILITY,
+                method: "PATCH",
+                body: {
+                    ids,
+                },
+            }),
+            invalidatesTags: ["Category"],
+        }),
     }),
 });
 
-export const { useGetCategoriesQuery, useCreateCategoryMutation } = categoryApi;
+export const { useGetCategoriesQuery, useCreateCategoryMutation, useToggleAvailabilityCategoryMutation } = categoryApi;

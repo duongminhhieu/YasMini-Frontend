@@ -1,6 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Tabs, TabsProps } from 'antd';
 import CategoriesTable from '../../components/CategoriesTable';
+import CategoriesUnPublishTable from '../../components/CategoriesUnPublishTable';
 
 const onChange = (key: string) => {
     console.log(key);
@@ -15,7 +16,7 @@ const items: TabsProps['items'] = [
     {
         key: 'unPublished',
         label: 'Unpublished',
-        children: <CategoriesTable isActive={false} />,
+        children: <CategoriesUnPublishTable />,
     },
 ];
 

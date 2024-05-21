@@ -6,7 +6,6 @@ import {
     useGetCategoriesQuery,
     useToggleAvailabilityCategoryMutation,
 } from '../../../../../lib/redux/category/categoryApiSlice';
-import APIResponse from '../../../../../types/APIResponse';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -22,7 +21,7 @@ interface TableParams {
     filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
 }
 
-function CategoriesTable({ isActive = true }) {
+function CategoriesUnPublishTable() {
     // Columns
     const columns: ColumnsType<Category> = [
         {
@@ -77,10 +76,10 @@ function CategoriesTable({ isActive = true }) {
                 <div className="flex flex-col text-blue-500 gap-2">
                     <button className="cursor-pointer">Edit</button>
                     <button
-                        className="cursor-pointer text-red-500 hover:text-red-400"
-                        onClick={() => handleSoftDelete([id])}
+                        onClick={() => handlePublishCategory([id])}
+                        className="cursor-pointer"
                     >
-                        Delist
+                        Publish
                     </button>
                 </div>
             ),
@@ -92,7 +91,7 @@ function CategoriesTable({ isActive = true }) {
         page: 1,
         itemsPerPage: 10,
         name: '',
-        isAvailable: isActive,
+        isAvailable: false,
     });
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
@@ -106,11 +105,9 @@ function CategoriesTable({ isActive = true }) {
 
     // Query
     const { data, isLoading } = useGetCategoriesQuery(options);
-    const [softDeleteCategory, status] =
-        useToggleAvailabilityCategoryMutation();
+    const [publicCategory, status] = useToggleAvailabilityCategoryMutation();
 
-    // UseEffect
-
+    // Effect
     useEffect(() => {
         if (data) {
             setTableParams({
@@ -133,15 +130,14 @@ function CategoriesTable({ isActive = true }) {
 
     useEffect(() => {
         if (status.isSuccess) {
-            message.success('Delist category success');
             setSelectedRowKeys([]);
+            message.success('Publish category success');
         }
         if (status.isError) {
-            const error = status.error as { data: APIResponse };
-            console.log('error', error);
-            message.error('Delist category failed');
+            console.log('error', status.error);
+            message.error('Publish category failed');
         }
-    }, [status.error, status.isSuccess]);
+    }, [status.isSuccess, status.error]);
 
     // Handlers
     const handleTableChange: TableProps['onChange'] = (pagination) => {
@@ -160,11 +156,10 @@ function CategoriesTable({ isActive = true }) {
         selectedRowKeys,
         onChange: onSelectChange,
     };
-
     const hasSelected = selectedRowKeys.length > 0;
 
-    const handleSoftDelete = async (ids: string[]) => {
-        await softDeleteCategory(ids);
+    const handlePublishCategory = async (ids: string[]) => {
+        await publicCategory(ids);
     };
 
     return (
@@ -175,14 +170,13 @@ function CategoriesTable({ isActive = true }) {
                         Delete
                     </Button>
                     <Button
-                        type="default"
-                        danger
+                        type="primary"
                         className="mr-2"
                         onClick={() =>
-                            handleSoftDelete(selectedRowKeys.map(String))
+                            handlePublishCategory(selectedRowKeys.map(String))
                         }
                     >
-                        Delist
+                        Publish
                     </Button>
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected
@@ -204,4 +198,4 @@ function CategoriesTable({ isActive = true }) {
     );
 }
 
-export default CategoriesTable;
+export default CategoriesUnPublishTable;
