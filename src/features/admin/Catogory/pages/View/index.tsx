@@ -15,7 +15,7 @@ const items: TabsProps['items'] = [
     {
         key: 'unPublished',
         label: 'Unpublished',
-        children: 'Content of Tab Pane 2',
+        children: <CategoriesTable isActive={false} />,
     },
 ];
 

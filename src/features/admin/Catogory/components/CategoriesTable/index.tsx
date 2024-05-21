@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import type { GetProp, TableProps } from 'antd';
-import { Category } from '../../../../../types/Category';
+import { Category, CategoryParams } from '../../../../../types/Category';
 import { useGetCategoriesQuery } from '../../../../../lib/redux/category/categoryApiSlice';
 
 type ColumnsType<T> = TableProps<T>['columns'];
@@ -35,10 +35,7 @@ const columns: ColumnsType<Category> = [
     {
         title: 'Product Count',
         dataIndex: 'productCount',
-        filters: [
-            { text: 'Ascending', value: 'asc' },
-            { text: 'Descending', value: 'desc' },
-        ],
+        sorter: (a, b) => a.productCount - b.productCount,
     },
     {
         title: 'Created Date',
@@ -79,39 +76,48 @@ const columns: ColumnsType<Category> = [
     },
 ];
 
-function CategoriesTable() {
-    const [tableParams, setTableParams] = useState<TableParams>({
-        pagination: {
-            current: 1,
-            pageSize: 10,
-        },
-    });
-
-    const [options, setOptions] = useState({
+function CategoriesTable({ isActive = true }) {
+    const [options, setOptions] = useState<CategoryParams>({
         page: 1,
         itemsPerPage: 10,
         name: '',
-        isAvailable: true,
+        isAvailable: isActive,
     });
 
     const { data, isLoading } = useGetCategoriesQuery(options);
 
-    const handleTableChange: TableProps['onChange'] = (
-        pagination,
-        filters,
-        sorter,
-    ) => {
-        setTableParams({
-            pagination,
-            filters,
-            ...sorter,
-        });
+    const [tableParams, setTableParams] = useState<TableParams>({
+        pagination: {
+            current: 1,
+            pageSize: 10,
+            total: 10,
+        },
+    });
 
-        // Update options
+    useEffect(() => {
+        if (data) {
+            setTableParams({
+                pagination: {
+                    current: data?.result?.page || 1,
+                    pageSize: data?.result?.itemsPerPage || 1,
+                    total: data?.result?.total || 10,
+                },
+            });
+        }
+    }, [data]);
+
+    useEffect(() => {
         setOptions({
             ...options,
-            page: pagination.current || 1,
-            itemsPerPage: pagination.pageSize || 10,
+            page: tableParams.pagination?.current || 1,
+            itemsPerPage: tableParams.pagination?.pageSize || 10,
+        });
+    }, [tableParams.pagination]);
+
+    const handleTableChange: TableProps['onChange'] = (pagination) => {
+        setTableParams({
+            ...tableParams,
+            pagination,
         });
     };
 
