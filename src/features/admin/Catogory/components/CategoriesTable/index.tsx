@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Table } from 'antd';
-import type { GetProp, TableColumnsType, TableProps } from 'antd';
+import type { GetProp, TableProps } from 'antd';
+import { Category } from '../../../../../types/Category';
+import { useGetCategoriesQuery } from '../../../../../lib/redux/category/categoryApiSlice';
 
-type TableRowSelection<T> = TableProps<T>['rowSelection'];
-
-interface DataType {
-    key: React.Key;
-    name: string;
-    age: number;
-    address: string;
-}
+type ColumnsType<T> = TableProps<T>['columns'];
 
 type TablePaginationConfig = Exclude<
     GetProp<TableProps, 'pagination'>,
@@ -23,45 +18,68 @@ interface TableParams {
     filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
 }
 
-const columns: TableColumnsType<DataType> = [
+const columns: ColumnsType<Category> = [
     {
         title: 'Category(s)',
         dataIndex: 'name',
+        className: 'text-blue-500',
+        render(_, { id }) {
+            return <a href={`/admin/categories/${id}`}>{_}</a>;
+        },
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
+        title: 'Slug',
+        dataIndex: 'slug',
+        width: '20%',
+    },
+    {
+        title: 'Product Count',
+        dataIndex: 'productCount',
+        filters: [
+            { text: 'Ascending', value: 'asc' },
+            { text: 'Descending', value: 'desc' },
+        ],
+    },
+    {
+        title: 'Created Date',
+        dataIndex: 'createdDate',
+        render: (date: string) =>
+            new Date(date).toLocaleString('en-US', {
+                timeZone: 'Asia/Ho_Chi_Minh',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+            }),
+    },
+    {
+        title: 'Last Modified Date',
+        dataIndex: 'lastModifiedDate',
+        render: (date: string) =>
+            new Date(date).toLocaleString('en-US', {
+                timeZone: 'Asia/Ho_Chi_Minh',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+            }),
     },
     {
         title: 'Action',
         dataIndex: '',
         key: 'x',
         render: () => (
-            <div className="flex flex-col text-blue-500">
-                <a className="cursor-pointer">Delete</a>
+            <div className="flex flex-col text-blue-500 gap-2">
                 <a className="cursor-pointer">Edit</a>
+                <a className="cursor-pointer">Delete</a>
             </div>
         ),
     },
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        name: `Edward King ${i}`,
-        age: 32,
-        address: `London, Park Lane no. ${i}`,
-    });
-}
 function CategoriesTable() {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
@@ -69,54 +87,42 @@ function CategoriesTable() {
         },
     });
 
-    const rowSelection: TableRowSelection<DataType> = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-        selections: [
-            Table.SELECTION_ALL,
-            Table.SELECTION_INVERT,
-            Table.SELECTION_NONE,
-            {
-                key: 'odd',
-                text: 'Select Odd Row',
-                onSelect: (changeableRowKeys) => {
-                    let newSelectedRowKeys = [];
-                    newSelectedRowKeys = changeableRowKeys.filter(
-                        (_, index) => {
-                            if (index % 2 !== 0) {
-                                return false;
-                            }
-                            return true;
-                        },
-                    );
-                    setSelectedRowKeys(newSelectedRowKeys);
-                },
-            },
-            {
-                key: 'even',
-                text: 'Select Even Row',
-                onSelect: (changeableRowKeys) => {
-                    let newSelectedRowKeys = [];
-                    newSelectedRowKeys = changeableRowKeys.filter(
-                        (_, index) => {
-                            if (index % 2 !== 0) {
-                                return true;
-                            }
-                            return false;
-                        },
-                    );
-                    setSelectedRowKeys(newSelectedRowKeys);
-                },
-            },
-        ],
+    const [options, setOptions] = useState({
+        page: 1,
+        itemsPerPage: 10,
+        name: '',
+        isAvailable: true,
+    });
+
+    const { data, isLoading } = useGetCategoriesQuery(options);
+
+    const handleTableChange: TableProps['onChange'] = (
+        pagination,
+        filters,
+        sorter,
+    ) => {
+        setTableParams({
+            pagination,
+            filters,
+            ...sorter,
+        });
+
+        // Update options
+        setOptions({
+            ...options,
+            page: pagination.current || 1,
+            itemsPerPage: pagination.pageSize || 10,
+        });
     };
 
     return (
         <Table
-            rowSelection={rowSelection}
             columns={columns}
-            dataSource={data}
+            rowKey={(record) => record.id}
+            dataSource={data?.result?.data}
             pagination={tableParams.pagination}
+            loading={isLoading}
+            onChange={handleTableChange}
         />
     );
 }

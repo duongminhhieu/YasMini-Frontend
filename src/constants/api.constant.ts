@@ -1,3 +1,6 @@
+import { CategoryParams } from "../types/Category";
+import { parseCategoryParams } from "../utils/parseParams";
+
 export class APIConstants {
     static USERS = {
         SIGNUP: '/users/signup',
@@ -32,6 +35,7 @@ export class APIConstants {
 
     static CATEGORY = {
         GET_ALL: '/categories',
+        GET_ALL_ADMIN: (params: CategoryParams) => `/categories/admin?${parseCategoryParams(params)}`,
         GET_BY_ID: (id: string) => `/categories/${id}`,
         CREATE: '/categories',
         UPDATE: (id: string) => `/categories/${id}`,

@@ -8,19 +8,14 @@ const onChange = (key: string) => {
 
 const items: TabsProps['items'] = [
     {
-        key: '1',
+        key: 'allCategories',
         label: 'All Categories',
         children: <CategoriesTable />,
     },
     {
-        key: '2',
-        label: 'Tab 2',
+        key: 'unPublished',
+        label: 'Unpublished',
         children: 'Content of Tab Pane 2',
-    },
-    {
-        key: '3',
-        label: 'Tab 3',
-        children: 'Content of Tab Pane 3',
     },
 ];
 

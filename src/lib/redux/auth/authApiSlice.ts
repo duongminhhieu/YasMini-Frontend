@@ -1,9 +1,9 @@
 import { message } from 'antd';
-import { APIConstants } from '../../../services/api.constant';
-import APIResponse from '../../../utils/APIResponse';
+import { APIConstants } from '../../../constants/api.constant';
 import { InternalErrorCode } from '../../../utils/InternalErrorCode';
-import { apiSlice } from '../../api/apiSlice';
+import { apiSlice } from '../api/apiSlice';
 import { logOut, setCredentials } from './authSlice';
+import APIResponse from '../../../utils/APIResponse';
 
 
 export type Credentials = {
@@ -57,9 +57,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
 
         sendLogOut: builder.mutation({
-            query: () => ({
+            query: (token: string) => ({
                 url: APIConstants.AUTH.LOG_OUT,
                 method: 'POST',
+                body: {
+                    token
+                },
             }),
             async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {

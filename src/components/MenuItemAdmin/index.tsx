@@ -1,6 +1,6 @@
 import { Avatar, Dropdown, MenuProps, message } from 'antd';
-import { useAppDispatch } from '../../hooks/useRedux';
-import { logOut } from '../../lib/redux/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { logOut, selectCurrentToken } from '../../lib/redux/auth/authSlice';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useSendLogOutMutation } from '../../lib/redux/auth/authApiSlice';
@@ -28,12 +28,14 @@ const items: MenuProps['items'] = [
 function MenuItemAdmin() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const tokens = useAppSelector(selectCurrentToken);
+
     const [logout, statusLogout] = useSendLogOutMutation();
 
     const handleMenuClick: MenuProps['onClick'] = (e) => {
         if (e.key === '3') {
             // handle logout
-            logout({});
+            logout(tokens.access_token);
             dispatch(logOut());
         }
     };

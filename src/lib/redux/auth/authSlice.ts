@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { APIConstants } from "../../../services/api.constant";
+import { APIConstants } from "../../../constants/api.constant";
 import { RootState } from "../store";
 import { User } from "../../../types/User";
 
 
 type Tokens = {
-    accessToken: string;
-    refreshToken: string;
+    access_token: string;
+    refresh_token: string;
 };
 
 
@@ -36,9 +36,9 @@ export const authSlice = createSlice({
         logOut: (state) => {
             state.user = {} as User;
             state.tokens = {} as Tokens;
-            localStorage.removeItem("TOKES");
+            localStorage.removeItem("TOKENS");
             localStorage.removeItem("USER");
-            sessionStorage.removeItem("TOKES");
+            sessionStorage.removeItem("TOKENS");
             sessionStorage.removeItem("USER");
         }
     }

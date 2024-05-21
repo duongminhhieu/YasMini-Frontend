@@ -31,7 +31,6 @@ export default function SignIn() {
     const [isLoading, setIsLoading] = useState(false);
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log('Success:', values);
         const credentials: Credentials = {
             email: values.username,
             password: values.password,
