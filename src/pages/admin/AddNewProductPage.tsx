@@ -1,7 +1,7 @@
 import AddNewProduct from '../../features/admin/Product/pages/AddNewProduct';
 
-function AddNewProducrtPage() {
+function AddNewProductPage() {
     return <AddNewProduct />;
 }
 
-export default AddNewProducrtPage;
+export default AddNewProductPage;

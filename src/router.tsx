@@ -9,7 +9,9 @@ import DashboardPage from './pages/admin/DashboardPage';
 import ProductListPage from './pages/admin/ProductListPage';
 import CategoryListPage from './pages/admin/CategoryListPage';
 import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
-import AddNewProducrtPage from './pages/admin/AddNewProducrtPage';
+import AddNewProducrtPage from './pages/admin/AddNewProductPage';
+import EditCategoryPage from './pages/admin/EditCategory';
+import AddNewProductPage from './pages/admin/AddNewProductPage';
 
 export default createBrowserRouter([
     {
@@ -59,6 +61,22 @@ export default createBrowserRouter([
         element: (
             <AdminRoute>
                 <AddNewCategoryPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/categories/:id',
+        element: (
+            <AdminRoute>
+                <EditCategoryPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/products/:id',
+        element: (
+            <AdminRoute>
+                <AddNewProductPage />
             </AdminRoute>
         ),
     },

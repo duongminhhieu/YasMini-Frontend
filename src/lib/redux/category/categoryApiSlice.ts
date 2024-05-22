@@ -10,6 +10,10 @@ export const categoryApi = apiSlice.injectEndpoints({
             query: (params: CategoryParams) => APIConstants.CATEGORY.GET_ALL_ADMIN(params),
             providesTags: ["Category"],
         }),
+        getInfoCategory: builder.query<APIResponse, string>({
+            query: (id: string) => APIConstants.CATEGORY.GET_BY_ID(id),
+            providesTags: ["Category"],
+        }),
         createCategory: builder.mutation<APIResponse, Category>({
             query: (category: Category) => ({
                 url: APIConstants.CATEGORY.CREATE,
@@ -32,7 +36,25 @@ export const categoryApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Category"],
         }),
+        updateCategory: builder.mutation<APIResponse, Category>({
+            query: (category: Category) => ({
+                url: APIConstants.CATEGORY.UPDATE(category.id),
+                method: "PUT",
+                body: {
+                    name: category.name,
+                    slug: category.slug,
+                    description: category.description,
+                    isAvailable: category.isAvailable,
+                },
+            }),
+            invalidatesTags: ["Category"],
+        }),
     }),
 });
 
-export const { useGetCategoriesQuery, useCreateCategoryMutation, useToggleAvailabilityCategoryMutation } = categoryApi;
+export const {
+    useGetCategoriesQuery,
+    useCreateCategoryMutation,
+    useToggleAvailabilityCategoryMutation,
+    useGetInfoCategoryQuery,
+    useUpdateCategoryMutation } = categoryApi;

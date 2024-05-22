@@ -75,7 +75,12 @@ function CategoriesTable({ isActive = true }) {
             key: 'x',
             render: (_, { id }) => (
                 <div className="flex flex-col text-blue-500 gap-2">
-                    <button className="cursor-pointer">Edit</button>
+                    <a
+                        className="cursor-pointer items-center text-center"
+                        href={`/admin/categories/${id}`}
+                    >
+                        Edit
+                    </a>
                     <button
                         className="cursor-pointer text-red-500 hover:text-red-400"
                         onClick={() => handleSoftDelete([id])}
