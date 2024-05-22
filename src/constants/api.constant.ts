@@ -39,7 +39,7 @@ export class APIConstants {
         GET_BY_ID: (id: string) => `/categories/${id}`,
         CREATE: '/categories',
         UPDATE: (id: string) => `/categories/${id}`,
-        DELETE: (id: string) => `/categories/${id}`,
+        DELETE: `/categories`,
         TOGGLE_AVAILABILITY: "/categories/toggle-availability",
     };
 

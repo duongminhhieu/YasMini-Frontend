@@ -49,6 +49,16 @@ export const categoryApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Category"],
         }),
+        hardDeleteCategory: builder.mutation<APIResponse, string[]>({
+            query: (ids: string[]) => ({
+                url: APIConstants.CATEGORY.DELETE,
+                method: "DELETE",
+                body: {
+                    ids,
+                }
+            }),
+            invalidatesTags: ["Category"],
+        }),
     }),
 });
 
@@ -57,4 +67,6 @@ export const {
     useCreateCategoryMutation,
     useToggleAvailabilityCategoryMutation,
     useGetInfoCategoryQuery,
-    useUpdateCategoryMutation } = categoryApi;
+    useUpdateCategoryMutation,
+    useHardDeleteCategoryMutation
+} = categoryApi;

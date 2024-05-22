@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button, Table, message } from 'antd';
-import type { GetProp, TableProps } from 'antd';
+import { Button, Popconfirm, Table, message } from 'antd';
+import type { GetProp, PopconfirmProps, TableProps } from 'antd';
 import { Category, CategoryParams } from '../../../../../types/Category';
 import {
     useGetCategoriesQuery,
+    useHardDeleteCategoryMutation,
     useToggleAvailabilityCategoryMutation,
 } from '../../../../../lib/redux/category/categoryApiSlice';
 import Search, { SearchProps } from 'antd/es/input/Search';
+import APIResponse from '../../../../../types/APIResponse';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -30,7 +32,15 @@ function CategoriesUnPublishTable() {
             dataIndex: 'name',
             className: 'text-blue-500',
             render(_, { id }) {
-                return <a href={`/admin/categories/${id}`}>{_}</a>;
+                return (
+                    <a
+                        href={`/admin/categories/${id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {_}
+                    </a>
+                );
             },
         },
         {
@@ -76,6 +86,8 @@ function CategoriesUnPublishTable() {
             render: (_, { id }) => (
                 <div className="flex flex-col text-blue-500 gap-2 items-center">
                     <a
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="cursor-pointer"
                         href={`/admin/categories/${id}`}
                     >
@@ -112,6 +124,8 @@ function CategoriesUnPublishTable() {
     // Query
     const { data, isLoading } = useGetCategoriesQuery(options);
     const [publicCategory, status] = useToggleAvailabilityCategoryMutation();
+    const [hardDeleteCategory, hardDeletestatus] =
+        useHardDeleteCategoryMutation();
 
     // Effect
     useEffect(() => {
@@ -145,6 +159,18 @@ function CategoriesUnPublishTable() {
         }
     }, [status.isSuccess, status.error]);
 
+    useEffect(() => {
+        if (hardDeletestatus.isSuccess) {
+            message.success('Delete category success');
+            setSelectedRowKeys([]);
+        }
+        if (hardDeletestatus.isError) {
+            const error = hardDeletestatus.error as { data: APIResponse };
+            console.log('error', error);
+            message.error('Delete category failed');
+        }
+    }, [hardDeletestatus.isSuccess, hardDeletestatus.isError]);
+
     // Handlers
     const handleTableChange: TableProps['onChange'] = (pagination) => {
         setTableParams({
@@ -175,13 +201,24 @@ function CategoriesUnPublishTable() {
         });
     };
 
+    const confirm: PopconfirmProps['onConfirm'] = async () => {
+        await hardDeleteCategory(selectedRowKeys.map(String));
+    };
     return (
         <>
             {hasSelected && (
                 <div className="mb-4">
-                    <Button type="primary" danger className="mr-2">
-                        Delete
-                    </Button>
+                    <Popconfirm
+                        title="Delete selected items?"
+                        description="Are you sure you want to delete these items?"
+                        onConfirm={confirm}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="primary" danger className="mr-2">
+                            Delete
+                        </Button>
+                    </Popconfirm>
                     <Button
                         type="primary"
                         className="mr-2"
