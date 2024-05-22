@@ -7,6 +7,8 @@ import {
     useToggleAvailabilityCategoryMutation,
 } from '../../../../../lib/redux/category/categoryApiSlice';
 import APIResponse from '../../../../../types/APIResponse';
+import { SearchProps } from 'antd/es/input';
+import Search from 'antd/es/input/Search';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -100,7 +102,6 @@ function CategoriesTable({ isActive = true }) {
         isAvailable: isActive,
     });
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
     const [tableParams, setTableParams] = useState<TableParams>({
         pagination: {
             current: 1,
@@ -115,7 +116,6 @@ function CategoriesTable({ isActive = true }) {
         useToggleAvailabilityCategoryMutation();
 
     // UseEffect
-
     useEffect(() => {
         if (data) {
             setTableParams({
@@ -172,6 +172,13 @@ function CategoriesTable({ isActive = true }) {
         await softDeleteCategory(ids);
     };
 
+    const onSearch: SearchProps['onSearch'] = (value, _e) => {
+        setOptions({
+            ...options,
+            name: value,
+        });
+    };
+
     return (
         <>
             {hasSelected && (
@@ -196,6 +203,30 @@ function CategoriesTable({ isActive = true }) {
                     </span>
                 </div>
             )}
+
+            <div className="flex items-center">
+                <Search
+                    placeholder="Search name category"
+                    enterButton="Search"
+                    onSearch={onSearch}
+                    className="w-1/2 my-4"
+                    loading={isLoading}
+                />
+                <Button
+                    type="default"
+                    className="ml-4"
+                    onClick={() => {
+                        setSelectedRowKeys([]);
+                        setOptions({
+                            ...options,
+                            name: '',
+                        });
+                    }}
+                >
+                    Reset
+                </Button>
+            </div>
+
             <Table
                 columns={columns}
                 rowSelection={rowSelection}

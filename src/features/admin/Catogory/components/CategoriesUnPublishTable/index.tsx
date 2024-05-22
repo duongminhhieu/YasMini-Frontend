@@ -6,6 +6,7 @@ import {
     useGetCategoriesQuery,
     useToggleAvailabilityCategoryMutation,
 } from '../../../../../lib/redux/category/categoryApiSlice';
+import Search, { SearchProps } from 'antd/es/input/Search';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -73,8 +74,13 @@ function CategoriesUnPublishTable() {
             dataIndex: '',
             key: 'x',
             render: (_, { id }) => (
-                <div className="flex flex-col text-blue-500 gap-2">
-                    <button className="cursor-pointer">Edit</button>
+                <div className="flex flex-col text-blue-500 gap-2 items-center">
+                    <a
+                        className="cursor-pointer"
+                        href={`/admin/categories/${id}`}
+                    >
+                        Edit
+                    </a>
                     <button
                         onClick={() => handlePublishCategory([id])}
                         className="cursor-pointer"
@@ -162,6 +168,13 @@ function CategoriesUnPublishTable() {
         await publicCategory(ids);
     };
 
+    const onSearch: SearchProps['onSearch'] = (value, _e) => {
+        setOptions({
+            ...options,
+            name: value,
+        });
+    };
+
     return (
         <>
             {hasSelected && (
@@ -185,6 +198,30 @@ function CategoriesUnPublishTable() {
                     </span>
                 </div>
             )}
+
+            <div className="flex items-center">
+                <Search
+                    placeholder="Search name category"
+                    enterButton="Search"
+                    onSearch={onSearch}
+                    className="w-1/2 my-4"
+                    loading={isLoading}
+                />
+                <Button
+                    type="default"
+                    className="ml-4"
+                    onClick={() => {
+                        setSelectedRowKeys([]);
+                        setOptions({
+                            ...options,
+                            name: '',
+                        });
+                    }}
+                >
+                    Reset
+                </Button>
+            </div>
+
             <Table
                 columns={columns}
                 rowSelection={rowSelection}
