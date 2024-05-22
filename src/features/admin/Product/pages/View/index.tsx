@@ -1,42 +1,43 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Tabs, TabsProps } from 'antd';
 import ProductTable from '../../components/ProductTable';
-
-const onChange = (key: string) => {
-    console.log(key);
-};
+import { useNavigate } from 'react-router-dom';
 
 const items: TabsProps['items'] = [
     {
-        key: '1',
+        key: 'allProducts',
         label: 'All Products',
         children: <ProductTable />,
     },
     {
-        key: '2',
-        label: 'Tab 2',
-        children: 'Content of Tab Pane 2',
-    },
-    {
-        key: '3',
-        label: 'Tab 3',
-        children: 'Content of Tab Pane 3',
+        key: 'unPublished',
+        label: 'Unpublished',
+        children: <ProductTable />,
     },
 ];
 
 function ViewProductList() {
+    const navigate = useNavigate();
+
     return (
-        <Card size="default" bordered={true} className="bg-red-400 h-full m-5">
-            <div className="flex justify-between">
-                <p className="text-2xl font-semibold">Product List</p>
+        <Card size="default" bordered={true} className="h-full">
+            <div className="flex justify-between mb-4">
+                <p className="text-2xl font-semibold">My Products</p>
                 <div className="flex justify-end">
-                    <Button type="primary" icon={<PlusOutlined />} size="large">
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        size="large"
+                        onClick={() => {
+                            navigate('/admin/products/new');
+                        }}
+                    >
                         Add a New Product
                     </Button>
                 </div>
             </div>
 
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+            <Tabs defaultActiveKey="1" items={items} size="large" />
         </Card>
     );
 }

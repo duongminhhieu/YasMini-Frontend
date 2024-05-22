@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Popconfirm, Table, message } from 'antd';
+import { Button, Pagination, Popconfirm, Table, message } from 'antd';
 import type { GetProp, PopconfirmProps, TableProps } from 'antd';
 import { Category, CategoryParams } from '../../../../../types/Category';
 import {
@@ -174,13 +174,6 @@ function CategoriesTable({ isActive = true }) {
     }, [hardDeletestatus.isSuccess, hardDeletestatus.isError]);
 
     // Handlers
-    const handleTableChange: TableProps['onChange'] = (pagination) => {
-        setTableParams({
-            ...tableParams,
-            pagination,
-        });
-    };
-
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         console.log('selectedRowKeys changed: ', newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
@@ -269,9 +262,29 @@ function CategoriesTable({ isActive = true }) {
                 rowSelection={rowSelection}
                 rowKey={(record) => record.id}
                 dataSource={data?.result?.data}
-                pagination={tableParams.pagination}
+                pagination={false}
                 loading={isLoading}
-                onChange={handleTableChange}
+            />
+
+            <Pagination
+                className="flex justify-end my-4 mr-4"
+                total={tableParams.pagination?.total || 1}
+                current={tableParams.pagination?.current || 1}
+                onChange={(page, pageSize) => {
+                    console.log('page', page);
+                    setTableParams({
+                        ...tableParams,
+                        pagination: {
+                            pageSize: pageSize,
+                            current: page,
+                        },
+                    });
+                }}
+                showQuickJumper
+                showSizeChanger
+                showTotal={(total, range) =>
+                    `${range[0]}-${range[1]} of ${total} items`
+                }
             />
         </>
     );

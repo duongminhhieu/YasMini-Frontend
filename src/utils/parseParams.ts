@@ -17,7 +17,6 @@ export function parseCategoryParams(params: CategoryParams) {
     }
 
     if (params.isAvailable !== null && params.isAvailable !== undefined) {
-        console.log(params.isAvailable.toString().toUpperCase());
         query.append("isAvailable", params.isAvailable.toString().toUpperCase());
     }
 

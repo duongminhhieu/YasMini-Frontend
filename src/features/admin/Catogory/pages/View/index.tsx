@@ -4,10 +4,6 @@ import CategoriesTable from '../../components/CategoriesTable';
 import CategoriesUnPublishTable from '../../components/CategoriesUnPublishTable';
 import { useNavigate } from 'react-router-dom';
 
-const onChange = (key: string) => {
-    console.log(key);
-};
-
 const items: TabsProps['items'] = [
     {
         key: 'allCategories',
@@ -42,12 +38,7 @@ function ViewCategoryList() {
                 </div>
             </div>
 
-            <Tabs
-                defaultActiveKey="1"
-                items={items}
-                onChange={onChange}
-                size="large"
-            />
+            <Tabs defaultActiveKey="1" items={items} size="large" />
         </Card>
     );
 }
