@@ -1,4 +1,4 @@
-import AddNewCategory from '../../features/admin/Catogory/pages/AddNewCategory';
+import AddNewCategory from '../../features/admin/Category/pages/AddNewCategory';
 
 function AddNewCategoryPage() {
     return <AddNewCategory />;

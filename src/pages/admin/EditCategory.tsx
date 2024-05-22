@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
-import EditCategory from '../../features/admin/Catogory/pages/EditCategory';
+import EditCategory from '../../features/admin/Category/pages/EditCategory';
 
 function EditCategoryPage() {
     const { id } = useParams<{ id: string }>();

@@ -1,4 +1,4 @@
-import ViewCategoryList from '../../features/admin/Catogory/pages/View';
+import ViewCategoryList from '../../features/admin/Category/pages/View';
 
 function CategoryListPage() {
     return <ViewCategoryList />;
