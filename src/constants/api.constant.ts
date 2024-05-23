@@ -52,5 +52,9 @@ export class APIConstants {
         DELETE: (id: string) => `/products/${id}`,
     };
 
+    static STORAGE = {
+        UPLOAD: '/storage',
+    };
+
 
 }

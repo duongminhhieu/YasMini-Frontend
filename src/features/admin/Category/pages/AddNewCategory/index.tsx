@@ -4,11 +4,7 @@ import { useEffect } from 'react';
 import APIResponse from '../../../../../types/APIResponse';
 import { InternalErrorCode } from '../../../../../utils/InternalErrorCode';
 import { useNavigate } from 'react-router-dom';
-import {
-    FilterOutlined,
-    HomeOutlined,
-    ProductOutlined,
-} from '@ant-design/icons';
+import { FilterOutlined, HomeOutlined } from '@ant-design/icons';
 
 const layout = {
     labelCol: { span: 2 },
