@@ -6,11 +6,6 @@ import { InternalErrorCode } from '../../../../../utils/InternalErrorCode';
 import { useNavigate } from 'react-router-dom';
 import { FilterOutlined, HomeOutlined } from '@ant-design/icons';
 
-const layout = {
-    labelCol: { span: 2 },
-    wrapperCol: { span: 16 },
-};
-
 function AddNewCategory() {
     const [createCategory, status] = useCreateCategoryMutation();
 
@@ -66,7 +61,8 @@ function AddNewCategory() {
 
             <Card title="Basic Information" className="mt-8">
                 <Form
-                    {...layout}
+                    labelCol={{ span: 2 }}
+                    wrapperCol={{ span: 16 }}
                     name="nest-messages"
                     onFinish={onFinish}
                     className="m-8 justify-center items-center w-full"

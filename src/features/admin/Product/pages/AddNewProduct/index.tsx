@@ -11,19 +11,31 @@ import {
     InputNumber,
     Select,
     SelectProps,
+    Spin,
+    Switch,
+    Typography,
     Upload,
     UploadFile,
     UploadProps,
     message,
 } from 'antd';
-import { HomeOutlined, PlusOutlined, ProductOutlined } from '@ant-design/icons';
 import {
+    CheckOutlined,
+    CloseOutlined,
+    HomeOutlined,
+    PlusOutlined,
+    ProductOutlined,
+} from '@ant-design/icons';
+import {
+    useCreateProductMutation,
     useGetAllCategoriesQuery,
     useStoreImageMutation,
 } from '../../../../../lib/redux/product/productApiSlice';
 import APIResponse from '../../../../../types/APIResponse';
 import { RcFile } from 'antd/es/upload';
 import { Category } from '../../../../../types/Category';
+import FormList from '../../components/FormList';
+import { useNavigate } from 'react-router-dom';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -35,6 +47,13 @@ const getBase64 = (file: FileType): Promise<string> =>
         reader.onerror = (error) => reject(error);
     });
 
+const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+        return e;
+    }
+    return e?.fileList;
+};
+
 function AddNewProduct() {
     // state
     const [previewOpen, setPreviewOpen] = useState(false);
@@ -44,9 +63,12 @@ function AddNewProduct() {
         SelectProps['options']
     >([]);
 
+    const navigate = useNavigate();
+
     // query
     const [uploadProductImage, status] = useStoreImageMutation();
     const { data, isLoading } = useGetAllCategoriesQuery();
+    const [createProduct, statusCreateProduct] = useCreateProductMutation();
 
     // effect
     useEffect(() => {
@@ -59,10 +81,6 @@ function AddNewProduct() {
     }, [status.isSuccess, status.isError]);
 
     useEffect(() => {
-        console.log(fileList);
-    }, [fileList]);
-
-    useEffect(() => {
         if (data) {
             setSelectCategoryOptions(
                 data.result.map((category: Category) => ({
@@ -73,14 +91,17 @@ function AddNewProduct() {
         }
     }, [data]);
 
-    // Handlers
-
-    const normFile = (e: any) => {
-        if (Array.isArray(e)) {
-            return e;
+    useEffect(() => {
+        if (statusCreateProduct.isSuccess) {
+            message.success('Create product success');
+            navigate('/admin/products');
         }
-        return e?.fileList;
-    };
+        if (statusCreateProduct.isError) {
+            message.error('Create product failed');
+        }
+    }, [statusCreateProduct.isSuccess, statusCreateProduct.isError]);
+
+    // Handlers
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
@@ -140,7 +161,30 @@ function AddNewProduct() {
         if (!isLt5M) {
             message.error('Image must smaller than 2MB!');
         }
-        return isLt5M;
+
+        const isImage = file.type.includes('image');
+        console.log('file', file);
+        if (!isImage) {
+            message.error('You can only upload image file!');
+        }
+
+        return isLt5M && isImage;
+    };
+
+    const onFinish = async (values: any) => {
+        if (fileList.length === 0) {
+            message.error('Please upload at least one image');
+            return;
+        }
+
+        // create product
+        const response = await createProduct({
+            ...values,
+            isAvailable: true,
+            imageIds: fileList.map((file) => file.uid),
+        });
+
+        console.log('response', response);
     };
 
     const uploadButton = (
@@ -180,6 +224,7 @@ function AddNewProduct() {
                 layout="horizontal"
                 name="nest-messages"
                 className="justify-center items-center w-full"
+                onFinish={onFinish}
             >
                 <Card title="Basic Information" className="mt-8">
                     <Form.Item
@@ -191,6 +236,9 @@ function AddNewProduct() {
                         <Upload
                             customRequest={handleUpload}
                             beforeUpload={beforeUpload}
+                            iconRender={() => {
+                                return <Spin tip="Loading" size="small"></Spin>;
+                            }}
                             listType="picture-card"
                             fileList={fileList}
                             onPreview={handlePreview}
@@ -217,7 +265,7 @@ function AddNewProduct() {
 
                     <Form.Item
                         label="Product Name"
-                        name="productName"
+                        name="name"
                         rules={[
                             {
                                 required: true,
@@ -243,7 +291,7 @@ function AddNewProduct() {
 
                     <Form.Item
                         label="Category"
-                        name="category"
+                        name="categoryIds"
                         rules={[
                             {
                                 required: true,
@@ -275,18 +323,15 @@ function AddNewProduct() {
                 </Card>
 
                 <Card title="Product Attribute" className="mt-8">
-                    <Form.Item
-                        label="Product Attribute"
-                        name="productAttribute"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input !',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
+                    <div>
+                        <Typography.Title level={5}>
+                            Add Product Attribute
+                        </Typography.Title>
+                        <Typography.Paragraph>
+                            Add product attribute to describe your product
+                        </Typography.Paragraph>
+                    </div>
+                    <FormList />
                 </Card>
 
                 <Card title="Product Inventory" className="mt-8">
@@ -347,6 +392,13 @@ function AddNewProduct() {
                     >
                         <Input />
                     </Form.Item>
+
+                    <Form.Item label="Featured Product" name="isFeatured">
+                        <Switch
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                        />
+                    </Form.Item>
                 </Card>
 
                 <Form.Item
@@ -357,8 +409,15 @@ function AddNewProduct() {
                         <Button
                             type="default"
                             className="mr-2"
-                            onClick={() => {
-                                window.history.back();
+                            onClick={async () => {
+                                // show confirm dialog
+                                const confirm = window.confirm(
+                                    'Are you sure you want to cancel?',
+                                );
+
+                                if (confirm) {
+                                    window.history.back();
+                                }
                             }}
                         >
                             Cancel
@@ -366,7 +425,7 @@ function AddNewProduct() {
                         <Button
                             type="primary"
                             htmlType="submit"
-                            loading={status.isLoading}
+                            loading={statusCreateProduct.isLoading}
                         >
                             Save and Publish
                         </Button>

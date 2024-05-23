@@ -1,6 +1,7 @@
 import { apiSlice } from "../api/apiSlice";
 import { APIConstants } from "../../../constants/api.constant";
 import APIResponse from "../../../types/APIResponse";
+import { Product } from "../../../types/Product";
 
 
 export const productApi = apiSlice.injectEndpoints({
@@ -16,11 +17,20 @@ export const productApi = apiSlice.injectEndpoints({
             query: () => APIConstants.CATEGORY.GET_ALL,
             providesTags: ["Category"],
         }),
+        createProduct: builder.mutation<APIResponse, Product>({
+            query: (product) => ({
+                url: APIConstants.PRODUCT.CREATE,
+                method: "POST",
+                body: product,
+                providesTags: ["Product"],
+            }),
+        }),
 
     }),
 });
 
 export const {
     useStoreImageMutation,
-    useGetAllCategoriesQuery
+    useGetAllCategoriesQuery,
+    useCreateProductMutation
 } = productApi;
