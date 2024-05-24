@@ -38,7 +38,7 @@ interface TableParams {
     filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
 }
 
-function ProductTable() {
+function ProductUnpublishTable() {
     // Columns
     const columns: ColumnsType<Product> = [
         {
@@ -138,10 +138,10 @@ function ProductTable() {
                         Edit
                     </a>
                     <button
-                        className="cursor-pointer text-red-500 hover:text-red-400"
-                        onClick={() => handleSoftDelete([id])}
+                        onClick={() => handlePublishProduct([id])}
+                        className="cursor-pointer"
                     >
-                        Delist
+                        Publish
                     </button>
                 </div>
             ),
@@ -153,7 +153,7 @@ function ProductTable() {
         page: 1,
         itemsPerPage: 10,
         name: '',
-        isAvailable: true,
+        isAvailable: false,
         isFeatured: null,
         categoryIds: [],
         orderBy: ['price'],
@@ -179,7 +179,7 @@ function ProductTable() {
     const { data, isLoading } = useGetProductsQuery(options);
     const { currentData: categoryData, isLoading: isCategoryLoading } =
         useGetAllCategoriesQuery();
-    const [softDeleteProduct, status] = useToggleAvailabilityProductsMutation();
+    const [publicProduct, status] = useToggleAvailabilityProductsMutation();
     const [hardDeleteProduct, hardDeletestatus] =
         useHardDeleteProductMutation();
 
@@ -252,10 +252,6 @@ function ProductTable() {
 
     const hasSelected = selectedRowKeys.length > 0;
 
-    const handleSoftDelete = async (ids: string[]) => {
-        await softDeleteProduct(ids);
-    };
-
     const onSearch = () => {
         setOptions({
             ...options,
@@ -277,12 +273,16 @@ function ProductTable() {
             page: 1,
             itemsPerPage: 10,
             name: '',
-            isAvailable: true,
+            isAvailable: false,
             isFeatured: null,
             categoryIds: [],
             orderBy: ['price'],
             sortBy: 'asc',
         });
+    };
+
+    const handlePublishProduct = async (ids: string[]) => {
+        await publicProduct(ids);
     };
 
     return (
@@ -301,14 +301,13 @@ function ProductTable() {
                         </Button>
                     </Popconfirm>
                     <Button
-                        type="default"
-                        danger
+                        type="primary"
                         className="mr-2"
                         onClick={() =>
-                            handleSoftDelete(selectedRowKeys.map(String))
+                            handlePublishProduct(selectedRowKeys.map(String))
                         }
                     >
-                        Delist
+                        Publish
                     </Button>
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected
@@ -379,4 +378,4 @@ function ProductTable() {
     );
 }
 
-export default ProductTable;
+export default ProductUnpublishTable;

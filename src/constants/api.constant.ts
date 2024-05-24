@@ -1,5 +1,6 @@
 import { CategoryParams } from "../types/Category";
-import { parseCategoryParams } from "../utils/parseParams";
+import { ProductParams } from "../types/Product";
+import { parseCategoryParams, parseProductParams } from "../utils/parseParams";
 
 export class APIConstants {
     static USERS = {
@@ -46,10 +47,12 @@ export class APIConstants {
 
     static PRODUCT = {
         GET_ALL: '/products',
+        GET_ALL_ADMIN: (params: ProductParams) => `/products/admin?${parseProductParams(params)}`,
         GET_BY_ID: (id: string) => `/products/${id}`,
         CREATE: '/products',
         UPDATE: (id: string) => `/products/${id}`,
-        DELETE: (id: string) => `/products/${id}`,
+        DELETE: `/products`,
+        TOGGLE_AVAILABILITY: "/products/toggle-availability",
     };
 
     static STORAGE = {

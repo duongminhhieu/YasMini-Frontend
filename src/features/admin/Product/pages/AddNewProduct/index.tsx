@@ -163,7 +163,6 @@ function AddNewProduct() {
         }
 
         const isImage = file.type.includes('image');
-        console.log('file', file);
         if (!isImage) {
             message.error('You can only upload image file!');
         }

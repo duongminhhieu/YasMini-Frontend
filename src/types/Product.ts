@@ -33,3 +33,17 @@ export type ProductAttributeValue = {
     id: string;
     value: string;
 }
+
+
+export type ProductParams = {
+
+    name: string | null;
+    isAvailable: boolean;
+    isFeatured: boolean | null;
+    categoryIds: string[];
+    orderBy: string[];
+    sortBy: string;
+
+    page: number;
+    itemsPerPage: number;
+}

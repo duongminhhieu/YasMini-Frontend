@@ -25,7 +25,7 @@ interface TableParams {
     filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
 }
 
-function CategoriesTable({ isActive = true }) {
+function CategoriesTable() {
     // Columns
     const columns: ColumnsType<Category> = [
         {
@@ -110,7 +110,7 @@ function CategoriesTable({ isActive = true }) {
         page: 1,
         itemsPerPage: 10,
         name: '',
-        isAvailable: isActive,
+        isAvailable: true,
     });
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [tableParams, setTableParams] = useState<TableParams>({

@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Tabs, TabsProps } from 'antd';
 import ProductTable from '../../components/ProductTable';
 import { useNavigate } from 'react-router-dom';
+import ProductUnpublishTable from '../../components/ProductUnpublishTable';
 
 const items: TabsProps['items'] = [
     {
@@ -12,7 +13,7 @@ const items: TabsProps['items'] = [
     {
         key: 'unPublished',
         label: 'Unpublished',
-        children: <ProductTable />,
+        children: <ProductUnpublishTable />,
     },
 ];
 
