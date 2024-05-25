@@ -98,7 +98,7 @@ function AddNewCategory() {
                     >
                         <Input.TextArea
                             showCount
-                            maxLength={100}
+                            maxLength={120}
                             autoSize={{ minRows: 3, maxRows: 6 }}
                         />
                     </Form.Item>

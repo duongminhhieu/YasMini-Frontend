@@ -1,7 +1,5 @@
-import App from './App';
 import C404 from './components/404';
 import { createBrowserRouter } from 'react-router-dom';
-import { AboutMePage } from './pages/_index.page';
 import AdminRoute from './components/routes/admin';
 import ForbiddenPage from './components/Forbidden';
 import SignInPageAdmin from './pages/admin/SignInPageAdmin';
@@ -11,20 +9,31 @@ import CategoryListPage from './pages/admin/CategoryListPage';
 import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
 import AddNewProducrtPage from './pages/admin/AddNewProductPage';
 import EditCategoryPage from './pages/admin/EditCategory';
-import AddNewProductPage from './pages/admin/AddNewProductPage';
 import EditProductPage from './pages/admin/EditProductPage';
+import PublicRoute from './components/routes/public';
+import HomePage from './pages/public/HomePage';
 
 export default createBrowserRouter([
+    // Public routes
     {
         path: '/',
-        element: App(),
-        children: [
-            {
-                path: '/about-me',
-                element: AboutMePage(),
-            },
-        ],
+        element: (
+            <PublicRoute>
+                <HomePage />
+            </PublicRoute>
+        ),
     },
+
+    {
+        path: '/:category',
+        element: (
+            <PublicRoute>
+                <HomePage />
+            </PublicRoute>
+        ),
+    },
+
+    // Admin routes
     {
         path: '/admin',
         element: (
@@ -85,6 +94,8 @@ export default createBrowserRouter([
         path: '/admin/login',
         element: <SignInPageAdmin />,
     },
+
+    // Other routes
     {
         path: '/forbidden',
         element: <ForbiddenPage />,

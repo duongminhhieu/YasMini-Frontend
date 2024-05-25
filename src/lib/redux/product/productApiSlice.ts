@@ -25,8 +25,12 @@ export const productApi = apiSlice.injectEndpoints({
                 providesTags: ["Product"],
             }),
         }),
-        getProducts: builder.query<APIResponse, ProductParams>({
+        getProductsAdmin: builder.query<APIResponse, ProductParams>({
             query: (params: ProductParams) => APIConstants.PRODUCT.GET_ALL_ADMIN(params),
+            providesTags: ["Product"],
+        }),
+        getProducts: builder.query<APIResponse, ProductParams>({
+            query: (params: ProductParams) => APIConstants.PRODUCT.GET_ALL(params),
             providesTags: ["Product"],
         }),
         toggleAvailabilityProducts: builder.mutation<APIResponse, string[]>({
@@ -68,6 +72,7 @@ export const {
     useStoreImageMutation,
     useGetAllCategoriesQuery,
     useCreateProductMutation,
+    useGetProductsAdminQuery,
     useGetProductsQuery,
     useHardDeleteProductMutation,
     useToggleAvailabilityProductsMutation,

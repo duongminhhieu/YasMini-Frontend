@@ -46,7 +46,7 @@ export class APIConstants {
 
 
     static PRODUCT = {
-        GET_ALL: '/products',
+        GET_ALL: (params: ProductParams) => `/products?${parseProductParams(params)}`,
         GET_ALL_ADMIN: (params: ProductParams) => `/products/admin?${parseProductParams(params)}`,
         GET_BY_ID: (id: string) => `/products/id/${id}`,
         CREATE: '/products',
