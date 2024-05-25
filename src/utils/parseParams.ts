@@ -51,6 +51,18 @@ export function parseProductParams(params: ProductParams) {
         query.append("categoryIds", params.categoryIds.join(","));
     }
 
+    if (params.minPrice) {
+        query.append("minPrice", params.minPrice.toString());
+    }
+
+    if (params.maxPrice) {
+        query.append("maxPrice", params.maxPrice.toString());
+    }
+
+    if (params.minRating) {
+        query.append("minRating", params.minRating.toString());
+    }
+
     if (params.orderBy) {
         query.append("orderBy", params.orderBy.join(","));
     }

@@ -11,3 +11,12 @@ export function convertDate(params: Date) {
     });
 
 }
+
+
+// convert number to dollar
+export function convertToDollar(params: number) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(params);
+}

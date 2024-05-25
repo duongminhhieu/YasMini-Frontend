@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { Product, ProductParams } from '../../../../../types/Product';
 import {
     useGetAllCategoriesQuery,
-    useGetProductsQuery,
+    useGetProductsAdminQuery,
     useHardDeleteProductMutation,
     useToggleAvailabilityProductsMutation,
 } from '../../../../../lib/redux/product/productApiSlice';
@@ -172,6 +172,9 @@ function ProductTable() {
         isAvailable: true,
         isFeatured: null,
         categoryIds: [],
+        minPrice: null,
+        maxPrice: null,
+        minRating: null,
         orderBy: ['price'],
         sortBy: 'asc',
     });
@@ -192,7 +195,7 @@ function ProductTable() {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     // Query
-    const { data, isLoading } = useGetProductsQuery(options);
+    const { data, isLoading } = useGetProductsAdminQuery(options);
     const { currentData: categoryData, isLoading: isCategoryLoading } =
         useGetAllCategoriesQuery();
     const [softDeleteProduct, status] = useToggleAvailabilityProductsMutation();

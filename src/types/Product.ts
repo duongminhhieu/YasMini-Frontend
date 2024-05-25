@@ -41,6 +41,9 @@ export type ProductParams = {
     isAvailable: boolean;
     isFeatured: boolean | null;
     categoryIds: string[];
+    minPrice: number | null;
+    maxPrice: number | null;
+    minRating: number | null;
     orderBy: string[];
     sortBy: string;
 
