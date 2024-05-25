@@ -49,7 +49,18 @@ export const productApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Product"],
         }),
-
+        getInfoProduct: builder.query<APIResponse, string>({
+            query: (id: string) => APIConstants.PRODUCT.GET_BY_ID(id),
+            providesTags: ["Product"],
+        }),
+        updateProduct: builder.mutation<APIResponse, Product>({
+            query: (product) => ({
+                url: APIConstants.PRODUCT.UPDATE(product.id),
+                method: "PUT",
+                body: product,
+                providesTags: ["Product"],
+            }),
+        }),
     }),
 });
 
@@ -59,5 +70,7 @@ export const {
     useCreateProductMutation,
     useGetProductsQuery,
     useHardDeleteProductMutation,
-    useToggleAvailabilityProductsMutation
+    useToggleAvailabilityProductsMutation,
+    useGetInfoProductQuery,
+    useUpdateProductMutation
 } = productApi;

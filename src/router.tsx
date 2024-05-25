@@ -12,6 +12,7 @@ import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
 import AddNewProducrtPage from './pages/admin/AddNewProductPage';
 import EditCategoryPage from './pages/admin/EditCategory';
 import AddNewProductPage from './pages/admin/AddNewProductPage';
+import EditProductPage from './pages/admin/EditProductPage';
 
 export default createBrowserRouter([
     {
@@ -76,7 +77,7 @@ export default createBrowserRouter([
         path: '/admin/products/:id',
         element: (
             <AdminRoute>
-                <AddNewProductPage />
+                <EditProductPage />
             </AdminRoute>
         ),
     },

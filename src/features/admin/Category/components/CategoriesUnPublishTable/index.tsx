@@ -9,6 +9,7 @@ import {
 } from '../../../../../lib/redux/category/categoryApiSlice';
 import Search, { SearchProps } from 'antd/es/input/Search';
 import APIResponse from '../../../../../types/APIResponse';
+import { Link } from 'react-router-dom';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -32,15 +33,7 @@ function CategoriesUnPublishTable() {
             dataIndex: 'name',
             className: 'text-blue-500',
             render(_, { id }) {
-                return (
-                    <a
-                        href={`/admin/categories/${id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {_}
-                    </a>
-                );
+                return <Link to={`/admin/categories/${id}`}>{_}</Link>;
             },
         },
         {
@@ -85,14 +78,12 @@ function CategoriesUnPublishTable() {
             key: 'x',
             render: (_, { id }) => (
                 <div className="flex flex-col text-blue-500 gap-2 items-center">
-                    <a
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
                         className="cursor-pointer"
-                        href={`/admin/categories/${id}`}
+                        to={`/admin/categories/${id}`}
                     >
                         Edit
-                    </a>
+                    </Link>
                     <button
                         onClick={() => handlePublishCategory([id])}
                         className="cursor-pointer"

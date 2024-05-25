@@ -23,6 +23,7 @@ import {
 import APIResponse from '../../../../../types/APIResponse';
 import { Category } from '../../../../../types/Category';
 import { SearchOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -47,11 +48,9 @@ function ProductUnpublishTable() {
             className: 'text-blue-500',
             render(_, product) {
                 return (
-                    <a
+                    <Link
                         className="flex"
-                        href={`/admin/products/${[product.id]}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        to={`/admin/products/${[product.id]}`}
                     >
                         <img
                             src={product.images[0]?.url || ''}
@@ -59,13 +58,9 @@ function ProductUnpublishTable() {
                             className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex flex-col ml-2">
-                            <a
-                                href={`/admin/products/${[product.id]}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
+                            <Link to={`/admin/products/${[product.id]}`}>
                                 {_}
-                            </a>
+                            </Link>
 
                             <span className="text-gray-400 text-xs">
                                 SKU: {product.sku}
@@ -78,7 +73,7 @@ function ProductUnpublishTable() {
                                 </span>
                             )}
                         </div>
-                    </a>
+                    </Link>
                 );
             },
         },
@@ -90,6 +85,14 @@ function ProductUnpublishTable() {
         {
             title: 'Price',
             dataIndex: 'price',
+            render: (price: number) => (
+                <span>
+                    {price.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                    })}
+                </span>
+            ),
             sorter: (a, b) => a.price - b.price,
         },
         {
@@ -100,6 +103,12 @@ function ProductUnpublishTable() {
         {
             title: 'Created Date',
             dataIndex: 'createdDate',
+            sorter: (a, b) => {
+                return (
+                    new Date(a.createdDate).getTime() -
+                    new Date(b.createdDate).getTime()
+                );
+            },
             render: (date: string) =>
                 new Date(date).toLocaleString('en-US', {
                     timeZone: 'Asia/Ho_Chi_Minh',
@@ -113,6 +122,12 @@ function ProductUnpublishTable() {
         {
             title: 'Last Modified Date',
             dataIndex: 'lastModifiedDate',
+            sorter: (a, b) => {
+                return (
+                    new Date(a.lastModifiedDate).getTime() -
+                    new Date(b.lastModifiedDate).getTime()
+                );
+            },
             render: (date: string) =>
                 new Date(date).toLocaleString('en-US', {
                     timeZone: 'Asia/Ho_Chi_Minh',
@@ -129,14 +144,14 @@ function ProductUnpublishTable() {
             key: 'x',
             render: (_, { id }) => (
                 <div className="flex flex-col text-blue-500 gap-2">
-                    <a
+                    <Link
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cursor-pointer items-center text-center"
-                        href={`/admin/products/${id}`}
+                        to={`/admin/products/${id}`}
                     >
                         Edit
-                    </a>
+                    </Link>
                     <button
                         onClick={() => handlePublishProduct([id])}
                         className="cursor-pointer"
@@ -333,9 +348,12 @@ function ProductUnpublishTable() {
                     className="w-1/2"
                     tokenSeparators={[',']}
                     options={selectCategoryOptions}
+                    optionFilterProp="label"
                     loading={isCategoryLoading}
                     value={selectedCategories}
                     onChange={setSelectedCategories}
+                    showSearch
+                    autoClearSearchValue
                 />
                 <Button type="primary" onClick={onSearch} loading={isLoading}>
                     Apply

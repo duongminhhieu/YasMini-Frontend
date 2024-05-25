@@ -27,15 +27,17 @@ import {
     ProductOutlined,
 } from '@ant-design/icons';
 import {
-    useCreateProductMutation,
     useGetAllCategoriesQuery,
+    useGetInfoProductQuery,
     useStoreImageMutation,
+    useUpdateProductMutation,
 } from '../../../../../lib/redux/product/productApiSlice';
 import APIResponse from '../../../../../types/APIResponse';
 import { RcFile } from 'antd/es/upload';
 import { Category } from '../../../../../types/Category';
 import FormList from '../../components/FormList';
-import { useNavigate } from 'react-router-dom';
+import { Product } from '../../../../../types/Product';
+import { convertDate } from '../../../../../utils/convert';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -54,7 +56,9 @@ const normFile = (e: any) => {
     return e?.fileList;
 };
 
-function AddNewProduct() {
+function EditProduct({ id }: { id: string }) {
+    const [form] = Form.useForm();
+
     // state
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
@@ -63,12 +67,11 @@ function AddNewProduct() {
         SelectProps['options']
     >([]);
 
-    const navigate = useNavigate();
-
     // query
     const [uploadProductImage, status] = useStoreImageMutation();
     const { data, isLoading } = useGetAllCategoriesQuery();
-    const [createProduct, statusCreateProduct] = useCreateProductMutation();
+    const { currentData: productData } = useGetInfoProductQuery(id);
+    const [updateProduct, updateStatus] = useUpdateProductMutation();
 
     // effect
     useEffect(() => {
@@ -92,15 +95,38 @@ function AddNewProduct() {
     }, [data]);
 
     useEffect(() => {
-        if (statusCreateProduct.isSuccess) {
-            message.success('Create product success');
-            window.location.href = '/admin/products';
+        if (productData) {
+            const product = productData.result as Product;
+
+            form.setFieldsValue({
+                ...product,
+                categoryIds: product.categories.map((category: Category) => ({
+                    label: category.name,
+                    value: category.id,
+                })),
+            });
+
+            setFileList(
+                product.images.map((image) => ({
+                    uid: image.id,
+                    name: image.name,
+                    size: image.size,
+                    type: image.type,
+                    url: image.url,
+                })),
+            );
         }
-        if (statusCreateProduct.isError) {
-            const error = statusCreateProduct.error as { data: APIResponse };
+    }, [productData]);
+
+    useEffect(() => {
+        if (updateStatus.isSuccess) {
+            message.success('Update product success');
+        }
+        if (updateStatus.isError) {
+            const error = updateStatus.error as { data: APIResponse };
             message.error(error.data.message);
         }
-    }, [statusCreateProduct.isSuccess, statusCreateProduct.isError]);
+    }, [updateStatus]);
 
     // Handlers
 
@@ -177,14 +203,22 @@ function AddNewProduct() {
             return;
         }
 
-        // create product
-        const response = await createProduct({
-            ...values,
-            isAvailable: true,
-            imageIds: fileList.map((file) => file.uid),
+        values.categoryIds = values.categoryIds.map((category: any) => {
+            // check if category has property value
+            if (category.value) {
+                return category.value;
+            } else {
+                return category;
+            }
         });
 
-        console.log('response', response);
+        // update product
+        const product: Product = {
+            id,
+            ...values,
+            imageIds: fileList.map((file) => file.uid),
+        };
+        await updateProduct(product);
     };
 
     const uploadButton = (
@@ -213,19 +247,62 @@ function AddNewProduct() {
                         ),
                     },
                     {
-                        title: 'Add New Product',
+                        title: 'Product Details',
                     },
                 ]}
             />
 
             <Form
+                form={form}
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 14 }}
                 layout="horizontal"
                 name="nest-messages"
                 className="justify-center items-center w-full"
                 onFinish={onFinish}
+                initialValues={{
+                    categoryIds: [productData?.result?.categories[0].id],
+                }}
             >
+                <Card
+                    title="Audit Information"
+                    className="mb-4 border-gray-200 shadow-sm mt-8"
+                >
+                    <Form.Item name="id" label="ID">
+                        <p className="font-semibold">
+                            {productData?.result?.id}
+                        </p>
+                    </Form.Item>
+
+                    <Form.Item name="createdBy" label="Created By">
+                        <p className="font-semibold">
+                            {productData?.result?.createdBy}
+                        </p>
+                    </Form.Item>
+                    <Form.Item name="createdDate" label="Created Date">
+                        <p className="font-semibold">
+                            {convertDate(productData?.result?.createdDate)}
+                        </p>
+                    </Form.Item>
+                    <Form.Item name="lastModifiedBy" label="Update By">
+                        <p className="font-semibold">
+                            {productData?.result?.lastModifiedBy}
+                        </p>
+                    </Form.Item>
+                    <Form.Item name="lastModifiedDate" label="Update Date">
+                        <p className="font-semibold">
+                            {convertDate(productData?.result?.lastModifiedDate)}
+                        </p>
+                    </Form.Item>
+                    <Form.Item label="Publish" name="isAvailable">
+                        <Switch
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                            defaultChecked={productData?.result?.isAvailable}
+                        />
+                    </Form.Item>
+                </Card>
+
                 <Card title="Basic Information" className="mt-8">
                     <Form.Item
                         label="Product Images"
@@ -303,11 +380,11 @@ function AddNewProduct() {
                             mode="multiple"
                             style={{ width: '100%' }}
                             tokenSeparators={[',']}
+                            options={selectCategoryOptions}
+                            loading={isLoading}
                             optionFilterProp="label"
                             showSearch
                             autoClearSearchValue
-                            options={selectCategoryOptions}
-                            loading={isLoading}
                         />
                     </Form.Item>
 
@@ -428,9 +505,9 @@ function AddNewProduct() {
                         <Button
                             type="primary"
                             htmlType="submit"
-                            loading={statusCreateProduct.isLoading}
+                            loading={updateStatus.isLoading}
                         >
-                            Save and Publish
+                            Update
                         </Button>
                     </div>
                 </Form.Item>
@@ -439,4 +516,4 @@ function AddNewProduct() {
     );
 }
 
-export default AddNewProduct;
+export default EditProduct;

@@ -10,6 +10,7 @@ import {
 import APIResponse from '../../../../../types/APIResponse';
 import { SearchProps } from 'antd/es/input';
 import Search from 'antd/es/input/Search';
+import { Link } from 'react-router-dom';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -33,15 +34,7 @@ function CategoriesTable() {
             dataIndex: 'name',
             className: 'text-blue-500',
             render(_, { id }) {
-                return (
-                    <a
-                        href={`/admin/categories/${id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {_}
-                    </a>
-                );
+                return <Link to={`/admin/categories/${id}`}>{_}</Link>;
             },
         },
         {
@@ -86,14 +79,12 @@ function CategoriesTable() {
             key: 'x',
             render: (_, { id }) => (
                 <div className="flex flex-col text-blue-500 gap-2">
-                    <a
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
                         className="cursor-pointer items-center text-center"
-                        href={`/admin/categories/${id}`}
+                        to={`/admin/categories/${id}`}
                     >
                         Edit
-                    </a>
+                    </Link>
                     <button
                         className="cursor-pointer text-red-500 hover:text-red-400"
                         onClick={() => handleSoftDelete([id])}
