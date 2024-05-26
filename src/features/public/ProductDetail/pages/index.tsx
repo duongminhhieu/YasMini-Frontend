@@ -1,9 +1,11 @@
-import { Button, Card, Rate, Result, Space, Spin } from 'antd';
+import { Breadcrumb, Button, Card, Rate, Result, Space, Spin } from 'antd';
 import { useGetProductBySlugQuery } from '../../../../lib/redux/product/productApiSlice';
 import { Link } from 'react-router-dom';
 import {
+    HomeOutlined,
     MinusOutlined,
     PlusOutlined,
+    ProductOutlined,
     ShoppingCartOutlined,
 } from '@ant-design/icons';
 import CarouselImageComponents from '../components/CarouselImage';
@@ -45,6 +47,32 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
 
     return (
         <Card>
+            <Breadcrumb
+                className="mb-8"
+                items={[
+                    {
+                        href: '/',
+                        title: <HomeOutlined />,
+                    },
+                    {
+                        href: `/categories/${productResponse?.result.categories[0]?.slug}`,
+                        title: (
+                            <>
+                                <ProductOutlined />
+                                <span>
+                                    {
+                                        productResponse?.result.categories[0]
+                                            ?.name
+                                    }
+                                </span>
+                            </>
+                        ),
+                    },
+                    {
+                        title: `${productResponse?.result.name}`,
+                    },
+                ]}
+            />
             {isProductLoading ? (
                 <div className="flex justify-center item-center">
                     <Space size="middle">
@@ -57,7 +85,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                         <CarouselImageComponents
                             images={productResponse?.result.images}
                         />
-                        <div className="p-4">
+                        <div className="p-4 pt-0">
                             <h2 className="text-2xl font-bold mb-4">
                                 {productResponse?.result.name}
                             </h2>

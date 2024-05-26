@@ -8,12 +8,13 @@ import ProductListPage from './pages/admin/ProductListPage';
 import CategoryListPage from './pages/admin/CategoryListPage';
 import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
 import AddNewProducrtPage from './pages/admin/AddNewProductPage';
-import EditCategoryPage from './pages/admin/EditCategory';
+import EditCategoryPage from './pages/admin/EditCategoryPage';
 import EditProductPage from './pages/admin/EditProductPage';
 import PublicRoute from './components/routes/public';
 import HomePage from './pages/public/HomePage';
 import SearchPage from './pages/public/SearchPage';
 import ProductDetailPage from './pages/public/ProductDetailPage';
+import SignInUserPage from './pages/user/SignInUserPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -104,6 +105,12 @@ export default createBrowserRouter([
     {
         path: '/admin/login',
         element: <SignInPageAdmin />,
+    },
+
+    // User routes
+    {
+        path: '/login',
+        element: <SignInUserPage />,
     },
 
     // Other routes
