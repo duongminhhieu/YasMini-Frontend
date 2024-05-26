@@ -34,7 +34,6 @@ export default createBrowserRouter([
         ),
     },
 
-    // Admin routes
     {
         path: '/search',
         element: (
