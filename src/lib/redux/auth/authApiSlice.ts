@@ -1,9 +1,9 @@
 import { message } from 'antd';
-import { APIConstants } from '../../../services/api.constant';
-import APIResponse from '../../../utils/APIResponse';
+import { APIConstants } from '../../../constants/api.constant';
 import { InternalErrorCode } from '../../../utils/InternalErrorCode';
-import { apiSlice } from '../../api/apiSlice';
+import { apiSlice } from '../api/apiSlice';
 import { logOut, setCredentials } from './authSlice';
+import APIResponse from '../../../types/APIResponse';
 
 
 export type Credentials = {
@@ -31,17 +31,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
                     const apiResponse = response.data as APIResponse;
 
-                    dispatch(setCredentials(apiResponse.result));
 
                     const { tokens, user } = apiResponse.result;
+                    localStorage.setItem("REMEMBER_ME", JSON.stringify(accountInfo.rememberMe));
 
                     if (accountInfo.rememberMe) {
                         // if remember me is checked, store the tokens in local storage
                         localStorage.setItem("TOKENS", JSON.stringify(tokens));
                         localStorage.setItem("USER", JSON.stringify(user));
+                        dispatch(setCredentials({ tokens, user, rememberMe: true }));
                     } else {
                         sessionStorage.setItem("TOKENS", JSON.stringify(tokens));
                         sessionStorage.setItem("USER", JSON.stringify(user));
+                        dispatch(setCredentials({ tokens, user, rememberMe: false }));
                     }
 
                 } catch (error: any) {
@@ -57,9 +59,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
 
         sendLogOut: builder.mutation({
-            query: () => ({
+            query: (token: string) => ({
                 url: APIConstants.AUTH.LOG_OUT,
                 method: 'POST',
+                body: {
+                    token
+                },
             }),
             async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
                 try {

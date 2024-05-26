@@ -1,3 +1,7 @@
+import { CategoryParams } from "../types/Category";
+import { ProductParams } from "../types/Product";
+import { parseCategoryParams, parseProductParams } from "../utils/parseParams";
+
 export class APIConstants {
     static USERS = {
         SIGNUP: '/users/signup',
@@ -32,19 +36,27 @@ export class APIConstants {
 
     static CATEGORY = {
         GET_ALL: '/categories',
+        GET_ALL_ADMIN: (params: CategoryParams) => `/categories/admin?${parseCategoryParams(params)}`,
         GET_BY_ID: (id: string) => `/categories/${id}`,
         CREATE: '/categories',
         UPDATE: (id: string) => `/categories/${id}`,
-        DELETE: (id: string) => `/categories/${id}`,
+        DELETE: `/categories`,
+        TOGGLE_AVAILABILITY: "/categories/toggle-availability",
     };
 
 
     static PRODUCT = {
-        GET_ALL: '/products',
-        GET_BY_ID: (id: string) => `/products/${id}`,
+        GET_ALL: (params: ProductParams) => `/products?${parseProductParams(params)}`,
+        GET_ALL_ADMIN: (params: ProductParams) => `/products/admin?${parseProductParams(params)}`,
+        GET_BY_ID: (id: string) => `/products/id/${id}`,
         CREATE: '/products',
         UPDATE: (id: string) => `/products/${id}`,
-        DELETE: (id: string) => `/products/${id}`,
+        DELETE: `/products`,
+        TOGGLE_AVAILABILITY: "/products/toggle-availability",
+    };
+
+    static STORAGE = {
+        UPLOAD: '/storage',
     };
 
 

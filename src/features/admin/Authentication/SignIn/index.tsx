@@ -1,5 +1,14 @@
 import type { FormProps } from 'antd';
-import { Button, Card, Checkbox, Flex, Form, Input, Layout } from 'antd';
+import {
+    Button,
+    Card,
+    Checkbox,
+    Flex,
+    Form,
+    Input,
+    Layout,
+    message,
+} from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import {
     AccountInfo,
@@ -22,7 +31,6 @@ export default function SignIn() {
     const [isLoading, setIsLoading] = useState(false);
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log('Success:', values);
         const credentials: Credentials = {
             email: values.username,
             password: values.password,
@@ -45,6 +53,7 @@ export default function SignIn() {
     useEffect(() => {
         if (statusLogin.isSuccess) {
             setIsLoading(false);
+            message.success('Login success!');
             navigate('/admin');
         }
         if (statusLogin.error) {
