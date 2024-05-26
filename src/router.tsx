@@ -24,6 +24,17 @@ export default createBrowserRouter([
             </PublicRoute>
         ),
     },
+
+    {
+        path: '/:category',
+        element: (
+            <PublicRoute>
+                <HomePage />
+            </PublicRoute>
+        ),
+    },
+
+    // Admin routes
     {
         path: '/search',
         element: (
