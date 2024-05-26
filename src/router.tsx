@@ -12,6 +12,7 @@ import EditCategoryPage from './pages/admin/EditCategory';
 import EditProductPage from './pages/admin/EditProductPage';
 import PublicRoute from './components/routes/public';
 import HomePage from './pages/public/HomePage';
+import SearchPage from './pages/public/SearchPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -24,6 +25,32 @@ export default createBrowserRouter([
         ),
     },
 
+    {
+        path: '/:category',
+        element: (
+            <PublicRoute>
+                <HomePage />
+            </PublicRoute>
+        ),
+    },
+
+    {
+        path: '/search',
+        element: (
+            <PublicRoute>
+                <SearchPage />
+            </PublicRoute>
+        ),
+    },
+
+    {
+        path: '/:category/:id',
+        element: (
+            <PublicRoute>
+                <HomePage />
+            </PublicRoute>
+        ),
+    },
     {
         path: '/:category',
         element: (

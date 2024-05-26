@@ -6,4 +6,11 @@ export type Pagination = {
     data?: [];
 }
 
+export type PaginationParams = {
+    current: number;
+    pageSize: number;
+    total: number;
+};
+
+
 

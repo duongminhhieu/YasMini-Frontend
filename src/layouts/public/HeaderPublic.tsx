@@ -7,7 +7,12 @@ function HeaderPublic() {
     return (
         <Header className="bg-white drop-shadow-md flex items-center lg:h-20 z-0 justify-center">
             <div className="flex justify-between items-center w-full">
-                <div className="flex justify-center items-center">
+                <div
+                    className="flex justify-center items-center cursor-pointer"
+                    onClick={() => {
+                        window.location.href = '/';
+                    }}
+                >
                     <img
                         src="/YasMiniLogo.png"
                         className="w-24 mr-2"
@@ -23,6 +28,9 @@ function HeaderPublic() {
                         placeholder="Search for products"
                         size="large"
                         enterButton
+                        onSearch={(value) => {
+                            window.location.href = `/search?keyword=${value}`;
+                        }}
                     />
                 </div>
 

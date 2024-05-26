@@ -4,12 +4,7 @@ import { useGetProductsQuery } from '../../../../../lib/redux/product/productApi
 import { useEffect, useState } from 'react';
 import { Product, ProductParams } from '../../../../../types/Product';
 import ProductCard from '../../../../../components/common/ProductCard';
-
-type PaginationParams = {
-    current: number;
-    pageSize: number;
-    total: number;
-};
+import { PaginationParams } from '../../../../../types/Pagination';
 
 function FeaturedProductsComponent() {
     // state
