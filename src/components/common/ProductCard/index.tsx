@@ -17,6 +17,9 @@ function ProductCard({ product }: { product: Product }) {
                     className="h-48 w-full object-cover"
                 />
             }
+            onClick={() => {
+                window.location.href = `/${product?.slug}`;
+            }}
         >
             <div className="flex flex-col">
                 <Paragraph

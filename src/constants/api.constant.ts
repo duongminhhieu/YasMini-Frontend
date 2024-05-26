@@ -53,6 +53,7 @@ export class APIConstants {
         UPDATE: (id: string) => `/products/${id}`,
         DELETE: `/products`,
         TOGGLE_AVAILABILITY: "/products/toggle-availability",
+        GET_BY_SLUG: (slug: string) => `/products/${slug}`,
     };
 
     static STORAGE = {

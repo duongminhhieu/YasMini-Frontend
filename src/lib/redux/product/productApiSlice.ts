@@ -65,6 +65,10 @@ export const productApi = apiSlice.injectEndpoints({
                 providesTags: ["Product"],
             }),
         }),
+        getProductBySlug: builder.query<APIResponse, string>({
+            query: (slug: string) => APIConstants.PRODUCT.GET_BY_SLUG(slug),
+            providesTags: ["Product"],
+        }),
     }),
 });
 
@@ -77,5 +81,6 @@ export const {
     useHardDeleteProductMutation,
     useToggleAvailabilityProductsMutation,
     useGetInfoProductQuery,
-    useUpdateProductMutation
+    useUpdateProductMutation,
+    useGetProductBySlugQuery
 } = productApi;
