@@ -53,7 +53,7 @@ function ProductUnpublishTable() {
                         to={`/admin/products/${[product.id]}`}
                     >
                         <img
-                            src={product.images[0]?.url || ''}
+                            src={product?.thumbnail ?? ''}
                             alt={_}
                             className="w-16 h-16 object-cover rounded-lg"
                         />

@@ -13,6 +13,7 @@ export type Product = {
     quantity: number;
     averageRating: number;
     isAvailable: boolean;
+    thumbnail: string | null;
     attributes: ProductAttributes[];
     categories: Category[];
     images: Storage[];

@@ -7,7 +7,7 @@ import { RatingCreateParams, RatingParams } from "../../../types/Rating";
 export const ratingApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         createRating: builder.mutation<APIResponse, RatingCreateParams>({
-            query: (ratingParams) => ({
+            query: (ratingParams: RatingCreateParams) => ({
                 url: APIConstants.RATING.CREATE,
                 method: "POST",
                 body: ratingParams,

@@ -13,7 +13,7 @@ function ProductCard({ product }: { product: Product }) {
             cover={
                 <img
                     alt={product?.name}
-                    src={product?.images[0]?.url}
+                    src={product?.thumbnail ?? ''}
                     className="h-48 w-full object-cover"
                 />
             }
@@ -34,9 +34,9 @@ function ProductCard({ product }: { product: Product }) {
                         <Tag
                             icon={'🔥 '}
                             color="orange"
-                            className="w-1/4 text-xs mb-1"
+                            className="w-fit text-xs mb-1"
                         >
-                            Hot
+                            Hot 🔥
                         </Tag>
                     )}
                     <div className="flex justify-start gap-2 items-center">

@@ -100,7 +100,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                                             color="orange"
                                             className=" text-base mb-1"
                                         >
-                                            Hot
+                                            Hot 🔥
                                         </Tag>
                                     )}
                                 </div>
@@ -108,7 +108,9 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                             <Rate
                                 disabled
                                 allowHalf
-                                defaultValue={productResponse?.result.rating}
+                                defaultValue={
+                                    productResponse?.result.averageRating
+                                }
                                 className="mb-2"
                             />
 
@@ -188,6 +190,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
 
                     <ProductRatingComponent
                         productId={productResponse?.result.id}
+                        averageRating={productResponse?.result.averageRating}
                     />
                 </Space>
             )}
