@@ -19,6 +19,7 @@ import {
     Credentials,
     useLoginMutation,
 } from '../../../../lib/redux/auth/authApiSlice';
+import BannerIntroductionComponent from '../components/BannerIntroduction';
 
 type FieldType = {
     username: string;
@@ -64,33 +65,20 @@ const LoginUser = () => {
 
     return (
         <Layout className="min-h-screen">
-            <Header className="bg-white drop-shadow-md flex items-center lg:h-20">
+            <Header className="bg-white drop-shadow-md flex items-center justify-between lg:h-20">
                 <Flex className="items-center">
                     <img src="/YasMiniLogo.png" className="w-24 mr-2" alt="" />
                     <h1 className="text-2xl font-semibold text-dark">
                         YasMini - Car Shop
                     </h1>
                 </Flex>
+                <h2 className="flex items-center font-semibold text-lg">
+                    Sign In
+                </h2>
             </Header>
             <Content className="lg:flex justify-center items-center m-8">
                 <Card className="w-1/2">
-                    <div className="flex flex-col justify-center items-center m-8">
-                        <h1 className="text-3xl font-bold text-center text-gray-600">
-                            YasMini - Car Shop
-                        </h1>
-
-                        <p className="text-xl font-normal text-center mt-2">
-                            <span className="text-yellow-500 font-semibold">
-                                "Mini Cars, Mega Deals!"
-                            </span>
-                        </p>
-
-                        <img
-                            src="/YasMiniLogo.png"
-                            className="w-1/3 m-2 p-0"
-                            alt=""
-                        />
-                    </div>
+                    <BannerIntroductionComponent />
 
                     <Form
                         name="normal_login"
@@ -151,7 +139,12 @@ const LoginUser = () => {
                                 valuePropName="checked"
                                 noStyle
                             >
-                                <Checkbox>Stay signed in</Checkbox>
+                                <div className="flex justify-between w-full">
+                                    <Checkbox>Stay signed in</Checkbox>
+                                    <a className="text-blue-500" href="">
+                                        Forgot password
+                                    </a>
+                                </div>
                             </Form.Item>
                         </Form.Item>
 
@@ -164,6 +157,12 @@ const LoginUser = () => {
                             >
                                 Log in
                             </Button>
+                            <div className="mt-4">
+                                Or{' '}
+                                <a href="/register" className=" text-blue-500">
+                                    register now!
+                                </a>
+                            </div>
                         </Form.Item>
                     </Form>
                 </Card>

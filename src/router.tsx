@@ -15,6 +15,7 @@ import HomePage from './pages/public/HomePage';
 import SearchPage from './pages/public/SearchPage';
 import ProductDetailPage from './pages/public/ProductDetailPage';
 import SignInUserPage from './pages/user/SignInUserPage';
+import SignUpUserPage from './pages/user/SignUpUserPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -112,7 +113,10 @@ export default createBrowserRouter([
         path: '/login',
         element: <SignInUserPage />,
     },
-
+    {
+        path: '/register',
+        element: <SignUpUserPage />,
+    },
     // Other routes
     {
         path: '/forbidden',

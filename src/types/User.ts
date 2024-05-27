@@ -12,3 +12,10 @@ export type Role = {
     description: string;
     permissions: any[];
 }
+
+export type UserRegister = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
