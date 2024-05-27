@@ -1,6 +1,7 @@
 import { CategoryParams } from "../types/Category";
 import { ProductParams } from "../types/Product";
-import { parseCategoryParams, parseProductParams } from "../utils/parseParams";
+import { RatingParams } from "../types/Rating";
+import { parseCategoryParams, parseProductParams, parseRatingParams } from "../utils/parseParams";
 
 export class APIConstants {
     static USERS = {
@@ -59,6 +60,12 @@ export class APIConstants {
     static STORAGE = {
         UPLOAD: '/storage',
     };
+
+    static RATING = {
+        CREATE: '/rating',
+        GET_LIST_RATING: (params: RatingParams) => `/rating?${parseRatingParams(params)}`,
+    };
+
 
 
 }

@@ -139,12 +139,7 @@ const LoginUser = () => {
                                 valuePropName="checked"
                                 noStyle
                             >
-                                <div className="flex justify-between w-full">
-                                    <Checkbox>Stay signed in</Checkbox>
-                                    <a className="text-blue-500" href="">
-                                        Forgot password
-                                    </a>
-                                </div>
+                                <Checkbox>Stay signed in</Checkbox>
                             </Form.Item>
                         </Form.Item>
 

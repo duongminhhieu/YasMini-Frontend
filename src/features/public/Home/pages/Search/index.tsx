@@ -45,7 +45,7 @@ function Search({ search }: { search: string }) {
         itemsPerPage: 20,
         name: search,
         isAvailable: true,
-        isFeatured: true,
+        isFeatured: null,
         categoryIds: [],
         minPrice: null,
         maxPrice: null,

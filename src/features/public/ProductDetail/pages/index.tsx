@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Rate, Result, Space, Spin } from 'antd';
+import { Breadcrumb, Button, Card, Rate, Result, Space, Spin, Tag } from 'antd';
 import { useGetProductBySlugQuery } from '../../../../lib/redux/product/productApiSlice';
 import { Link } from 'react-router-dom';
 import {
@@ -13,6 +13,7 @@ import { convertToDollar } from '../../../../utils/convert';
 import ProductAttributeComponent from '../components/ProductAttribute';
 import { useState } from 'react';
 import Paragraph from 'antd/es/typography/Paragraph';
+import ProductRatingComponent from '../components/ProductRating';
 
 function ProductDetail({ productSlug }: { productSlug: string }) {
     // state
@@ -80,14 +81,29 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                     </Space>
                 </div>
             ) : (
-                <div className="min-h-screen">
+                <Space
+                    className="min-h-screen"
+                    size="large"
+                    direction="vertical"
+                >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <CarouselImageComponents
                             images={productResponse?.result.images}
                         />
                         <div className="p-4 pt-0">
-                            <h2 className="text-2xl font-bold mb-4">
+                            <h2 className="text-2xl font-bold mb-4 flex items-center gap-4">
                                 {productResponse?.result.name}
+                                <div>
+                                    {productResponse?.result?.isFeatured && (
+                                        <Tag
+                                            icon={'🔥 '}
+                                            color="orange"
+                                            className=" text-base mb-1"
+                                        >
+                                            Hot
+                                        </Tag>
+                                    )}
+                                </div>
                             </h2>
                             <Rate
                                 disabled
@@ -169,7 +185,11 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                             </Button>
                         </div>
                     </div>
-                </div>
+
+                    <ProductRatingComponent
+                        productId={productResponse?.result.id}
+                    />
+                </Space>
             )}
         </Card>
     );

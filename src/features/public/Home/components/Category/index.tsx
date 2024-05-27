@@ -29,7 +29,7 @@ function CategoryComponent() {
                         key={category.id}
                         className="cursor-pointer hover:border-blue-600"
                         onClick={() => {
-                            navigate(`/${category.slug}`);
+                            navigate(`/categories/${category.slug}`);
                         }}
                     >
                         {category.name}

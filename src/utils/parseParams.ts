@@ -1,5 +1,6 @@
 import { CategoryParams } from "../types/Category";
 import { ProductParams } from "../types/Product";
+import { RatingParams } from "../types/Rating";
 
 
 export function parseCategoryParams(params: CategoryParams) {
@@ -69,6 +70,24 @@ export function parseProductParams(params: ProductParams) {
 
     if (params.sortBy) {
         query.append("sortBy", params.sortBy);
+    }
+
+    return query.toString();
+}
+
+export function parseRatingParams(params: RatingParams) {
+    const query = new URLSearchParams();
+
+    if (params.page) {
+        query.append("page", params.page.toString());
+    }
+
+    if (params.pageSize) {
+        query.append("pageSize", params.pageSize.toString());
+    }
+
+    if (params.productId) {
+        query.append("productId", params.productId);
     }
 
     return query.toString();

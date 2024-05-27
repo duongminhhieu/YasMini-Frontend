@@ -16,6 +16,7 @@ import SearchPage from './pages/public/SearchPage';
 import ProductDetailPage from './pages/public/ProductDetailPage';
 import SignInUserPage from './pages/user/SignInUserPage';
 import SignUpUserPage from './pages/user/SignUpUserPage';
+import CategoryPage from './pages/public/CategoryPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -45,7 +46,14 @@ export default createBrowserRouter([
             </PublicRoute>
         ),
     },
-
+    {
+        path: '/categories/:categorySlug',
+        element: (
+            <PublicRoute>
+                <CategoryPage />
+            </PublicRoute>
+        ),
+    },
     // Admin routes
     {
         path: '/admin',
