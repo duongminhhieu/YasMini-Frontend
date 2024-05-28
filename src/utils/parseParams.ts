@@ -1,4 +1,5 @@
 import { CategoryParams } from "../types/Category";
+import { PaginationParams } from "../types/Pagination";
 import { ProductParams } from "../types/Product";
 import { RatingParams } from "../types/Rating";
 
@@ -82,12 +83,26 @@ export function parseRatingParams(params: RatingParams) {
         query.append("page", params.page.toString());
     }
 
-    if (params.pageSize) {
-        query.append("pageSize", params.pageSize.toString());
+    if (params.itemsPerPage) {
+        query.append("itemsPerPage", params.itemsPerPage.toString());
     }
 
     if (params.productId) {
         query.append("productId", params.productId);
+    }
+
+    return query.toString();
+}
+
+export function parsePaginationParams(params: PaginationParams) {
+    const query = new URLSearchParams();
+
+    if (params.current) {
+        query.append("page", params.current.toString());
+    }
+
+    if (params.pageSize) {
+        query.append("itemsPerPage", params.pageSize.toString());
     }
 
     return query.toString();

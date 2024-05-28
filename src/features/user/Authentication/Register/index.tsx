@@ -1,9 +1,20 @@
-import { Button, Card, Checkbox, Flex, Form, Input, Layout } from 'antd';
+import {
+    Button,
+    Card,
+    Checkbox,
+    Flex,
+    Form,
+    Input,
+    Layout,
+    message,
+} from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import FooterUser from '../../../../layouts/user/FooterUser';
 import BannerIntroductionComponent from '../components/BannerIntroduction';
 import { useRegisterMutation } from '../../../../lib/redux/auth/authApiSlice';
 import { UserRegister } from '../../../../types/User';
+import { useEffect } from 'react';
+import APIResponse from '../../../../types/APIResponse';
 
 function RegisterUser() {
     // form
@@ -11,6 +22,18 @@ function RegisterUser() {
 
     // hooks
     const [doRegister, statusRegister] = useRegisterMutation();
+
+    // effects
+    useEffect(() => {
+        if (statusRegister.isSuccess) {
+            message.success('Register success');
+        }
+
+        if (statusRegister.isError) {
+            const error = statusRegister.error as { data: APIResponse };
+            message.error(error.data.message);
+        }
+    }, [statusRegister]);
 
     // handlers
     const onFinish = async (values: UserRegister) => {

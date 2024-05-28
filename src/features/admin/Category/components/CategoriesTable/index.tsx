@@ -147,8 +147,7 @@ function CategoriesTable() {
         }
         if (status.isError) {
             const error = status.error as { data: APIResponse };
-            console.log('error', error);
-            message.error('Delist category failed');
+            message.error(error.data.message);
         }
     }, [status.isError, status.isSuccess]);
 

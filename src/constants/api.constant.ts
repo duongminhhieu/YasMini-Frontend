@@ -1,7 +1,8 @@
 import { CategoryParams } from "../types/Category";
+import { PaginationParams } from "../types/Pagination";
 import { ProductParams } from "../types/Product";
 import { RatingParams } from "../types/Rating";
-import { parseCategoryParams, parseProductParams, parseRatingParams } from "../utils/parseParams";
+import { parseCategoryParams, parsePaginationParams, parseProductParams, parseRatingParams } from "../utils/parseParams";
 
 export class APIConstants {
     static USERS = {
@@ -18,6 +19,7 @@ export class APIConstants {
         GET_ME: '/users/me',
         GOOGLE_AUTH_CALLBACK: (queryString: string) => `/users/auth/google/callback${queryString}`,
         COMPLETE_PROFILE: '/users/complete-profile',
+
     };
 
     static AUTH = {
@@ -32,6 +34,8 @@ export class APIConstants {
         ROLE: '/roles',
         DELETE_PERMISSION: (permission: string) => `/permissions/${permission}`,
         DELETE_ROLE: (role: string) => `/roles/${role}`,
+        GET_ALL_USER: (params: PaginationParams) => `/users?${parsePaginationParams(params)}`,
+        TOGGLE_ACTIVE_USER: (id: string) => `/users/${id}/toggle-active`,
     };
 
 

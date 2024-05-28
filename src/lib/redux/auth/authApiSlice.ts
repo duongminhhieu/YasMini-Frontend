@@ -52,7 +52,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     if (apiResponse.internalCode === InternalErrorCode.EMAIL_OR_PASSWORD_INCORRECT) {
                         message.error('Email or password is incorrect');
                     } else {
-                        message.error('Something went wrong');
+                        message.error(apiResponse.message);
                     }
 
                 }

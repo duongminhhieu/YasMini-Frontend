@@ -17,6 +17,7 @@ import ProductDetailPage from './pages/public/ProductDetailPage';
 import SignInUserPage from './pages/user/SignInUserPage';
 import SignUpUserPage from './pages/user/SignUpUserPage';
 import CategoryPage from './pages/public/CategoryPage';
+import ManageUserListPage from './pages/admin/ManageUserListPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -54,6 +55,7 @@ export default createBrowserRouter([
             </PublicRoute>
         ),
     },
+
     // Admin routes
     {
         path: '/admin',
@@ -114,6 +116,14 @@ export default createBrowserRouter([
     {
         path: '/admin/login',
         element: <SignInPageAdmin />,
+    },
+    {
+        path: '/admin/users',
+        element: (
+            <AdminRoute>
+                <ManageUserListPage />
+            </AdminRoute>
+        ),
     },
 
     // User routes

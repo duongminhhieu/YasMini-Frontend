@@ -4,6 +4,7 @@ export type User = {
     firstName: string;
     lastName: string;
     dob: null;
+    isActive: boolean | null;
     roles: Role[];
 }
 

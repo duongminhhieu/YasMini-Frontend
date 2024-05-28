@@ -145,8 +145,8 @@ function CategoriesUnPublishTable() {
             message.success('Publish category success');
         }
         if (status.isError) {
-            console.log('error', status.error);
-            message.error('Publish category failed');
+            const error = status.error as { data: APIResponse };
+            message.error(error.data.message);
         }
     }, [status.isSuccess, status.error]);
 
@@ -157,8 +157,7 @@ function CategoriesUnPublishTable() {
         }
         if (hardDeletestatus.isError) {
             const error = hardDeletestatus.error as { data: APIResponse };
-            console.log('error', error);
-            message.error('Delete category failed');
+            message.error(error.data.message);
         }
     }, [hardDeletestatus.isSuccess, hardDeletestatus.isError]);
 
