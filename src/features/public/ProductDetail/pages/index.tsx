@@ -1,6 +1,17 @@
-import { Breadcrumb, Button, Card, Rate, Result, Space, Spin, Tag } from 'antd';
+import {
+    Breadcrumb,
+    Button,
+    Card,
+    Modal,
+    Rate,
+    Result,
+    Space,
+    Spin,
+    Tag,
+    message,
+} from 'antd';
 import { useGetProductBySlugQuery } from '../../../../lib/redux/product/productApiSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     HomeOutlined,
     MinusOutlined,
@@ -11,15 +22,26 @@ import {
 import CarouselImageComponents from '../components/CarouselImage';
 import { convertToDollar } from '../../../../utils/convert';
 import ProductAttributeComponent from '../components/ProductAttribute';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Paragraph from 'antd/es/typography/Paragraph';
 import ProductRatingComponent from '../components/ProductRating';
+import { useAppSelector } from '../../../../hooks/useRedux';
+import { selectCurrentUser } from '../../../../lib/redux/auth/authSlice';
+import { useCreateCartMutation } from '../../../../lib/redux/cart/cartApiSlice';
+import APIResponse from '../../../../types/APIResponse';
+import { useDispatch } from 'react-redux';
+import { addCart } from '../../../../lib/redux/cart/cartSlice';
 
 function ProductDetail({ productSlug }: { productSlug: string }) {
+    // redux, hooks
+    const userAuth = useAppSelector(selectCurrentUser);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     // state
     const [quantity, setQuantity] = useState(1);
 
-    // hooks
+    //  query
     const {
         data: productResponse,
         isLoading: isProductLoading,
@@ -27,7 +49,20 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
         refetch: refetchProduct,
     } = useGetProductBySlugQuery(productSlug);
 
+    const [createCart, statusCreateCart] = useCreateCartMutation();
+
     // effect
+    useEffect(() => {
+        if (statusCreateCart.isSuccess) {
+            message.success('Add to cart success');
+            dispatch(addCart(statusCreateCart.data.result));
+        }
+
+        if (statusCreateCart.isError) {
+            const error = statusCreateCart.error as { data: APIResponse };
+            message.error(error.data.message);
+        }
+    }, [statusCreateCart]);
 
     // handle functions
 
@@ -46,6 +81,30 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
             />
         );
     }
+
+    const handleAddToCart = async () => {
+        // check user is not login
+        if (
+            !userAuth ||
+            (!userAuth?.id &&
+                !userAuth?.roles?.some((role) => role.name === 'USER'))
+        ) {
+            Modal.confirm({
+                title: 'You need to login to add to cart',
+                content: 'Do you want to login now?',
+                onOk() {
+                    navigate('/login');
+                },
+            });
+            return;
+        } else {
+            // create cart
+            await createCart({
+                productId: productResponse?.result.id,
+                quantity: quantity,
+            });
+        }
+    };
 
     return (
         <Card>
@@ -181,6 +240,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                                         style={{ fontSize: '1.2rem' }}
                                     />
                                 }
+                                onClick={handleAddToCart}
                             >
                                 Add to cart
                             </Button>

@@ -1,8 +1,9 @@
 import { apiSlice } from "../api/apiSlice";
 import { APIConstants } from "../../../constants/api.constant";
 import APIResponse from "../../../types/APIResponse";
-import { incrementByAmountQuantity } from "./cartSlice";
 import { message } from "antd";
+import { Cart, CartBody, CartUpdate } from "../../../types/Cart";
+import { setCarts } from "./cartSlice";
 
 
 export const cartApi = apiSlice.injectEndpoints({
@@ -16,7 +17,7 @@ export const cartApi = apiSlice.injectEndpoints({
 
                     const apiResponse = response.data as APIResponse;
 
-                    dispatch(incrementByAmountQuantity(apiResponse.result.length));
+                    dispatch(setCarts(apiResponse.result as Cart[]));
 
                 } catch (error: any) {
                     const apiResponse = error?.error?.data as APIResponse;
@@ -25,11 +26,32 @@ export const cartApi = apiSlice.injectEndpoints({
                 }
             }
         }),
+        createCart: builder.mutation<APIResponse, CartBody>({
+            query: (cartBody: CartBody) => ({
+                url: APIConstants.CART.CREATE_CART,
+                method: "POST",
+                body: cartBody,
+                providesTags: ["Cart"],
+            }),
+        }),
+        updateCart: builder.mutation<APIResponse, CartUpdate>({
+
+            query: (cartBody: CartUpdate) => ({
+                url: APIConstants.CART.UPDATE_CART(cartBody.id),
+                method: "PUT",
+                body: {
+                    quantity: cartBody.quantity
+                },
+                providesTags: ["Cart"],
+            }),
+        }),
 
     }),
 });
 
 export const {
     useGetAllCartsQuery,
+    useCreateCartMutation,
+    useUpdateCartMutation
 
 } = cartApi;

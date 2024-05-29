@@ -16,3 +16,8 @@ export type CartBody = {
     productId: string;
     quantity: number;
 }
+
+export type CartUpdate = {
+    id: string;
+    quantity: number;
+}

@@ -58,13 +58,7 @@ function ProductTable() {
                             className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex flex-col ml-2">
-                            <a
-                                href={`/admin/products/${[product.id]}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {_}
-                            </a>
+                            <div>{_}</div>
 
                             <span className="text-gray-400 text-xs">
                                 SKU: {product.sku}

@@ -18,6 +18,8 @@ import SignInUserPage from './pages/user/SignInUserPage';
 import SignUpUserPage from './pages/user/SignUpUserPage';
 import CategoryPage from './pages/public/CategoryPage';
 import ManageUserListPage from './pages/admin/ManageUserListPage';
+import ProtectedRoute from './components/routes/protected';
+import ViewListCartItemPage from './pages/public/ViewListCartItemPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -135,6 +137,16 @@ export default createBrowserRouter([
         path: '/register',
         element: <SignUpUserPage />,
     },
+
+    {
+        path: '/cart',
+        element: (
+            <ProtectedRoute>
+                <ViewListCartItemPage />
+            </ProtectedRoute>
+        ),
+    },
+
     // Other routes
     {
         path: '/forbidden',

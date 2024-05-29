@@ -72,7 +72,8 @@ export class APIConstants {
 
     static CART = {
         GET_ALL_CART: '/carts',
-
+        CREATE_CART: '/carts',
+        UPDATE_CART: (id: string) => `/carts/${id}`,
     };
 
 

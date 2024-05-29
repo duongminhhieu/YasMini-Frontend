@@ -170,8 +170,8 @@ function ManageUserTable() {
         }
 
         if (statusActiveUser.isError) {
-            const error = statusActiveUser.error as APIResponse;
-            message.error(error.message);
+            const error = statusActiveUser.error as { data: APIResponse };
+            message.error(error.data.message);
         }
     }, [statusActiveUser]);
 
