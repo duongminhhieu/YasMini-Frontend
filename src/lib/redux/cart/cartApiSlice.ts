@@ -3,7 +3,8 @@ import { APIConstants } from "../../../constants/api.constant";
 import APIResponse from "../../../types/APIResponse";
 import { message } from "antd";
 import { Cart, CartBody, CartUpdate } from "../../../types/Cart";
-import { setCarts } from "./cartSlice";
+import { deleteACart, setCarts } from "./cartSlice";
+import { InternalErrorCode } from "../../../utils/InternalErrorCode";
 
 
 export const cartApi = apiSlice.injectEndpoints({
@@ -45,6 +46,31 @@ export const cartApi = apiSlice.injectEndpoints({
                 providesTags: ["Cart"],
             }),
         }),
+        deleteCarts: builder.mutation<APIResponse, string[]>({
+            query: (ids: string[]) => ({
+                url: APIConstants.CART.DELETE_CARTS,
+                method: "DELETE",
+                body: {
+                    ids: ids
+                },
+                providesTags: ["Cart"],
+            }),
+            onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+                try {
+                    const response = await queryFulfilled;
+                    const apiResponse = response.data as APIResponse;
+                    if (apiResponse.internalCode === InternalErrorCode.SUCCESS) {
+                        dispatch(deleteACart(args[0] as unknown as string[]));
+                    }
+
+                } catch (error: any) {
+                    const apiResponse = error?.error?.data as APIResponse;
+                    message.error(apiResponse.message);
+
+                }
+            }
+
+        }),
 
     }),
 });
@@ -52,6 +78,7 @@ export const cartApi = apiSlice.injectEndpoints({
 export const {
     useGetAllCartsQuery,
     useCreateCartMutation,
-    useUpdateCartMutation
+    useUpdateCartMutation,
+    useDeleteCartsMutation
 
 } = cartApi;

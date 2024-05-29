@@ -38,11 +38,14 @@ export const cartSlice = createSlice({
             } else {
                 state.carts.push(action.payload)
             }
+        },
+        deleteACart(state, action: PayloadAction<string[]>) {
+            state.carts = state.carts.filter(cart => !action.payload.includes(cart.id))
         }
     },
 })
 
-export const { setCarts, addCart, updateACartState } = cartSlice.actions
+export const { setCarts, addCart, updateACartState, deleteACart } = cartSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCarts = (state: RootState) => state.cart.carts

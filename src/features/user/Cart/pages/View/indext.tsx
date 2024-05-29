@@ -1,14 +1,20 @@
-import { Button, Card, Popconfirm, Table, Tag, message } from 'antd';
+import { Button, Card, Table, Tag, message } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { useAppSelector } from '../../../../../hooks/useRedux';
 import { Cart, CartUpdate } from '../../../../../types/Cart';
 import { convertToDollar } from '../../../../../utils/convert';
-import { useUpdateCartMutation } from '../../../../../lib/redux/cart/cartApiSlice';
+import {
+    useDeleteCartsMutation,
+    useUpdateCartMutation,
+} from '../../../../../lib/redux/cart/cartApiSlice';
 import APIResponse from '../../../../../types/APIResponse';
 import { useDispatch } from 'react-redux';
-import { updateACartState } from '../../../../../lib/redux/cart/cartSlice';
+import {
+    deleteACart,
+    updateACartState,
+} from '../../../../../lib/redux/cart/cartSlice';
 
 function ViewCartList() {
     // Columns
@@ -109,7 +115,12 @@ function ViewCartList() {
             dataIndex: '',
             key: 'x',
             render: (_, { id }) => (
-                <button className="cursor-pointer text-red-500 hover:text-red-400">
+                <button
+                    className="cursor-pointer text-red-500 hover:text-red-400"
+                    onClick={() => {
+                        deleteCart([id]);
+                    }}
+                >
                     Delete
                 </button>
             ),
@@ -124,6 +135,7 @@ function ViewCartList() {
 
     // query
     const [updateCart, statusUpdateCart] = useUpdateCartMutation();
+    const [deleteCart, statusDeleteCart] = useDeleteCartsMutation();
 
     // effect
     useEffect(() => {
@@ -139,15 +151,26 @@ function ViewCartList() {
     }, [statusUpdateCart]);
 
     useEffect(() => {
+        if (statusDeleteCart.isSuccess) {
+            message.success('Delete cart successfully');
+            dispatch(deleteACart(selectedRowKeys.map(String)));
+            setSelectedRowKeys([]);
+        }
+
+        if (statusDeleteCart.isError) {
+            const error = statusDeleteCart.error as { data: APIResponse };
+            message.error(error.data.message);
+        }
+    }, [statusDeleteCart]);
+
+    useEffect(() => {
         if (cartState) {
-            console.log('Update cart', cartState);
             updateCart(cartState);
         }
     }, [cartState]);
 
     // handlers
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
@@ -162,16 +185,16 @@ function ViewCartList() {
         <>
             {hasSelected && (
                 <div className="mb-4">
-                    <Popconfirm
-                        title="Delete selected items?"
-                        description="Are you sure you want to delete these items?"
-                        okText="Yes"
-                        cancelText="No"
+                    <Button
+                        type="primary"
+                        danger
+                        className="mr-2"
+                        onClick={() => {
+                            deleteCart(selectedRowKeys.map(String));
+                        }}
                     >
-                        <Button type="primary" danger className="mr-2">
-                            Delete
-                        </Button>
-                    </Popconfirm>
+                        Delete
+                    </Button>
 
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected
