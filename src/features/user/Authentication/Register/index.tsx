@@ -6,6 +6,7 @@ import {
     Form,
     Input,
     Layout,
+    Modal,
     message,
 } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
@@ -15,10 +16,13 @@ import { useRegisterMutation } from '../../../../lib/redux/auth/authApiSlice';
 import { UserRegister } from '../../../../types/User';
 import { useEffect } from 'react';
 import APIResponse from '../../../../types/APIResponse';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterUser() {
     // form
     const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const [modal, contextHolder] = Modal.useModal();
 
     // hooks
     const [doRegister, statusRegister] = useRegisterMutation();
@@ -26,7 +30,7 @@ function RegisterUser() {
     // effects
     useEffect(() => {
         if (statusRegister.isSuccess) {
-            message.success('Register success');
+            countDown();
         }
 
         if (statusRegister.isError) {
@@ -40,8 +44,31 @@ function RegisterUser() {
         await doRegister(values);
     };
 
+    const countDown = () => async () => {
+        let secondsToGo = 2;
+
+        const instance = modal.success({
+            title: 'Register success!',
+            content: `You will be redirected to login page after ${secondsToGo} second.`,
+        });
+
+        const timer = setInterval(() => {
+            secondsToGo -= 1;
+            instance.update({
+                content: `You will be redirected to login page after ${secondsToGo} second.`,
+            });
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(timer);
+            instance.destroy();
+            navigate('/login');
+        }, secondsToGo * 1000);
+    };
+
     return (
         <Layout className="min-h-screen">
+            {contextHolder}
             <Header className="bg-white drop-shadow-md flex items-center justify-between lg:h-20">
                 <Flex className="items-center">
                     <img src="/YasMiniLogo.png" className="w-24 mr-2" alt="" />
@@ -89,6 +116,11 @@ function RegisterUser() {
                                 {
                                     required: true,
                                     message: 'Please input your password!',
+                                },
+                                {
+                                    min: 8,
+                                    message:
+                                        'Password must be at least 8 characters!',
                                 },
                             ]}
                             hasFeedback
@@ -186,7 +218,6 @@ function RegisterUser() {
                                 Register
                             </Button>
                         </Form.Item>
-
                         <div className="text-sm text-gray-500">
                             Have an account?{' '}
                             <a href="/login" className="text-blue-500">

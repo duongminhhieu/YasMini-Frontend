@@ -24,6 +24,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
         data: productResponse,
         isLoading: isProductLoading,
         isError: isProductError,
+        refetch: refetchProduct,
     } = useGetProductBySlugQuery(productSlug);
 
     // effect
@@ -108,9 +109,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                             <Rate
                                 disabled
                                 allowHalf
-                                defaultValue={
-                                    productResponse?.result.averageRating
-                                }
+                                value={productResponse?.result.averageRating}
                                 className="mb-2"
                             />
 
@@ -191,6 +190,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                     <ProductRatingComponent
                         productId={productResponse?.result.id}
                         averageRating={productResponse?.result.averageRating}
+                        refetchProduct={refetchProduct}
                     />
                 </Space>
             )}

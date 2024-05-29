@@ -4,12 +4,14 @@ import { Header } from 'antd/es/layout/layout';
 import { useAppSelector } from '../../hooks/useRedux';
 import { selectCurrentUser } from '../../lib/redux/auth/authSlice';
 import MenuItemUser from '../../components/MenuItemUser/MenuItemUser';
+import { useGetAllCartsQuery } from '../../lib/redux/cart/cartApiSlice';
 
 function HeaderUser() {
     const userAuth = useAppSelector(selectCurrentUser);
+    const { data: cartData } = useGetAllCartsQuery();
 
     return (
-        <Header className="bg-white drop-shadow-md flex items-center lg:h-20 z-0 justify-center">
+        <Header className="bg-white drop-shadow-md flex items-center lg:h-20 justify-center sticky top-0 left-0 z-10">
             <div className="flex justify-between items-center w-full">
                 <div
                     className="flex justify-center items-center cursor-pointer"
@@ -39,7 +41,10 @@ function HeaderUser() {
                 </div>
 
                 <div className="flex justify-center item-center align-bottom gap-4">
-                    <ShoppingCartOutlined className="text-3xl" />
+                    <div className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg w-fit">
+                        <ShoppingCartOutlined className="text-3xl" />
+                        <span>{cartData?.result?.length || 0} items</span>
+                    </div>
 
                     {userAuth ? <MenuItemUser /> : null}
                 </div>

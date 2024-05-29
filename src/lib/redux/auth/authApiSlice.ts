@@ -95,21 +95,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     const apiResponse = response.data as APIResponse;
 
                     if (apiResponse.internalCode === InternalErrorCode.SUCCESS) {
-                        window.location.href = '/login';
-                        message.success('Register success');
-                        // redirect to login page
+                        message.success('Register success. Redirecting to login page...');
+                        // redirect to login page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 2000);
                     } else {
                         message.error(apiResponse.message);
                     }
 
                 } catch (error: any) {
                     const apiResponse = error?.error?.data as APIResponse;
-                    if (apiResponse.internalCode === InternalErrorCode.EMAIL_ALREADY_EXISTS) {
-                        message.error('Email or password is incorrect');
-                    } else {
-                        message.error(apiResponse.message);
-                    }
-
+                    message.error(apiResponse.message);
                 }
             },
         })

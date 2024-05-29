@@ -19,14 +19,20 @@ import { Rating, RatingParams } from '../../../../../types/Rating';
 import { convertDate } from '../../../../../utils/convert';
 import APIResponse from '../../../../../types/APIResponse';
 import { InternalErrorCode } from '../../../../../utils/InternalErrorCode';
+import { useAppSelector } from '../../../../../hooks/useRedux';
+import { selectCurrentUser } from '../../../../../lib/redux/auth/authSlice';
 
 function ProductRatingComponent({
     productId,
     averageRating,
+    refetchProduct,
 }: {
     productId: string;
     averageRating: number;
+    refetchProduct: () => void;
 }) {
+    const userAuth = useAppSelector(selectCurrentUser);
+
     // state
     const [ratingParams, setRatingParams] = useState<RatingParams>({
         productId: productId,
@@ -50,8 +56,9 @@ function ProductRatingComponent({
         if (statusCreateRating.isSuccess) {
             message.success('Create rating success');
 
-            // refetch rating
+            // refetch rating and product
             refetch();
+            refetchProduct();
         }
         if (statusCreateRating.isError) {
             const error = statusCreateRating.error as { data: APIResponse };
@@ -66,7 +73,14 @@ function ProductRatingComponent({
 
     // handle functions
     const showModal = () => {
-        setIsModalVisible(true);
+        if (
+            !userAuth.id &&
+            !userAuth.roles?.some((role) => role.name === 'USER')
+        ) {
+            message.error('You must login to write a review');
+        } else {
+            setIsModalVisible(true);
+        }
     };
 
     const handleOk = () => {
@@ -104,13 +118,13 @@ function ProductRatingComponent({
                 <div className="flex flex-col gap-4 mb-4">
                     <div className="text-3xl font-light">
                         <span className="text-6xl font-semibold">
-                            {averageRating}
+                            {averageRating.toFixed(1)}
                         </span>{' '}
                         out of 5
                     </div>
 
                     <div className="text-3xl flex gap-4 items-center mt-2">
-                        <Rate disabled allowHalf defaultValue={averageRating} />
+                        <Rate disabled allowHalf value={averageRating} />
                         <div className="text-sm font-extralight">
                             ({listRatingResponse?.result.total} ratings)
                         </div>

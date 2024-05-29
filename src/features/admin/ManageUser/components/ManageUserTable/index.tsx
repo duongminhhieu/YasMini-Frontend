@@ -18,6 +18,8 @@ function ManageUserTable() {
             title: 'User(s)',
             dataIndex: 'firstName',
             className: 'text-blue-500',
+            sorter: (a: User, b: User) =>
+                a.isActive === b.isActive ? 0 : a.isActive ? -1 : 1,
             render(_, user) {
                 return (
                     <div>
@@ -83,6 +85,12 @@ function ManageUserTable() {
         {
             title: 'Created Date',
             dataIndex: 'createdDate',
+            sorter: (a, b) => {
+                return (
+                    new Date(a.createdDate).getTime() -
+                    new Date(b.createdDate).getTime()
+                );
+            },
             render: (date: string) =>
                 new Date(date).toLocaleString('en-US', {
                     timeZone: 'Asia/Ho_Chi_Minh',
@@ -96,6 +104,12 @@ function ManageUserTable() {
         {
             title: 'Last Modified Date',
             dataIndex: 'lastModifiedDate',
+            sorter: (a, b) => {
+                return (
+                    new Date(a.lastModifiedDate).getTime() -
+                    new Date(b.lastModifiedDate).getTime()
+                );
+            },
             render: (date: string) =>
                 new Date(date).toLocaleString('en-US', {
                     timeZone: 'Asia/Ho_Chi_Minh',

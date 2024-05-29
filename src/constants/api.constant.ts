@@ -70,6 +70,10 @@ export class APIConstants {
         GET_LIST_RATING: (params: RatingParams) => `/rating?${parseRatingParams(params)}`,
     };
 
+    static CART = {
+        GET_ALL_CART: '/carts',
+
+    };
 
 
 }

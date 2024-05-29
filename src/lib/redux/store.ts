@@ -1,13 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import aboutMeReducer from '../../features/user/AboutMe/aboutMeSlice'
 import authReducer from './auth/authSlice'
+import cartReducer from './cart/cartSlice'
 import { apiSlice } from './api/apiSlice'
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     aboutMe: aboutMeReducer,
     auth: authReducer,
-
+    cart: cartReducer,
 })
 
 export const store = configureStore({

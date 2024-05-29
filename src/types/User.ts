@@ -6,6 +6,11 @@ export type User = {
     dob: null;
     isActive: boolean | null;
     roles: Role[];
+
+    createdBy: string;
+    createdDate: Date;
+    lastModifiedBy: string;
+    lastModifiedDate: Date;
 }
 
 export type Role = {

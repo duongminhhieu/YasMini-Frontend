@@ -34,7 +34,6 @@ function FeaturedProductsComponent() {
     // effect
     useEffect(() => {
         if (featuredProducts) {
-            console.log('featuredProducts', featuredProducts);
             setPagination({
                 current: featuredProducts?.result.page || 1,
                 pageSize: featuredProducts?.result.itemsPerPage || 1,

@@ -125,7 +125,7 @@ const LoginUser = () => {
                                 },
                             ]}
                         >
-                            <Input
+                            <Input.Password
                                 prefix={
                                     <LockOutlined className="site-form-item-icon" />
                                 }
