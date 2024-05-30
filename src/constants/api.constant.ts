@@ -81,6 +81,7 @@ export class APIConstants {
     static ORDER = {
         CREATE: '/orders',
         GET_ALL: '/orders',
+        GET_BY_ID: (id: string) => `/orders/${id}`,
     };
 
 }

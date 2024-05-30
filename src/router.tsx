@@ -22,6 +22,7 @@ import ProtectedRoute from './components/routes/protected';
 import ViewListCartItemPage from './pages/user/ViewListCartItemPage';
 import CheckoutPage from './pages/user/CheckoutPage';
 import MyPurchasePage from './pages/user/MyPurchasePage';
+import OrderInfoPage from './pages/user/OrderInfoPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -164,6 +165,16 @@ export default createBrowserRouter([
             </ProtectedRoute>
         ),
     },
+
+    {
+        path: '/order/:orderId',
+        element: (
+            <ProtectedRoute>
+                <OrderInfoPage />
+            </ProtectedRoute>
+        ),
+    },
+
     // Other routes
     {
         path: '/forbidden',
