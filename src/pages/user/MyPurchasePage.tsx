@@ -1,5 +1,7 @@
+import ViewPurchase from '../../features/user/MyPurchase/pages/View';
+
 function MyPurchasePage() {
-    return <div>MyPurchasePage</div>;
+    return <ViewPurchase />;
 }
 
 export default MyPurchasePage;

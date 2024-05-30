@@ -3,7 +3,7 @@ import { ColumnsType } from 'antd/es/table';
 import { Cart } from '../../../../../types/Cart';
 import { convertToDollar } from '../../../../../utils/convert';
 
-function ListProductOrder({ carts }: { carts: Cart[] }) {
+function ListProductOrderComponent({ carts }: { carts: Cart[] }) {
     // Columns
     const columns: ColumnsType<Cart> = [
         {
@@ -84,4 +84,4 @@ function ListProductOrder({ carts }: { carts: Cart[] }) {
     );
 }
 
-export default ListProductOrder;
+export default ListProductOrderComponent;

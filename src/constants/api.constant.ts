@@ -80,6 +80,7 @@ export class APIConstants {
 
     static ORDER = {
         CREATE: '/orders',
+        GET_ALL: '/orders',
     };
 
 }

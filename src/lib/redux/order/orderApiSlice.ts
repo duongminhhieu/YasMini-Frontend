@@ -14,9 +14,14 @@ export const orderApi = apiSlice.injectEndpoints({
                 providesTags: ["Order"],
             }),
         }),
+        getAllOrders: builder.query<APIResponse, void>({
+            query: () => APIConstants.ORDER.GET_ALL,
+            providesTags: ["Order"],
+        }),
     }),
 });
 
 export const {
     usePlaceOrderMutation,
+    useGetAllOrdersQuery
 } = orderApi;

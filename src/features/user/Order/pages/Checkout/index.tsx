@@ -1,6 +1,5 @@
 import { Alert, Button, Card, Form, Input, Radio, Spin, message } from 'antd';
 import Marquee from 'react-fast-marquee';
-import ListProductOrder from '../../components/ListProductsOrder';
 import { useGetCartsByIdsQuery } from '../../../../../lib/redux/cart/cartApiSlice';
 import { useEffect } from 'react';
 import APIResponse from '../../../../../types/APIResponse';
@@ -8,9 +7,14 @@ import { convertToDollar } from '../../../../../utils/convert';
 import { Cart } from '../../../../../types/Cart';
 import { usePlaceOrderMutation } from '../../../../../lib/redux/order/orderApiSlice';
 import { OrderCreateBody } from '../../../../../types/Order';
+import ListProductOrderComponent from '../../components/ListProductsOrder';
+import OrderSuccess from '../OrderSuccess';
+import { useAppDispatch } from '../../../../../hooks/useRedux';
+import { deleteACart } from '../../../../../lib/redux/cart/cartSlice';
 
 function Checkout({ cartIds }: { cartIds: string[] }) {
     // state
+    const dispatch = useAppDispatch();
 
     // query
     const {
@@ -33,6 +37,7 @@ function Checkout({ cartIds }: { cartIds: string[] }) {
     useEffect(() => {
         if (statusPlaceOrder.isSuccess) {
             message.success('Place order success');
+            dispatch(deleteACart(cartIds));
         }
 
         if (statusPlaceOrder.isError) {
@@ -55,6 +60,10 @@ function Checkout({ cartIds }: { cartIds: string[] }) {
         await placeOrder(orderBody);
     };
 
+    if (statusPlaceOrder.isSuccess) {
+        return <OrderSuccess orderNumber={statusPlaceOrder.data.result.id} />;
+    }
+
     return (
         <div className="flex flex-col">
             <Alert
@@ -73,8 +82,6 @@ function Checkout({ cartIds }: { cartIds: string[] }) {
 
             {/* form Delivery Address */}
             <Form
-                labelCol={{ span: 2 }}
-                wrapperCol={{ span: 20 }}
                 scrollToFirstError
                 name="deliveryAddress"
                 className="justify-center items-center w-full"
@@ -146,7 +153,9 @@ function Checkout({ cartIds }: { cartIds: string[] }) {
                         <Spin className="flex justify-center items-center" />
                     ) : (
                         <>
-                            <ListProductOrder carts={cartOrderData?.result} />
+                            <ListProductOrderComponent
+                                carts={cartOrderData?.result}
+                            />
                         </>
                     )}
                 </Card>
