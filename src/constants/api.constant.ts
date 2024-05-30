@@ -75,7 +75,11 @@ export class APIConstants {
         CREATE_CART: '/carts',
         UPDATE_CART: (id: string) => `/carts/${id}`,
         DELETE_CARTS: '/carts',
+        GET_CART_BY_IDS: (ids: string[]) => `/carts/get-by-ids?ids=${ids.join(',')}`,
     };
 
+    static ORDER = {
+        CREATE: '/orders',
+    };
 
 }

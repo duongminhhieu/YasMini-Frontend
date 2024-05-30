@@ -6,6 +6,7 @@ import {
     selectCurrentUser,
 } from '../../lib/redux/auth/authSlice';
 import {
+    ContainerOutlined,
     LogoutOutlined,
     SettingOutlined,
     UserOutlined,
@@ -16,6 +17,11 @@ import { useEffect } from 'react';
 
 const items: MenuProps['items'] = [
     {
+        label: 'My Purchase',
+        key: 'purchase',
+        icon: <ContainerOutlined />,
+    },
+    {
         label: 'Settings',
         key: 'setting',
         icon: <SettingOutlined />,
@@ -23,7 +29,7 @@ const items: MenuProps['items'] = [
 
     {
         label: 'Logout',
-        key: '3',
+        key: 'logout',
         icon: <LogoutOutlined />,
         danger: true,
     },
@@ -38,10 +44,12 @@ function MenuItemUser() {
     const [logout, statusLogout] = useSendLogOutMutation();
 
     const handleMenuClick: MenuProps['onClick'] = (e) => {
-        if (e.key === '3') {
+        if (e.key === 'logout') {
             // handle logout
             logout(tokens.access_token);
             dispatch(logOut());
+        } else if (e.key === 'purchase') {
+            navigate('/purchase');
         }
     };
 

@@ -71,7 +71,10 @@ export const cartApi = apiSlice.injectEndpoints({
             }
 
         }),
-
+        getCartsByIds: builder.query<APIResponse, string[]>({
+            query: (ids: string[]) => APIConstants.CART.GET_CART_BY_IDS(ids),
+            providesTags: ["Cart"],
+        }),
     }),
 });
 
@@ -79,6 +82,7 @@ export const {
     useGetAllCartsQuery,
     useCreateCartMutation,
     useUpdateCartMutation,
-    useDeleteCartsMutation
+    useDeleteCartsMutation,
+    useGetCartsByIdsQuery
 
 } = cartApi;

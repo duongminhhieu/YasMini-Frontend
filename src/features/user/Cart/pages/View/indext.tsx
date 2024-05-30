@@ -14,7 +14,9 @@ import { useDispatch } from 'react-redux';
 import {
     deleteACart,
     updateACartState,
+    updateTotalPriceSelected,
 } from '../../../../../lib/redux/cart/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 function ViewCartList() {
     // Columns
@@ -130,8 +132,10 @@ function ViewCartList() {
     // State
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const carts = useAppSelector((state) => state.cart.carts);
+    const totalPrice = useAppSelector((state) => state.cart.totalPriceSelected);
     const dispatch = useDispatch();
     const [cartState, setCartState] = useState<CartUpdate>();
+    const navigate = useNavigate();
 
     // query
     const [updateCart, statusUpdateCart] = useUpdateCartMutation();
@@ -142,6 +146,7 @@ function ViewCartList() {
         if (statusUpdateCart.isSuccess) {
             // update cart in redux
             dispatch(updateACartState(statusUpdateCart.data.result as Cart));
+            dispatch(updateTotalPriceSelected(selectedRowKeys as string[]));
         }
 
         if (statusUpdateCart.isError) {
@@ -169,9 +174,12 @@ function ViewCartList() {
         }
     }, [cartState]);
 
+    dispatch(updateTotalPriceSelected(selectedRowKeys as string[]));
+
     // handlers
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         setSelectedRowKeys(newSelectedRowKeys);
+        dispatch(updateTotalPriceSelected(newSelectedRowKeys as string[]));
     };
 
     const rowSelection = {
@@ -180,6 +188,11 @@ function ViewCartList() {
     };
 
     const hasSelected = selectedRowKeys.length > 0;
+
+    const handleCheckout = () => {
+        const cartIds = selectedRowKeys.map(String);
+        navigate('/checkout', { state: { cartIds } });
+    };
 
     return (
         <>
@@ -217,7 +230,7 @@ function ViewCartList() {
                     <div className="flex items-start font-normal w-full text-base justify-between">
                         <span>Total({selectedRowKeys.length} items): </span>
                         <span className="text-orange-400 font-semibold text-xl ml-2">
-                            {convertToDollar(100)}
+                            {convertToDollar(totalPrice || 0)}
                         </span>
                     </div>
                     <div className="mt-1">
@@ -228,6 +241,7 @@ function ViewCartList() {
                         type="primary"
                         className="mt-4 w-full"
                         disabled={!hasSelected}
+                        onClick={handleCheckout}
                     >
                         Checkout
                     </Button>

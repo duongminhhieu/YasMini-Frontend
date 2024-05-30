@@ -5,7 +5,8 @@ import { Cart } from "../../../types/Cart"
 
 // Define a type for the slice state
 interface CartState {
-    carts: Cart[]
+    carts: Cart[],
+    totalPriceSelected?: number | 0
 }
 
 // Define the initial state using that type
@@ -34,18 +35,20 @@ export const cartSlice = createSlice({
             const index = state.carts.findIndex(cart => cart.id === action.payload.id)
             if (index !== -1) {
                 state.carts[index] = action.payload
-                return
             } else {
                 state.carts.push(action.payload)
             }
         },
         deleteACart(state, action: PayloadAction<string[]>) {
             state.carts = state.carts.filter(cart => !action.payload.includes(cart.id))
+        },
+        updateTotalPriceSelected(state, action: PayloadAction<string[]>) {
+            state.totalPriceSelected = state.carts.filter(cart => action.payload.includes(cart.id)).reduce((total, cart) => total + cart.price, 0)
         }
     },
 })
 
-export const { setCarts, addCart, updateACartState, deleteACart } = cartSlice.actions
+export const { setCarts, addCart, updateACartState, deleteACart, updateTotalPriceSelected } = cartSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCarts = (state: RootState) => state.cart.carts

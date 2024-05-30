@@ -19,7 +19,9 @@ import SignUpUserPage from './pages/user/SignUpUserPage';
 import CategoryPage from './pages/public/CategoryPage';
 import ManageUserListPage from './pages/admin/ManageUserListPage';
 import ProtectedRoute from './components/routes/protected';
-import ViewListCartItemPage from './pages/public/ViewListCartItemPage';
+import ViewListCartItemPage from './pages/user/ViewListCartItemPage';
+import CheckoutPage from './pages/user/CheckoutPage';
+import MyPurchasePage from './pages/user/MyPurchasePage';
 
 export default createBrowserRouter([
     // Public routes
@@ -146,7 +148,22 @@ export default createBrowserRouter([
             </ProtectedRoute>
         ),
     },
-
+    {
+        path: '/checkout',
+        element: (
+            <ProtectedRoute>
+                <CheckoutPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/purchase',
+        element: (
+            <ProtectedRoute>
+                <MyPurchasePage />
+            </ProtectedRoute>
+        ),
+    },
     // Other routes
     {
         path: '/forbidden',
