@@ -43,6 +43,7 @@ export class APIConstants {
         GET_ALL: '/categories',
         GET_ALL_ADMIN: (params: CategoryParams) => `/categories/admin?${parseCategoryParams(params)}`,
         GET_BY_ID: (id: string) => `/categories/${id}`,
+        GET_BY_SLUG: (slug: string) => `/categories/slug/${slug}`,
         CREATE: '/categories',
         UPDATE: (id: string) => `/categories/${id}`,
         DELETE: `/categories`,
