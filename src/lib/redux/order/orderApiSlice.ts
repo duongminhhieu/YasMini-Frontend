@@ -26,6 +26,17 @@ export const orderApi = apiSlice.injectEndpoints({
             query: (orderParams: OrderParams) => APIConstants.ORDER.GET_ALL_ADMIN(orderParams),
             providesTags: ["Order"],
         }),
+        getOrderByIdAdmin: builder.query<APIResponse, string>({
+            query: (id: string) => APIConstants.ORDER.GET_BY_ID_ADMIN(id),
+            providesTags: ["Order"],
+        }),
+        updateStatusOrder: builder.mutation<APIResponse, { id: string, status: string }>({
+            query: ({ id, status }) => ({
+                url: APIConstants.ORDER.UPDATE_STATUS(id, status),
+                method: "PATCH",
+                providesTags: ["Order"],
+            }),
+        }),
     }),
 });
 
@@ -33,5 +44,7 @@ export const {
     usePlaceOrderMutation,
     useGetAllOrdersQuery,
     useGetOrderByIdQuery,
-    useGetAllOrdersAdminQuery
+    useGetAllOrdersAdminQuery,
+    useGetOrderByIdAdminQuery,
+    useUpdateStatusOrderMutation
 } = orderApi;

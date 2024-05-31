@@ -85,6 +85,8 @@ export class APIConstants {
         GET_ALL: '/orders',
         GET_ALL_ADMIN: (params: OrderParams) => `/orders/admin?${parseOrderParams(params)}`,
         GET_BY_ID: (id: string) => `/orders/${id}`,
+        GET_BY_ID_ADMIN: (id: string) => `/orders/${id}/admin`,
+        UPDATE_STATUS: (id: string, status: string) => `/orders/${id}/status?status=${status}`,
     };
 
 }

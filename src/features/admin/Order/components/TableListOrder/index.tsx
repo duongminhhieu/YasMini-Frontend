@@ -1,11 +1,27 @@
-import { Card, Pagination, Table, TableProps, Tag } from 'antd';
-import { useState } from 'react';
+import {
+    Card,
+    Dropdown,
+    MenuProps,
+    Pagination,
+    Space,
+    Table,
+    TableProps,
+    Tag,
+    Typography,
+    message,
+} from 'antd';
+import { useEffect, useState } from 'react';
 
 import { Order, OrderParams } from '../../../../../types/Order';
-import { useGetAllOrdersAdminQuery } from '../../../../../lib/redux/order/orderApiSlice';
+import {
+    useGetAllOrdersAdminQuery,
+    useUpdateStatusOrderMutation,
+} from '../../../../../lib/redux/order/orderApiSlice';
 import { convertToDollar } from '../../../../../utils/convert';
 import { formatDistanceToNow } from 'date-fns';
 import ListProductOrderedComponent from '../ListProductOrdered';
+import { DownOutlined } from '@ant-design/icons';
+import APIResponse from '../../../../../types/APIResponse';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -77,13 +93,95 @@ function TableListOrderComponent() {
         {
             title: 'Action',
             render: (_, record) => {
+                const items: MenuProps['items'] = [
+                    {
+                        label: (
+                            <Tag color="orange" className="w-full">
+                                PENDING
+                            </Tag>
+                        ),
+                        key: 'pending',
+                        onClick: async () => {
+                            await updateStatusOrder({
+                                id: record.id,
+                                status: 'PENDING',
+                            });
+                        },
+                    },
+                    {
+                        label: (
+                            <Tag color="blue" className="w-full">
+                                DELIVERING
+                            </Tag>
+                        ),
+                        key: 'delivering',
+                        onClick: async () => {
+                            await updateStatusOrder({
+                                id: record.id,
+                                status: 'DELIVERING',
+                            });
+                        },
+                    },
+                    {
+                        label: (
+                            <Tag color="green" className="w-full">
+                                COMPLETED
+                            </Tag>
+                        ),
+                        key: 'completed',
+                        onClick: async () => {
+                            await updateStatusOrder({
+                                id: record.id,
+                                status: 'COMPLETED',
+                            });
+                        },
+                    },
+                    {
+                        label: (
+                            <Tag color="red" className="w-full">
+                                CANCELED
+                            </Tag>
+                        ),
+                        key: 'canceled',
+                        onClick: async () => {
+                            await updateStatusOrder({
+                                id: record.id,
+                                status: 'CANCELED',
+                            });
+                        },
+                    },
+                ];
+
                 return (
-                    <a
-                        href={`/admin/orders/${record.id}`}
-                        className="text-blue-500"
-                    >
-                        View Detail
-                    </a>
+                    <div className="flex flex-col gap-4">
+                        <a
+                            href={`/admin/orders/${record.id}`}
+                            className="text-blue-500"
+                        >
+                            View Detail
+                        </a>
+                        <div>
+                            <Dropdown
+                                menu={{
+                                    items,
+                                    selectable: true,
+                                    multiple: false,
+                                    selectedKeys: [
+                                        record.status
+                                            ? record.status.toLowerCase()
+                                            : '',
+                                    ],
+                                }}
+                            >
+                                <Typography.Link>
+                                    <Space>
+                                        Change Status
+                                        <DownOutlined />
+                                    </Space>
+                                </Typography.Link>
+                            </Dropdown>
+                        </div>
+                    </div>
                 );
             },
         },
@@ -101,9 +199,26 @@ function TableListOrderComponent() {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
     // Query
-    const { data, isLoading } = useGetAllOrdersAdminQuery(options);
+    const {
+        data,
+        isLoading,
+        refetch: refetchOrder,
+    } = useGetAllOrdersAdminQuery(options);
+    const [updateStatusOrder, statusUpdateStatus] =
+        useUpdateStatusOrderMutation();
 
     // UseEffect
+    useEffect(() => {
+        if (statusUpdateStatus.isSuccess) {
+            message.success('Update status success');
+            refetchOrder();
+        }
+
+        if (statusUpdateStatus.isError) {
+            const error = statusUpdateStatus.error as { data: APIResponse };
+            message.error(error.data.message);
+        }
+    }, [statusUpdateStatus]);
 
     // Handlers
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -135,7 +250,7 @@ function TableListOrderComponent() {
                 rowKey={(record) => record.id}
                 dataSource={data?.result?.data}
                 pagination={false}
-                loading={isLoading}
+                loading={isLoading || statusUpdateStatus.isLoading}
                 onChange={handleTableChange}
                 expandable={{
                     expandedRowRender: (record) => (

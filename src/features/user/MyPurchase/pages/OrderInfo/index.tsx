@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, Spin, Tag } from 'antd';
+import { Breadcrumb, Card, Radio, Spin, Tag } from 'antd';
 import { useGetOrderByIdQuery } from '../../../../../lib/redux/order/orderApiSlice';
 import { convertDate, convertToDollar } from '../../../../../utils/convert';
 import ListProductOrderComponent from '../../../Order/components/ListProductsOrder';
@@ -142,6 +142,33 @@ function OrderInfo({ orderId }: { orderId: string }) {
                     <ListProductOrderComponent
                         carts={orderDetailData?.result?.orderItems}
                     />
+                </Card>
+                <Card title="Order Summary" className="mt-8">
+                    <div className="flex justify-between gap-4 mt-4">
+                        <div className="flex flex-col">
+                            <h2 className="text-xl mb-4">Payment Method</h2>
+                            <Radio checked className="ml-4">
+                                {' '}
+                                Ship COD{' '}
+                            </Radio>
+                        </div>
+
+                        <Card className="flex flex-col gap-4">
+                            <div className="flex items-center font-normal w-full text-base justify-between">
+                                <span>
+                                    Total (
+                                    {orderDetailData?.result?.totalQuantity}{' '}
+                                    cars):
+                                </span>
+
+                                <span className="text-orange-400 font-semibold text-2xl ml-12">
+                                    {convertToDollar(
+                                        orderDetailData?.result?.totalPrice,
+                                    )}
+                                </span>
+                            </div>
+                        </Card>
+                    </div>
                 </Card>
             </Card>
         </>
