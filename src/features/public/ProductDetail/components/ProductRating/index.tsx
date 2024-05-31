@@ -118,7 +118,7 @@ function ProductRatingComponent({
                 <div className="flex flex-col gap-4 mb-4">
                     <div className="text-3xl font-light">
                         <span className="text-6xl font-semibold">
-                            {averageRating.toFixed(1)}
+                            {averageRating ? averageRating.toFixed(1) : 0}
                         </span>{' '}
                         out of 5
                     </div>

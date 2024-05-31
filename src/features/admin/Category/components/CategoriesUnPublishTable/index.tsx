@@ -13,18 +13,6 @@ import { Link } from 'react-router-dom';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
-type TablePaginationConfig = Exclude<
-    GetProp<TableProps, 'pagination'>,
-    boolean
->;
-
-interface TableParams {
-    pagination?: TablePaginationConfig;
-    sortField?: string;
-    sortOrder?: string;
-    filters?: Parameters<GetProp<TableProps, 'onChange'>>[1];
-}
-
 function CategoriesUnPublishTable() {
     // Columns
     const columns: ColumnsType<Category> = [
@@ -104,14 +92,6 @@ function CategoriesUnPublishTable() {
     });
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-    const [tableParams, setTableParams] = useState<TableParams>({
-        pagination: {
-            current: 1,
-            pageSize: 10,
-            total: 10,
-        },
-    });
-
     // Query
     const { data, isLoading } = useGetCategoriesQuery(options);
     const [publicCategory, status] = useToggleAvailabilityCategoryMutation();
@@ -119,25 +99,6 @@ function CategoriesUnPublishTable() {
         useHardDeleteCategoryMutation();
 
     // Effect
-    useEffect(() => {
-        if (data) {
-            setTableParams({
-                pagination: {
-                    current: data?.result?.page || 1,
-                    pageSize: data?.result?.itemsPerPage || 1,
-                    total: data?.result?.total || 10,
-                },
-            });
-        }
-    }, [data]);
-
-    useEffect(() => {
-        setOptions({
-            ...options,
-            page: tableParams.pagination?.current || 1,
-            itemsPerPage: tableParams.pagination?.pageSize || 10,
-        });
-    }, [tableParams.pagination]);
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -254,16 +215,13 @@ function CategoriesUnPublishTable() {
 
             <Pagination
                 className="flex justify-end my-4 mr-4"
-                total={tableParams.pagination?.total || 1}
-                current={tableParams.pagination?.current || 1}
+                total={data?.result?.total || 0}
+                current={data?.result?.page || 1}
                 onChange={(page, pageSize) => {
-                    setTableParams({
-                        ...tableParams,
-                        pagination: {
-                            ...tableParams.pagination,
-                            pageSize: pageSize,
-                            current: page,
-                        },
+                    setOptions({
+                        ...options,
+                        page,
+                        itemsPerPage: pageSize || 10,
                     });
                 }}
                 showQuickJumper

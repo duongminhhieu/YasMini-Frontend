@@ -37,12 +37,9 @@ const items: MenuItem[] = [
     },
     {
         key: 'order',
-        label: 'My Orders',
+        label: 'Manage Orders',
         icon: <InboxOutlined />,
-        children: [
-            { key: 'orderList', label: 'My Orders' },
-            { key: 'addNewOrder', label: 'Add New Order' },
-        ],
+        children: [{ key: 'orderList', label: 'My Orders' }],
     },
     {
         key: 'user',
@@ -75,6 +72,9 @@ function SliderItemAdmin() {
                 break;
             case 'userList':
                 navigate('/admin/users');
+                break;
+            case 'orderList':
+                navigate('/admin/orders');
                 break;
             default:
                 break;

@@ -1,4 +1,5 @@
 import { CategoryParams } from "../types/Category";
+import { OrderParams } from "../types/Order";
 import { PaginationParams } from "../types/Pagination";
 import { ProductParams } from "../types/Product";
 import { RatingParams } from "../types/Rating";
@@ -103,6 +104,24 @@ export function parsePaginationParams(params: PaginationParams) {
 
     if (params.pageSize) {
         query.append("itemsPerPage", params.pageSize.toString());
+    }
+
+    return query.toString();
+}
+
+export function parseOrderParams(params: OrderParams) {
+    const query = new URLSearchParams();
+
+    if (params.status) {
+        query.append("status", params.status);
+    }
+
+    if (params.page) {
+        query.append("page", params.page.toString());
+    }
+
+    if (params.itemsPerPage) {
+        query.append("itemsPerPage", params.itemsPerPage.toString());
     }
 
     return query.toString();

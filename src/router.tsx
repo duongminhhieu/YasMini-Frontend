@@ -23,6 +23,8 @@ import ViewListCartItemPage from './pages/user/ViewListCartItemPage';
 import CheckoutPage from './pages/user/CheckoutPage';
 import MyPurchasePage from './pages/user/MyPurchasePage';
 import OrderInfoPage from './pages/user/OrderInfoPage';
+import ManageOrderPage from './pages/admin/ManageOrderPage';
+import OrderDetailPage from './pages/admin/OrderDetailPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -127,6 +129,22 @@ export default createBrowserRouter([
         element: (
             <AdminRoute>
                 <ManageUserListPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/orders',
+        element: (
+            <AdminRoute>
+                <ManageOrderPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/orders/:id',
+        element: (
+            <AdminRoute>
+                <OrderDetailPage />
             </AdminRoute>
         ),
     },

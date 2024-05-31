@@ -1,8 +1,9 @@
 import { CategoryParams } from "../types/Category";
+import { OrderParams } from "../types/Order";
 import { PaginationParams } from "../types/Pagination";
 import { ProductParams } from "../types/Product";
 import { RatingParams } from "../types/Rating";
-import { parseCategoryParams, parsePaginationParams, parseProductParams, parseRatingParams } from "../utils/parseParams";
+import { parseCategoryParams, parseOrderParams, parsePaginationParams, parseProductParams, parseRatingParams } from "../utils/parseParams";
 
 export class APIConstants {
     static USERS = {
@@ -82,6 +83,7 @@ export class APIConstants {
     static ORDER = {
         CREATE: '/orders',
         GET_ALL: '/orders',
+        GET_ALL_ADMIN: (params: OrderParams) => `/orders/admin?${parseOrderParams(params)}`,
         GET_BY_ID: (id: string) => `/orders/${id}`,
     };
 

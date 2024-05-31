@@ -1,7 +1,7 @@
 import { apiSlice } from "../api/apiSlice";
 import { APIConstants } from "../../../constants/api.constant";
 import APIResponse from "../../../types/APIResponse";
-import { OrderCreateBody } from "../../../types/Order";
+import { OrderCreateBody, OrderParams } from "../../../types/Order";
 
 
 export const orderApi = apiSlice.injectEndpoints({
@@ -22,6 +22,10 @@ export const orderApi = apiSlice.injectEndpoints({
             query: (id: string) => APIConstants.ORDER.GET_BY_ID(id),
             providesTags: ["Order"],
         }),
+        getAllOrdersAdmin: builder.query<APIResponse, OrderParams>({
+            query: (orderParams: OrderParams) => APIConstants.ORDER.GET_ALL_ADMIN(orderParams),
+            providesTags: ["Order"],
+        }),
     }),
 });
 
@@ -29,4 +33,5 @@ export const {
     usePlaceOrderMutation,
     useGetAllOrdersQuery,
     useGetOrderByIdQuery,
+    useGetAllOrdersAdminQuery
 } = orderApi;
