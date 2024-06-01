@@ -8,10 +8,23 @@ import ProductListPage from './pages/admin/ProductListPage';
 import CategoryListPage from './pages/admin/CategoryListPage';
 import AddNewCategoryPage from './pages/admin/AddNewCategoryPage';
 import AddNewProducrtPage from './pages/admin/AddNewProductPage';
-import EditCategoryPage from './pages/admin/EditCategory';
+import EditCategoryPage from './pages/admin/EditCategoryPage';
 import EditProductPage from './pages/admin/EditProductPage';
 import PublicRoute from './components/routes/public';
 import HomePage from './pages/public/HomePage';
+import SearchPage from './pages/public/SearchPage';
+import ProductDetailPage from './pages/public/ProductDetailPage';
+import SignInUserPage from './pages/user/SignInUserPage';
+import SignUpUserPage from './pages/user/SignUpUserPage';
+import CategoryPage from './pages/public/CategoryPage';
+import ManageUserListPage from './pages/admin/ManageUserListPage';
+import ProtectedRoute from './components/routes/protected';
+import ViewListCartItemPage from './pages/user/ViewListCartItemPage';
+import CheckoutPage from './pages/user/CheckoutPage';
+import MyPurchasePage from './pages/user/MyPurchasePage';
+import OrderInfoPage from './pages/user/OrderInfoPage';
+import ManageOrderPage from './pages/admin/ManageOrderPage';
+import OrderDetailPage from './pages/admin/OrderDetailPage';
 
 export default createBrowserRouter([
     // Public routes
@@ -25,10 +38,27 @@ export default createBrowserRouter([
     },
 
     {
-        path: '/:category',
+        path: '/:productSlug',
         element: (
             <PublicRoute>
-                <HomePage />
+                <ProductDetailPage />
+            </PublicRoute>
+        ),
+    },
+
+    {
+        path: '/search',
+        element: (
+            <PublicRoute>
+                <SearchPage />
+            </PublicRoute>
+        ),
+    },
+    {
+        path: '/categories/:categorySlug',
+        element: (
+            <PublicRoute>
+                <CategoryPage />
             </PublicRoute>
         ),
     },
@@ -93,6 +123,74 @@ export default createBrowserRouter([
     {
         path: '/admin/login',
         element: <SignInPageAdmin />,
+    },
+    {
+        path: '/admin/users',
+        element: (
+            <AdminRoute>
+                <ManageUserListPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/orders',
+        element: (
+            <AdminRoute>
+                <ManageOrderPage />
+            </AdminRoute>
+        ),
+    },
+    {
+        path: '/admin/orders/:id',
+        element: (
+            <AdminRoute>
+                <OrderDetailPage />
+            </AdminRoute>
+        ),
+    },
+
+    // User routes
+    {
+        path: '/login',
+        element: <SignInUserPage />,
+    },
+    {
+        path: '/register',
+        element: <SignUpUserPage />,
+    },
+
+    {
+        path: '/cart',
+        element: (
+            <ProtectedRoute>
+                <ViewListCartItemPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/checkout',
+        element: (
+            <ProtectedRoute>
+                <CheckoutPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/purchase',
+        element: (
+            <ProtectedRoute>
+                <MyPurchasePage />
+            </ProtectedRoute>
+        ),
+    },
+
+    {
+        path: '/order/:orderId',
+        element: (
+            <ProtectedRoute>
+                <OrderInfoPage />
+            </ProtectedRoute>
+        ),
     },
 
     // Other routes

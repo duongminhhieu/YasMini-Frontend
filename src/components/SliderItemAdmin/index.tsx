@@ -1,7 +1,9 @@
 import {
     AppstoreOutlined,
     FilterOutlined,
+    InboxOutlined,
     ProductOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import Sider from 'antd/es/layout/Sider';
@@ -33,6 +35,18 @@ const items: MenuItem[] = [
             { key: 'addNewCategory', label: 'Add New Category ' },
         ],
     },
+    {
+        key: 'order',
+        label: 'Manage Orders',
+        icon: <InboxOutlined />,
+        children: [{ key: 'orderList', label: 'My Orders' }],
+    },
+    {
+        key: 'user',
+        label: 'Manage Customers',
+        icon: <UserOutlined />,
+        children: [{ key: 'userList', label: 'My Users' }],
+    },
 ];
 
 function SliderItemAdmin() {
@@ -55,6 +69,12 @@ function SliderItemAdmin() {
                 break;
             case 'addNewCategory':
                 navigate('/admin/categories/new');
+                break;
+            case 'userList':
+                navigate('/admin/users');
+                break;
+            case 'orderList':
+                navigate('/admin/orders');
                 break;
             default:
                 break;

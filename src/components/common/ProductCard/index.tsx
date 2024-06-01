@@ -13,10 +13,13 @@ function ProductCard({ product }: { product: Product }) {
             cover={
                 <img
                     alt={product?.name}
-                    src={product?.images[0]?.url}
+                    src={product?.thumbnail ?? ''}
                     className="h-48 w-full object-cover"
                 />
             }
+            onClick={() => {
+                window.location.href = `/${product?.slug}`;
+            }}
         >
             <div className="flex flex-col">
                 <Paragraph
@@ -26,26 +29,26 @@ function ProductCard({ product }: { product: Product }) {
                     {product?.name}
                 </Paragraph>
 
-                <div className="flex flex-col justify-around h-full">
+                <div className="flex flex-col justify-between h-full">
                     {product?.isFeatured && (
                         <Tag
                             icon={'🔥 '}
                             color="orange"
-                            className="w-1/3 text-xs mb-1"
+                            className="w-fit text-xs mb-1"
                         >
-                            Hot
+                            Hot 🔥
                         </Tag>
                     )}
-                    <div className="flex justify-around">
+                    <div className="flex justify-start gap-2 items-center">
                         <p className=" text-red-500 font-semibold">
                             {convertToDollar(product?.price)}
                         </p>
-                        <p className="line-through text-gray-500">
+                        <p className="line-through text-gray-500 text-xs">
                             {convertToDollar(product?.price + 4000)}
                         </p>
                     </div>
 
-                    <div className="flex justify-around mt-1">
+                    <div className="flex justify-between mt-1">
                         <Rate
                             disabled
                             allowHalf

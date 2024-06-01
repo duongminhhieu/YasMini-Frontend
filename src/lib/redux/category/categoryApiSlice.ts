@@ -14,6 +14,11 @@ export const categoryApi = apiSlice.injectEndpoints({
             query: (id: string) => APIConstants.CATEGORY.GET_BY_ID(id),
             providesTags: ["Category"],
         }),
+        getCategoryBySlug: builder.query<APIResponse, string>({
+            query: (slug: string) => APIConstants.CATEGORY.GET_BY_SLUG(slug),
+            providesTags: ["Category"],
+        })
+        ,
         createCategory: builder.mutation<APIResponse, Category>({
             query: (category: Category) => ({
                 url: APIConstants.CATEGORY.CREATE,
@@ -68,5 +73,6 @@ export const {
     useToggleAvailabilityCategoryMutation,
     useGetInfoCategoryQuery,
     useUpdateCategoryMutation,
-    useHardDeleteCategoryMutation
+    useHardDeleteCategoryMutation,
+    useGetCategoryBySlugQuery
 } = categoryApi;

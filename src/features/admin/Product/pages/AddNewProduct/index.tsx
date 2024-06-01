@@ -35,7 +35,6 @@ import APIResponse from '../../../../../types/APIResponse';
 import { RcFile } from 'antd/es/upload';
 import { Category } from '../../../../../types/Category';
 import FormList from '../../components/FormList';
-import { useNavigate } from 'react-router-dom';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -62,8 +61,6 @@ function AddNewProduct() {
     const [selectCategoryOptions, setSelectCategoryOptions] = useState<
         SelectProps['options']
     >([]);
-
-    const navigate = useNavigate();
 
     // query
     const [uploadProductImage, status] = useStoreImageMutation();

@@ -4,6 +4,7 @@ import { InternalErrorCode } from '../../../utils/InternalErrorCode';
 import { apiSlice } from '../api/apiSlice';
 import { logOut, setCredentials } from './authSlice';
 import APIResponse from '../../../types/APIResponse';
+import { UserRegister } from '../../../types/User';
 
 
 export type Credentials = {
@@ -51,13 +52,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
                     if (apiResponse.internalCode === InternalErrorCode.EMAIL_OR_PASSWORD_INCORRECT) {
                         message.error('Email or password is incorrect');
                     } else {
-                        message.error('Something went wrong');
+                        message.error(apiResponse.message);
                     }
 
                 }
             },
         }),
-
         sendLogOut: builder.mutation({
             query: (token: string) => ({
                 url: APIConstants.AUTH.LOG_OUT,
@@ -76,7 +76,41 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 }
             },
         }),
+        register: builder.mutation({
+            query: (user: UserRegister) => ({
+                url: APIConstants.AUTH.REGISTER,
+                method: 'POST',
+                body: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password,
+                },
+            }),
+
+            async onQueryStarted(_arg, { queryFulfilled }) {
+                try {
+                    const response = await queryFulfilled;
+
+                    const apiResponse = response.data as APIResponse;
+
+                    if (apiResponse.internalCode === InternalErrorCode.SUCCESS) {
+                        message.success('Register success. Redirecting to login page...');
+                        // redirect to login page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 2000);
+                    } else {
+                        message.error(apiResponse.message);
+                    }
+
+                } catch (error: any) {
+                    const apiResponse = error?.error?.data as APIResponse;
+                    message.error(apiResponse.message);
+                }
+            },
+        })
     }),
 });
 
-export const { useLoginMutation, useSendLogOutMutation } = authApiSlice;
+export const { useLoginMutation, useSendLogOutMutation, useRegisterMutation } = authApiSlice;

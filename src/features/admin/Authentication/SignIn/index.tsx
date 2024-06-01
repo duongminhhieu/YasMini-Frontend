@@ -146,7 +146,7 @@ export default function SignIn() {
                                 valuePropName="checked"
                                 noStyle
                             >
-                                <Checkbox>Remember me</Checkbox>
+                                <Checkbox>Stay signed in</Checkbox>
                             </Form.Item>
                         </Form.Item>
 
