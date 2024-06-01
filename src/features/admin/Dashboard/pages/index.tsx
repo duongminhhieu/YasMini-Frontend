@@ -108,14 +108,6 @@ function Dashboard() {
                                                     }{' '}
                                                     Pending
                                                 </Tag>
-                                                <Tag color="green">
-                                                    {
-                                                        statisticData
-                                                            ?.orderStatistic
-                                                            .completedOrders
-                                                    }{' '}
-                                                    Completed
-                                                </Tag>
                                                 <Tag color="blue">
                                                     {
                                                         statisticData
@@ -123,6 +115,14 @@ function Dashboard() {
                                                             .deliveringOrders
                                                     }{' '}
                                                     Delivering
+                                                </Tag>
+                                                <Tag color="green">
+                                                    {
+                                                        statisticData
+                                                            ?.orderStatistic
+                                                            .completedOrders
+                                                    }{' '}
+                                                    Completed
                                                 </Tag>
                                                 <Tag color="red">
                                                     {
