@@ -89,4 +89,8 @@ export class APIConstants {
         UPDATE_STATUS: (id: string, status: string) => `/orders/${id}/status?status=${status}`,
     };
 
+    static STATISTICS = {
+        GET: '/statistics',
+    }
+
 }

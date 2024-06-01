@@ -196,8 +196,6 @@ function TableListOrderComponent() {
         orderBy: 'desc',
     });
 
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
     // Query
     const {
         data,
@@ -221,15 +219,6 @@ function TableListOrderComponent() {
     }, [statusUpdateStatus]);
 
     // Handlers
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
 
     const handleTableChange: TableProps['onChange'] = (
         pagination,
@@ -246,7 +235,6 @@ function TableListOrderComponent() {
         <>
             <Table
                 columns={columns}
-                rowSelection={rowSelection}
                 rowKey={(record) => record.id}
                 dataSource={data?.result?.data}
                 pagination={false}

@@ -9,7 +9,12 @@ function HeaderAdmin() {
 
     return (
         <Header className="bg-white drop-shadow-md flex items-center lg:h-18 justify-between sticky top-0 left-0 z-50">
-            <Flex className="items-center">
+            <Flex
+                className="items-center cursor-pointer"
+                onClick={() => {
+                    window.location.href = '/admin';
+                }}
+            >
                 <img src="/YasMiniLogo.png" className="w-24 mr-2" alt="" />
                 <h1 className="text-2xl font-semibold text-dark font-serif">
                     YasMini - Car Shop
