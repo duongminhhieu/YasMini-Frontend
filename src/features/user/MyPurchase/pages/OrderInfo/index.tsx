@@ -15,11 +15,12 @@ function OrderInfo({ orderId }: { orderId: string }) {
 
     // handlers
     function renderStatus(status: any): import('react').ReactNode {
+        console.log('status', status);
         if (status === 'PENDING') {
             return <Tag color="orange">{status}</Tag>;
         } else if (status === 'DELIVERING') {
             return <Tag color="blue">{status}</Tag>;
-        } else if (status === 'DELIVERED') {
+        } else if (status === 'COMPLETED') {
             return <Tag color="green">{status}</Tag>;
         } else if (status === 'CANCELED') {
             return <Tag color="red">{status}</Tag>;

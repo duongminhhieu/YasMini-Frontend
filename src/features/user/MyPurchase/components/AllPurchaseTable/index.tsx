@@ -24,7 +24,7 @@ function TableAllPurchaseComponent() {
                     return <Tag color="orange">{status}</Tag>;
                 } else if (status === 'DELIVERING') {
                     return <Tag color="blue">{status}</Tag>;
-                } else if (status === 'DELIVERED') {
+                } else if (status === 'COMPLETED') {
                     return <Tag color="green">{status}</Tag>;
                 } else if (status === 'CANCELED') {
                     return <Tag color="red">{status}</Tag>;
