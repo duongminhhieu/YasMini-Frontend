@@ -93,4 +93,8 @@ export class APIConstants {
         GET: '/statistics',
     }
 
+    static AI = {
+        AI: '/ai',
+    }
+
 }
