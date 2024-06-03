@@ -2,10 +2,11 @@ import { Card, Rate, Tag } from 'antd';
 import { convertToDollar } from '../../../utils/convert';
 import { Product } from '../../../types/Product';
 import Paragraph from 'antd/es/typography/Paragraph';
-
-// ...
+import { useNavigate } from 'react-router-dom';
 
 function ProductCard({ product }: { product: Product }) {
+    const navigate = useNavigate();
+
     return (
         <Card
             hoverable
@@ -18,7 +19,7 @@ function ProductCard({ product }: { product: Product }) {
                 />
             }
             onClick={() => {
-                window.location.href = `/${product?.slug}`;
+                navigate(`/${product?.slug}`);
             }}
         >
             <div className="flex flex-col">

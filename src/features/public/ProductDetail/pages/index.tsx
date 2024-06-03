@@ -116,7 +116,6 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                         title: <HomeOutlined />,
                     },
                     {
-                        href: `/categories/${productResponse?.result.categories[0]?.slug}`,
                         title: (
                             <>
                                 <ProductOutlined />
@@ -128,6 +127,12 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                                 </span>
                             </>
                         ),
+                        onClick: () => {
+                            navigate(
+                                `/categories/${productResponse?.result.categories[0]?.slug}`,
+                            );
+                        },
+                        className: 'cursor-pointer hover:text-blue-500',
                     },
                     {
                         title: `${productResponse?.result.name}`,
