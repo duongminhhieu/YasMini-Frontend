@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import aboutMeReducer from '../../features/user/AboutMe/aboutMeSlice'
 import authReducer from './auth/authSlice'
 import cartReducer from './cart/cartSlice'
+import notificationReducer from './notification/notificationSlice'
 import { apiSlice } from './api/apiSlice'
 
 const rootReducer = combineReducers({
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
     aboutMe: aboutMeReducer,
     auth: authReducer,
     cart: cartReducer,
+    notification: notificationReducer,
 })
 
 export const store = configureStore({
