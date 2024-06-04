@@ -177,7 +177,7 @@ export default createBrowserRouter([
         ),
     },
     {
-        path: '/purchase',
+        path: '/my-purchase',
         element: (
             <ProtectedRoute>
                 <MyPurchasePage />

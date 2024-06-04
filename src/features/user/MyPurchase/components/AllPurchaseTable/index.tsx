@@ -4,6 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import { Order } from '../../../../../types/Order';
 import { convertToDollar } from '../../../../../utils/convert';
 import { formatDistanceToNow } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 function TableAllPurchaseComponent() {
     // columns
@@ -13,7 +14,7 @@ function TableAllPurchaseComponent() {
             dataIndex: 'id',
             className: 'text-blue-500',
             render: (id: string) => {
-                return <a href={`/order/${id}`}>{id}</a>;
+                return <Link to={`/order/${id}`}>{id}</Link>;
             },
         },
         {

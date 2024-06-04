@@ -7,7 +7,7 @@ function OrderInfoPage() {
     return orderId ? (
         <OrderInfo orderId={orderId} />
     ) : (
-        <Navigate to="/purchase" />
+        <Navigate to="/my-purchase" />
     );
 }
 

@@ -44,6 +44,10 @@ function HeaderUser() {
                 APIConstants.NOTIFICATION.SUBSCRIBE(tokens.access_token),
             );
 
+            eventSource.onopen = () => {
+                console.log('connection opened');
+            };
+
             eventSource.onmessage = (event: any) => {
                 const data = JSON.parse(event.data) as Notification;
                 setNotificationRealtime(data);
@@ -53,19 +57,10 @@ function HeaderUser() {
                 console.log(event.target.readyState);
                 if (event.target.readyState === EventSource.CLOSED) {
                     console.log('SSE closed (' + event.target.readyState + ')');
-                    eventSource = new EventSource(
-                        APIConstants.NOTIFICATION.SUBSCRIBE(
-                            tokens.access_token,
-                        ),
-                    );
-                    setListening(false);
                 }
                 eventSource.close();
             };
 
-            eventSource.onopen = () => {
-                console.log('connection opened');
-            };
             setListening(true);
         }
         return () => {

@@ -1,16 +1,8 @@
 import { BellOutlined } from '@ant-design/icons';
-import {
-    Avatar,
-    Badge,
-    Dropdown,
-    Image,
-    List,
-    Menu,
-    MenuProps,
-    Popover,
-} from 'antd';
+import { Badge, Image, List, Popover } from 'antd';
 import { useAppSelector } from '../../hooks/useRedux';
 import { convertDate } from '../../utils/convert';
+import { Link } from 'react-router-dom';
 
 function BellNotification() {
     const notifications = useAppSelector(
@@ -24,11 +16,11 @@ function BellNotification() {
         <List
             itemLayout="horizontal"
             dataSource={notifications.slice(0, 5)}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
                 <List.Item>
                     <List.Item.Meta
                         avatar={<Image src={item.thumbnail || ''} width={80} />}
-                        title={<a href={item.link || ''}>{item.title}</a>}
+                        title={<Link to={item.link || ''}>{item.title}</Link>}
                         description={
                             <div className="flex justify-between text-xs">
                                 <span className="text-gray-600">

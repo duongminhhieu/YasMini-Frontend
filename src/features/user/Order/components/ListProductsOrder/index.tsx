@@ -2,6 +2,7 @@ import { Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Cart } from '../../../../../types/Cart';
 import { convertToDollar } from '../../../../../utils/convert';
+import { Link } from 'react-router-dom';
 
 function ListProductOrderComponent({ carts }: { carts: Cart[] }) {
     // Columns
@@ -20,9 +21,9 @@ function ListProductOrderComponent({ carts }: { carts: Cart[] }) {
                             className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex flex-col ml-2">
-                            <a href={`/${[cart.product.slug]}`}>
+                            <Link to={`/${[cart.product.slug]}`}>
                                 {cart.product.name}
-                            </a>
+                            </Link>
 
                             <span className="text-gray-400 text-xs">
                                 SKU: {cart.product.sku}

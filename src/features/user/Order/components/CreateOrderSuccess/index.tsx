@@ -8,7 +8,7 @@ function CreateOrderSuccessComponent({ orderNumber }: { orderNumber: string }) {
             title="Successfully Created Order!"
             subTitle={`Order number: ${orderNumber} The seller will contact you soon!`}
             extra={[
-                <Link to="/purchase" type="primary" key="console">
+                <Link to="/my-purchase" type="primary" key="console">
                     <Button type="primary">Go Purchase</Button>
                 </Link>,
                 <Link to="/">
