@@ -3,6 +3,7 @@ import { useGetOrderByIdQuery } from '../../../../../lib/redux/order/orderApiSli
 import { convertDate, convertToDollar } from '../../../../../utils/convert';
 import ListProductOrderComponent from '../../../Order/components/ListProductsOrder';
 import { ContainerOutlined, HomeOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 function OrderInfo({ orderId }: { orderId: string }) {
     // state
@@ -10,6 +11,9 @@ function OrderInfo({ orderId }: { orderId: string }) {
     // query
     const { data: orderDetailData, isLoading: isOrderDetailLoading } =
         useGetOrderByIdQuery(orderId);
+
+    // hooks
+    const navigate = useNavigate();
 
     // useEffect
 
@@ -40,7 +44,8 @@ function OrderInfo({ orderId }: { orderId: string }) {
                             title: <HomeOutlined />,
                         },
                         {
-                            href: '/purchase',
+                            onClick: () => navigate('/my-purchase'),
+                            className: 'cursor-pointer hover:text-blue-500',
                             title: (
                                 <>
                                     <ContainerOutlined />

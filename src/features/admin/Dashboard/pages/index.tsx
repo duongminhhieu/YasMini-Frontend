@@ -190,12 +190,12 @@ function Dashboard() {
                 <Row gutter={16} className="mt-4">
                     <Col span={18}>
                         <TableLatestOrdersComponent
-                            lastestOrder={statisticData.latestOrders}
+                            lastestOrder={statisticData?.latestOrders}
                         />
                     </Col>
                     <Col span={6}>
                         <TableTopProductComponent
-                            topProducts={statisticData.topProducts}
+                            topProducts={statisticData?.topProducts}
                         />
                     </Col>
                 </Row>

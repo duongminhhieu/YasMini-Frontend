@@ -25,6 +25,7 @@ import MyPurchasePage from './pages/user/MyPurchasePage';
 import OrderInfoPage from './pages/user/OrderInfoPage';
 import ManageOrderPage from './pages/admin/ManageOrderPage';
 import OrderDetailPage from './pages/admin/OrderDetailPage';
+import SearchByImagePage from './pages/user/SearchByImagePage';
 
 export default createBrowserRouter([
     // Public routes
@@ -176,7 +177,7 @@ export default createBrowserRouter([
         ),
     },
     {
-        path: '/purchase',
+        path: '/my-purchase',
         element: (
             <ProtectedRoute>
                 <MyPurchasePage />
@@ -189,6 +190,14 @@ export default createBrowserRouter([
         element: (
             <ProtectedRoute>
                 <OrderInfoPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/search-by-image',
+        element: (
+            <ProtectedRoute>
+                <SearchByImagePage />
             </ProtectedRoute>
         ),
     },

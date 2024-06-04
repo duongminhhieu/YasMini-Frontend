@@ -93,4 +93,13 @@ export class APIConstants {
         GET: '/statistics',
     }
 
+    static AI = {
+        AI: '/ai',
+    }
+
+    static NOTIFICATION = {
+        GET_ALL: '/notifications',
+        SUBSCRIBE: (token: string) => import.meta.env.VITE_BACKEND_URL + '/notifications/subscribe/' + token,
+    }
+
 }

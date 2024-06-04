@@ -3,9 +3,11 @@ import { Breadcrumb, Card, Form, Radio, Spin, Tag } from 'antd';
 import { convertDate, convertToDollar } from '../../../../../utils/convert';
 import { useGetOrderByIdAdminQuery } from '../../../../../lib/redux/order/orderApiSlice';
 import ListProductOrderComponent from '../../../../user/Order/components/ListProductsOrder';
+import { useNavigate } from 'react-router-dom';
 
 function OrderDetail({ id }: { id: string }) {
     // state
+    const navigage = useNavigate();
 
     // query
 
@@ -41,13 +43,16 @@ function OrderDetail({ id }: { id: string }) {
                                 title: <HomeOutlined />,
                             },
                             {
-                                href: '/admin/orders',
                                 title: (
                                     <>
                                         <InboxOutlined />
                                         <span>My Orders</span>
                                     </>
                                 ),
+                                className: 'hover:text-blue-500 cursor-pointer',
+                                onClick: () => {
+                                    navigage('/admin/orders');
+                                },
                             },
                             {
                                 title: 'Order Details',

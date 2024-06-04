@@ -1,4 +1,4 @@
-import { Avatar, Divider, Image, List } from 'antd';
+import { Divider, Image, List } from 'antd';
 import { Product } from '../../../../../types/Product';
 import { convertToDollar } from '../../../../../utils/convert';
 
@@ -11,7 +11,7 @@ function TableTopProductComponent({ topProducts }: { topProducts: Product[] }) {
                 bordered
                 size="small"
                 dataSource={topProducts}
-                renderItem={(item, index) => (
+                renderItem={(item) => (
                     <List.Item>
                         <List.Item.Meta
                             avatar={

@@ -46,7 +46,7 @@ function CarouselImageComponents({ images }: { images: Storage[] }) {
             <Carousel
                 autoplay
                 dots={false}
-                beforeChange={(from, to) => setCurrentSlide(to)}
+                beforeChange={(to) => setCurrentSlide(to)}
                 arrows
                 prevArrow={
                     <CustomLeftArrow

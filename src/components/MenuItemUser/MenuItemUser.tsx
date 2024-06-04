@@ -49,7 +49,7 @@ function MenuItemUser() {
             logout(tokens.access_token);
             dispatch(logOut());
         } else if (e.key === 'purchase') {
-            navigate('/purchase');
+            navigate('/my-purchase');
         }
     };
 
