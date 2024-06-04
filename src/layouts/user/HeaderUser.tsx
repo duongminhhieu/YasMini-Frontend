@@ -1,7 +1,7 @@
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { Header } from 'antd/es/layout/layout';
-import { useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import {
     selectCurrentToken,
     selectCurrentUser,
@@ -16,6 +16,7 @@ import { APIConstants } from '../../constants/api.constant';
 import { useGetAllNotificationsQuery } from '../../lib/redux/notification/notificationApiSlice';
 import { NotificationPlacement } from 'antd/es/notification/interface';
 import { Notification } from '../../types/Notification';
+import { addNotification } from '../../lib/redux/notification/notificationSlice';
 
 function HeaderUser() {
     // state
@@ -31,6 +32,7 @@ function HeaderUser() {
     // hooks
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
+    const dispatch = useAppDispatch();
 
     // query
     const { isLoading: isCartLoading } = useGetAllCartsQuery();
@@ -74,6 +76,7 @@ function HeaderUser() {
     useEffect(() => {
         if (notificationRealtime) {
             openNotification('topRight', notificationRealtime);
+            dispatch(addNotification(notificationRealtime));
         }
     }, [notificationRealtime]);
 

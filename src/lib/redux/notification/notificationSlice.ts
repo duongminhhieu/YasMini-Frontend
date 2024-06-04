@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../store"
 import { Notification } from "../../../types/Notification"
+import { add } from "date-fns"
 
 
 // Define a type for the slice state
@@ -24,11 +25,15 @@ export const notificationSlice = createSlice({
             state.notifications = action.payload
             state.totalUnread = action.payload.filter(notification => !notification.isRead).length
         },
+        addNotification(state, action: PayloadAction<Notification>) {
+            state.notifications.unshift(action.payload)
+            state.totalUnread = state.totalUnread + 1
+        }
 
     },
 })
 
-export const { setNotifications } = notificationSlice.actions
+export const { setNotifications, addNotification } = notificationSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectNotifications = (state: RootState) => state.notification.notifications;

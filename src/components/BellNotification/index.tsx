@@ -40,6 +40,7 @@ function BellNotification() {
             title="Recently, Received Notifications"
             content={content}
             overlayClassName="w-96"
+            trigger="click"
         >
             <Badge count={totalUnread} showZero offset={[-2, 2]}>
                 <div>
