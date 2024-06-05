@@ -1,16 +1,15 @@
 import { Card, Pagination, Spin } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useGetProductsQuery } from '../../../../../lib/redux/product/productApiSlice';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Product, ProductParams } from '../../../../../types/Product';
 import ProductCard from '../../../../../components/common/ProductCard';
-import { PaginationParams } from '../../../../../types/Pagination';
 
 function FeaturedProductsComponent() {
     // state
     const [options, setOptions] = useState<ProductParams>({
         page: 1,
-        itemsPerPage: 20,
+        itemsPerPage: 18,
         name: '',
         isAvailable: true,
         isFeatured: true,
@@ -21,26 +20,12 @@ function FeaturedProductsComponent() {
         orderBy: ['price'],
         sortBy: 'asc',
     });
-    const [pagination, setPagination] = useState<PaginationParams>({
-        current: 1,
-        pageSize: 1,
-        total: 1,
-    });
 
     // hooks
     const { data: featuredProducts, isLoading: isFeaturedProductsLoading } =
         useGetProductsQuery(options);
 
     // effect
-    useEffect(() => {
-        if (featuredProducts) {
-            setPagination({
-                current: featuredProducts?.result.page || 1,
-                pageSize: featuredProducts?.result.itemsPerPage || 1,
-                total: featuredProducts?.result.total || 1,
-            });
-        }
-    }, [featuredProducts]);
 
     return (
         <Card
@@ -70,9 +55,11 @@ function FeaturedProductsComponent() {
                     </div>
                     <div className="flex justify-center mt-12">
                         <Pagination
-                            current={pagination.current}
-                            total={pagination.total}
-                            pageSize={pagination.pageSize}
+                            current={featuredProducts?.result?.page}
+                            total={featuredProducts?.result?.total || 0}
+                            pageSize={
+                                featuredProducts?.result?.itemsPerPage || 1
+                            }
                             onChange={(page, pageSize) => {
                                 setOptions({
                                     ...options,

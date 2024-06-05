@@ -35,6 +35,7 @@ import APIResponse from '../../../../../types/APIResponse';
 import { RcFile } from 'antd/es/upload';
 import { Category } from '../../../../../types/Category';
 import FormList from '../../components/FormList';
+import { useNavigate } from 'react-router-dom';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -61,6 +62,9 @@ function AddNewProduct() {
     const [selectCategoryOptions, setSelectCategoryOptions] = useState<
         SelectProps['options']
     >([]);
+
+    // hooks
+    const navigate = useNavigate();
 
     // query
     const [uploadProductImage, status] = useStoreImageMutation();
@@ -91,7 +95,7 @@ function AddNewProduct() {
     useEffect(() => {
         if (statusCreateProduct.isSuccess) {
             message.success('Create product success');
-            window.location.href = '/admin/products';
+            navigate('/admin/products');
         }
         if (statusCreateProduct.isError) {
             const error = statusCreateProduct.error as { data: APIResponse };

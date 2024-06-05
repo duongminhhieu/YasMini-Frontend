@@ -106,7 +106,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
         }
     };
 
-    if (!productResponse?.result?.isAvailable)
+    if (productResponse && !productResponse?.result?.isAvailable) {
         return (
             <Result
                 status="404"
@@ -119,6 +119,7 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                 }
             />
         );
+    }
 
     return (
         <Card>
