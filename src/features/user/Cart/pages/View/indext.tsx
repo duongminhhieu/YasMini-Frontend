@@ -49,6 +49,14 @@ function ViewCartList() {
                                     </Tag>
                                 </span>
                             )}
+                            {!cart.product.isAvailable && (
+                                <span className="mt-1">
+                                    <span className="text-sm text-red-600">
+                                        Variation selected is deleted. Please
+                                        select another variation
+                                    </span>
+                                </span>
+                            )}
                         </div>
                     </div>
                 );
@@ -185,6 +193,10 @@ function ViewCartList() {
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
+        getCheckboxProps: (record: Cart) => ({
+            disabled:
+                record.product.quantity === 0 || !record.product.isAvailable,
+        }),
     };
 
     const hasSelected = selectedRowKeys.length > 0;
