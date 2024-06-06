@@ -2,15 +2,18 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import Search from 'antd/es/input/Search';
 import { Header } from 'antd/es/layout/layout';
+import { useNavigate } from 'react-router-dom';
 
 function HeaderPublic() {
+    const navigate = useNavigate();
+
     return (
         <Header className="bg-white drop-shadow-md flex items-center lg:h-20 justify-center sticky top-0 left-0 z-50">
             <div className="flex justify-between items-center w-full">
                 <div
                     className="flex justify-center items-center cursor-pointer"
                     onClick={() => {
-                        window.location.href = '/';
+                        navigate('/');
                     }}
                 >
                     <img

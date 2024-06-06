@@ -208,8 +208,7 @@ function ProductTable() {
         }
         if (hardDeletestatus.isError) {
             const error = hardDeletestatus.error as { data: APIResponse };
-            console.log('error', error);
-            message.error('Delete product failed');
+            message.error(error.data.message);
         }
     }, [hardDeletestatus.isSuccess, hardDeletestatus.isError]);
 

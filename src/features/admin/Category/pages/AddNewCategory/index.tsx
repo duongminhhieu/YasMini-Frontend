@@ -31,7 +31,7 @@ function AddNewCategory() {
             ) {
                 message.error('Slug already exists');
             } else {
-                message.error('Create category failed');
+                message.error(error?.data.message);
             }
         }
     }, [status.error, status.isSuccess]);

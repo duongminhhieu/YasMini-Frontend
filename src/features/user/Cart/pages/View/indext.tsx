@@ -16,7 +16,7 @@ import {
     updateACartState,
     updateTotalPriceSelected,
 } from '../../../../../lib/redux/cart/cartSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ViewCartList() {
     // Columns
@@ -35,9 +35,9 @@ function ViewCartList() {
                             className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex flex-col ml-2">
-                            <a href={`/${[cart.product.slug]}`}>
+                            <Link to={`/${[cart.product.slug]}`}>
                                 {cart.product.name}
-                            </a>
+                            </Link>
 
                             <span className="text-gray-400 text-xs">
                                 SKU: {cart.product.sku}
@@ -47,6 +47,14 @@ function ViewCartList() {
                                     <Tag color="green" className="text-xs">
                                         Featured
                                     </Tag>
+                                </span>
+                            )}
+                            {!cart.product.isAvailable && (
+                                <span className="mt-1">
+                                    <span className="text-sm text-red-600">
+                                        Variation selected is deleted. Please
+                                        select another variation
+                                    </span>
                                 </span>
                             )}
                         </div>
@@ -185,6 +193,10 @@ function ViewCartList() {
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
+        getCheckboxProps: (record: Cart) => ({
+            disabled:
+                record.product.quantity === 0 || !record.product.isAvailable,
+        }),
     };
 
     const hasSelected = selectedRowKeys.length > 0;

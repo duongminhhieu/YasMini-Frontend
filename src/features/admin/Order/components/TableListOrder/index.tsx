@@ -22,6 +22,7 @@ import { formatDistanceToNow } from 'date-fns';
 import ListProductOrderedComponent from '../ListProductOrdered';
 import { DownOutlined } from '@ant-design/icons';
 import APIResponse from '../../../../../types/APIResponse';
+import { Link } from 'react-router-dom';
 
 type ColumnsType<T> = TableProps<T>['columns'];
 
@@ -33,7 +34,7 @@ function TableListOrderComponent() {
             dataIndex: 'id',
             className: 'text-blue-500',
             render: (id: string) => {
-                return <a href={`/admin/orders/${id}`}>{id}</a>;
+                return <Link to={`/admin/orders/${id}`}>{id}</Link>;
             },
         },
         {
@@ -154,12 +155,12 @@ function TableListOrderComponent() {
 
                 return (
                     <div className="flex flex-col gap-4">
-                        <a
-                            href={`/admin/orders/${record.id}`}
+                        <Link
+                            to={`/admin/orders/${record.id}`}
                             className="text-blue-500"
                         >
                             View Detail
-                        </a>
+                        </Link>
                         <div>
                             <Dropdown
                                 menu={{

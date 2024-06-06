@@ -1,10 +1,11 @@
-import { Table, Tag } from 'antd';
+import { Card, Table, Tag } from 'antd';
 import { useGetAllOrdersQuery } from '../../../../../lib/redux/order/orderApiSlice';
 import { ColumnsType } from 'antd/es/table';
 import { Order } from '../../../../../types/Order';
 import { convertToDollar } from '../../../../../utils/convert';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from 'react-router-dom';
+import ListProductOrderedComponent from '../../../../admin/Order/components/ListProductOrdered';
 
 function TableAllPurchaseComponent() {
     // columns
@@ -76,6 +77,16 @@ function TableAllPurchaseComponent() {
             dataSource={dataOrderData?.result}
             pagination={false}
             loading={isOderDataLoading}
+            expandable={{
+                expandedRowRender: (record) => (
+                    <Card>
+                        <ListProductOrderedComponent
+                            orderItems={record.orderItems}
+                        />
+                    </Card>
+                ),
+                defaultExpandAllRows: true,
+            }}
         />
     );
 }

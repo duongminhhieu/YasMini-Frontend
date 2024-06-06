@@ -106,6 +106,21 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
         }
     };
 
+    if (productResponse && !productResponse?.result?.isAvailable) {
+        return (
+            <Result
+                status="404"
+                title="NOT FOUND"
+                subTitle="Product not found"
+                extra={
+                    <Link to={'/'} type="primary">
+                        Back Home
+                    </Link>
+                }
+            />
+        );
+    }
+
     return (
         <Card>
             <Breadcrumb
@@ -236,19 +251,25 @@ function ProductDetail({ productSlug }: { productSlug: string }) {
                                 </div>
                             </div>
 
-                            <Button
-                                type="primary"
-                                className="w-36 font-semibold mt-8"
-                                size="large"
-                                icon={
-                                    <ShoppingCartOutlined
-                                        style={{ fontSize: '1.2rem' }}
-                                    />
-                                }
-                                onClick={handleAddToCart}
-                            >
-                                Add to cart
-                            </Button>
+                            {productResponse?.result.quantity <= 0 ? (
+                                <Tag color="red" className="mt-4">
+                                    Out of stock
+                                </Tag>
+                            ) : (
+                                <Button
+                                    type="primary"
+                                    className="w-36 font-semibold mt-8"
+                                    size="large"
+                                    icon={
+                                        <ShoppingCartOutlined
+                                            style={{ fontSize: '1.2rem' }}
+                                        />
+                                    }
+                                    onClick={handleAddToCart}
+                                >
+                                    Add to cart
+                                </Button>
+                            )}
                         </div>
                     </div>
 
