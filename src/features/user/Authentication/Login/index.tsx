@@ -13,7 +13,7 @@ import { Content, Header } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
 import FooterUser from '../../../../layouts/user/FooterUser';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     AccountInfo,
     Credentials,
@@ -66,7 +66,12 @@ const LoginUser = () => {
     return (
         <Layout className="min-h-screen">
             <Header className="bg-white drop-shadow-md flex items-center justify-between lg:h-20">
-                <Flex className="items-center">
+                <Flex
+                    className="items-center cursor-pointer"
+                    onClick={() => {
+                        navigate('/');
+                    }}
+                >
                     <img src="/YasMiniLogo.png" className="w-24 mr-2" alt="" />
                     <h1 className="text-2xl font-semibold text-dark">
                         YasMini - Car Shop
