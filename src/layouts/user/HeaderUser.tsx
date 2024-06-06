@@ -105,7 +105,7 @@ function HeaderUser() {
                 <div
                     className="flex justify-center items-center cursor-pointer"
                     onClick={() => {
-                        window.location.href = '/';
+                        navigate('/');
                     }}
                 >
                     <img

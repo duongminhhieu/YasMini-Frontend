@@ -4,6 +4,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { Order } from '../../../../../types/Order';
 import { convertToDollar } from '../../../../../utils/convert';
 import ListProductOrderedComponent from '../../../Order/components/ListProductOrdered';
+import { Link } from 'react-router-dom';
 
 function TableLatestOrdersComponent({
     lastestOrder,
@@ -17,7 +18,7 @@ function TableLatestOrdersComponent({
             dataIndex: 'id',
             className: 'text-blue-500',
             render: (id: string) => {
-                return <a href={`/admin/orders/${id}`}>{id}</a>;
+                return <Link to={`/admin/orders/${id}`}>{id}</Link>;
             },
         },
         {

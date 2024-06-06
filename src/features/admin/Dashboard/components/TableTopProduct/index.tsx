@@ -1,6 +1,7 @@
 import { Divider, Image, List } from 'antd';
 import { Product } from '../../../../../types/Product';
 import { convertToDollar } from '../../../../../utils/convert';
+import { Link } from 'react-router-dom';
 
 function TableTopProductComponent({ topProducts }: { topProducts: Product[] }) {
     return (
@@ -18,9 +19,9 @@ function TableTopProductComponent({ topProducts }: { topProducts: Product[] }) {
                                 <Image src={item.thumbnail || ''} width={80} />
                             }
                             title={
-                                <a href={'/admin/products/' + item.id}>
+                                <Link to={'/admin/products/' + item.id}>
                                     {item.name} {item.isFeatured && '🔥'}
-                                </a>
+                                </Link>
                             }
                             description={
                                 <div className="flex justify-between text-xs">

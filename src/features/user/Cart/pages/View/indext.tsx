@@ -16,7 +16,7 @@ import {
     updateACartState,
     updateTotalPriceSelected,
 } from '../../../../../lib/redux/cart/cartSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ViewCartList() {
     // Columns
@@ -35,9 +35,9 @@ function ViewCartList() {
                             className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex flex-col ml-2">
-                            <a href={`/${[cart.product.slug]}`}>
+                            <Link to={`/${[cart.product.slug]}`}>
                                 {cart.product.name}
-                            </a>
+                            </Link>
 
                             <span className="text-gray-400 text-xs">
                                 SKU: {cart.product.sku}
