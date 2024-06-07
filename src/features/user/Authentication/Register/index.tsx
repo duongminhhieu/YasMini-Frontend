@@ -70,7 +70,12 @@ function RegisterUser() {
         <Layout className="min-h-screen">
             {contextHolder}
             <Header className="bg-white drop-shadow-md flex items-center justify-between lg:h-20">
-                <Flex className="items-center">
+                <Flex
+                    className="items-center cursor-pointer"
+                    onClick={() => {
+                        navigate('/');
+                    }}
+                >
                     <img src="/YasMiniLogo.png" className="w-24 mr-2" alt="" />
                     <h1 className="text-2xl font-semibold text-dark">
                         YasMini - Car Shop

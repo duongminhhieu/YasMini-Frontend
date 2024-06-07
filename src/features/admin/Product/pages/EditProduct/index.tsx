@@ -184,17 +184,16 @@ function EditProduct({ id }: { id: string }) {
     };
 
     const beforeUpload = (file: RcFile) => {
-        const isLt5M = file.size / 1024 / 1024 < 2;
-        if (!isLt5M) {
-            message.error('Image must smaller than 2MB!');
+        const isLt4M = file.size / 1024 / 1024 < 2;
+        if (!isLt4M) {
+            message.error('Image must smaller than 4MB!');
         }
-
-        const isImage = file.type.includes('image');
-        if (!isImage) {
-            message.error('You can only upload image file!');
-        }
-
-        return isLt5M && isImage;
+        // accept: image/jpeg, image/png, image/jpg
+        const isImage =
+            file.type === 'image/jpeg' ||
+            file.type === 'image/png' ||
+            file.type === 'image/jpg';
+        return isLt4M && isImage;
     };
 
     const onFinish = async (values: any) => {
@@ -451,6 +450,10 @@ function EditProduct({ id }: { id: string }) {
                             {
                                 required: true,
                                 message: 'Please input quantity!',
+                            },
+                            {
+                                min: 1,
+                                message: 'Quantity must be greater than 0',
                             },
                         ]}
                     >

@@ -25,12 +25,16 @@ function FormList() {
                                 />
                             }
                         >
-                            <Form.Item label="Name" name={[field.name, 'name']}>
+                            <Form.Item
+                                label="Name"
+                                name={[field.name, 'name']}
+                                required
+                            >
                                 <Input />
                             </Form.Item>
 
                             {/* Nest Form.List */}
-                            <Form.Item label="Values">
+                            <Form.Item label="Values" required>
                                 <Form.List name={[field.name, 'values']}>
                                     {(subFields, subOpt) => (
                                         <div

@@ -8,6 +8,7 @@ import {
     Pagination,
     Radio,
     Rate,
+    Result,
     Select,
     Spin,
 } from 'antd';
@@ -217,8 +218,6 @@ function ListProductOfCategory({ categorySlug }: { categorySlug: string }) {
                                     />{' '}
                                     & Up
                                 </Radio>
-
-                                <Radio value={0}>No Rating</Radio>
                             </Radio.Group>
                         </div>
                         <Divider className="my-4 w-full bg-gray-100" />
@@ -281,16 +280,23 @@ function ListProductOfCategory({ categorySlug }: { categorySlug: string }) {
                             />
                         ) : (
                             <>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {productResponse?.result.data?.map(
-                                        (productData: Product) => (
-                                            <ProductCard
-                                                key={productData.id}
-                                                product={productData}
-                                            />
-                                        ),
-                                    )}
-                                </div>
+                                {productResponse?.result.data?.length > 0 ? (
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                        {productResponse?.result.data?.map(
+                                            (productData: Product) => (
+                                                <ProductCard
+                                                    key={productData.id}
+                                                    product={productData}
+                                                />
+                                            ),
+                                        )}
+                                    </div>
+                                ) : (
+                                    <Result
+                                        title="No Product Found"
+                                        subTitle="Sorry, there are no products available in this category."
+                                    />
+                                )}
                                 <div className="flex justify-center mt-12">
                                     <Pagination
                                         current={productResponse?.result.page}
