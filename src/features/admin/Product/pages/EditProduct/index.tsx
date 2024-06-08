@@ -453,7 +453,8 @@ function EditProduct({ id }: { id: string }) {
                             },
                             {
                                 min: 1,
-                                message: 'Quantity must be greater than 0',
+                                message: 'Quantity must be at least 1',
+                                type: 'number',
                             },
                         ]}
                     >

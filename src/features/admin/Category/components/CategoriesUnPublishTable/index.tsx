@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Pagination, Popconfirm, Table, message } from 'antd';
-import type { GetProp, PopconfirmProps, TableProps } from 'antd';
+import type { PopconfirmProps, TableProps } from 'antd';
 import { Category, CategoryParams } from '../../../../../types/Category';
 import {
     useGetCategoriesQuery,

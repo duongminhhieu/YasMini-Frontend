@@ -13,7 +13,7 @@ import { Content, Header } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
 import FooterUser from '../../../../layouts/user/FooterUser';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     AccountInfo,
     Credentials,

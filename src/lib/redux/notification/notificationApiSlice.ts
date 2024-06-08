@@ -11,7 +11,7 @@ export const notificationApi = apiSlice.injectEndpoints({
         getAllNotifications: builder.query<APIResponse, void>({
             query: () => APIConstants.NOTIFICATION.GET_ALL,
             providesTags: ["Notification"],
-            onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+            onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
                 try {
                     const response = await queryFulfilled;
 
