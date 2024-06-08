@@ -350,7 +350,6 @@ function AddNewProduct() {
                         ]}
                     >
                         <InputNumber<number>
-                            defaultValue={1000}
                             required
                             formatter={(value) =>
                                 `$ ${value}`.replace(
@@ -376,13 +375,14 @@ function AddNewProduct() {
                                 required: true,
                                 message: 'Please input quantity!',
                             },
+                            {
+                                min: 1,
+                                type: 'number',
+                                message: 'Quantity must be at least 1',
+                            },
                         ]}
                     >
-                        <InputNumber
-                            required
-                            defaultValue={1}
-                            className="w-full"
-                        />
+                        <InputNumber required className="w-full" />
                     </Form.Item>
                     <Form.Item
                         label="Sku Code"

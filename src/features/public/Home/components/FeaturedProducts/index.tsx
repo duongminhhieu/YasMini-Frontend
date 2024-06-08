@@ -9,7 +9,7 @@ function FeaturedProductsComponent() {
     // state
     const [options, setOptions] = useState<ProductParams>({
         page: 1,
-        itemsPerPage: 18,
+        itemsPerPage: 12,
         name: '',
         isAvailable: true,
         isFeatured: true,

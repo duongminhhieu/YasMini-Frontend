@@ -14,6 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useSendLogOutMutation } from '../../lib/redux/auth/authApiSlice';
 import { useEffect } from 'react';
+import APIResponse from '../../types/APIResponse';
 
 const items: MenuProps['items'] = [
     {
@@ -43,10 +44,12 @@ function MenuItemUser() {
 
     const [logout, statusLogout] = useSendLogOutMutation();
 
-    const handleMenuClick: MenuProps['onClick'] = (e) => {
+    const handleMenuClick: MenuProps['onClick'] = async (e) => {
         if (e.key === 'logout') {
             // handle logout
-            logout(tokens.access_token);
+            await logout(tokens.access_token);
+            message.success('Logout success');
+            window.location.href = '/';
             dispatch(logOut());
         } else if (e.key === 'purchase') {
             navigate('/my-purchase');
@@ -59,14 +62,11 @@ function MenuItemUser() {
     };
 
     useEffect(() => {
-        if (statusLogout.isSuccess) {
-            message.info('Logout success!');
-            navigate('/login');
-        }
         if (statusLogout.error) {
-            message.error('Logout failed!');
+            const error = statusLogout.error as { data: APIResponse };
+            message.error(error.data.message);
         }
-    }, [statusLogout.error, statusLogout.isSuccess]);
+    }, [statusLogout]);
 
     return (
         <Dropdown
