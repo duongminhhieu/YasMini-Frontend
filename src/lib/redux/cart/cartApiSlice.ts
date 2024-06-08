@@ -12,7 +12,7 @@ export const cartApi = apiSlice.injectEndpoints({
         getAllCarts: builder.query<APIResponse, void>({
             query: () => APIConstants.CART.GET_ALL_CART,
             providesTags: ["Cart"],
-            onQueryStarted: async (args, { dispatch, queryFulfilled }) => {
+            onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
                 try {
                     const response = await queryFulfilled;
 

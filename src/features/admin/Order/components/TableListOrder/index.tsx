@@ -222,9 +222,9 @@ function TableListOrderComponent() {
     // Handlers
 
     const handleTableChange: TableProps['onChange'] = (
-        pagination,
+        _pagination,
         filters,
-        sorter,
+        _sorter,
     ) => {
         setOptions({
             ...options,
