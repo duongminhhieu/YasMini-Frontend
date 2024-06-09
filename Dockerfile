@@ -6,12 +6,12 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-COPY . /app
+COPY . .
 
-# Pass the VITE_BACKEND_URL as a build argument
-ARG VITE_BACKEND_URL
-# Set the VITE_BACKEND_URL as an environment variable
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+# # Pass the VITE_BACKEND_URL as a build argument
+# ARG VITE_BACKEND_URL
+# # Set the VITE_BACKEND_URL as an environment variable
+# ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
 RUN npm run build
 
