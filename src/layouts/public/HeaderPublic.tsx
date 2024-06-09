@@ -8,7 +8,7 @@ function HeaderPublic() {
     const navigate = useNavigate();
 
     console.log('HeaderPublic rendered');
-    console.log('API: ', import.meta.env.BASE_URL);
+    console.log('API: ', import.meta.env.VITE_BACKEND_URL);
 
     return (
         <Header className="bg-white drop-shadow-md flex items-center lg:h-20 justify-center sticky top-0 left-0 z-50">
