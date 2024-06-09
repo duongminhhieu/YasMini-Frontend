@@ -11,7 +11,7 @@ COPY . .
 # Pass the VITE_BACKEND_URL as a build argument
 ARG VITE_BACKEND_URL
 # Set the VITE_BACKEND_URL as an environment variable
-ENV VITE_BACKEND_URL=$PROD_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 
 RUN npm run build
 

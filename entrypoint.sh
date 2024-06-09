@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Generate .env file
 echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > /app/.env
