@@ -1,53 +1,94 @@
 name: Build and Deploy Production
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-  
-  workflow_dispatch:
+    push:
+        branches: ['master']
+    pull_request:
+        branches: ['master']
+
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      statuses: write
-      checks: write
-      contents: write
-      pull-requests: write
+    build_and_push:
+        name: Build image & push
+        runs-on: ubuntu-latest
+        permissions:
+            statuses: write
+            checks: write
+            contents: write
+            packages: write
+            pull-requests: write
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.0.2
-        with:
-          node-version: 18
+            - name: Setup Node.js
+              uses: actions/setup-node@v4.0.2
+              with:
+                  node-version: '20.x'
 
-      - name: Install dependencies
-        run: npm install
+            - name: Install dependencies
+              run: npm install
 
-      - name: Build
-        run: npm run build
+            - name: Build
+              run: npm run build
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-  
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: duongminhhieu008/rookie-phase1-front-end-production
-  
-      - name: Build and push Docker images
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+            - name: Log in to the Container registry
+              uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+              with:
+                  images: duongminhhieu008/rookie-phase1-front-end-production
+
+            - name: Build and push Docker images
+              uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+              with:
+                  context: .
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
+
+            - name: 'Login to GitHub Container Registry'
+              uses: docker/login-action@v1
+              with:
+                  registry: ghcr.io
+                  username: ${{github.actor}}
+                  password: ${{secrets.GITHUB_TOKEN}}
+
+            - name: 'Build Inventory Image'
+              run: |
+                  docker build . --tag ghcr.io/duongminhhieu/yasmini-frontend:latest
+                  docker push ghcr.io/duongminhhieu/yasmini-frontend:latest
+
+            - name: Create Release Tag
+              id: create_tag
+              uses: actions/github-script@v6
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_RUN_NUMBER: ${{ github.run_number }}
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  script: |
+                      const tag = 'v' + new Date().toISOString().split('T')[0] + '-production' + '-' + process.env.GITHUB_RUN_NUMBER;
+                      await github.rest.git.createRef({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        ref: `refs/tags/${tag}`,
+                        sha: context.sha
+                      });
+                      core.setOutput('tag', tag);
+
+            - name: Create GitHub Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: ${{ steps.create_tag.outputs.tag }}
+                  release_name: Release ${{ steps.create_tag.outputs.tag }}
