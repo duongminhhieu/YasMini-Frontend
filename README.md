@@ -1,5 +1,7 @@
 # YASmini: Yet Another Shop Mini
 
+[![Build and Deploy Production](https://github.com/duongminhhieu/YasMini-Frontend/actions/workflows/production-cicd.yml/badge.svg)](https://github.com/duongminhhieu/YasMini-Frontend/actions/workflows/production-cicd.yml)
+
 YASmini is a pet project aimed to practice building a typical Spring Boot application in Java and React JS
 
 <div style="text-align: center;">
